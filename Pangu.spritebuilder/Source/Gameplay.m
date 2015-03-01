@@ -19,7 +19,7 @@ static const float scrollSpeed = 100.f;
     CCPhysicsNode *_physicsNode;
     CCNode *_contentNode;
     CCNode *_levelNode;
-    Plane *_currentPlane;
+    Plane *_hero;
     CCNode *_bg1;
     CCNode *_bg2;
     NSArray *_bgs;
@@ -60,9 +60,9 @@ static const float scrollSpeed = 100.f;
     CGPoint offset = ccpSub(touchTo, touchFrom);
     offset.y = - offset.y;
     
-    CGPoint targetFrom = [_currentPlane position];
+    CGPoint targetFrom = [_hero position];
     CGPoint targetTo = ccpAdd(targetFrom, ccp(offset.x, offset.y));
-    [_currentPlane setPosition:targetTo];
+    [_hero setPosition:targetTo];
     
 }
 
@@ -107,32 +107,8 @@ static const float scrollSpeed = 100.f;
 
 - (void)update:(CCTime)delta
 {
-    
     [self rollBackground:delta];
     
-    // if speed is below minimum speed, assume this attempt is over
-    if (ccpLength(_currentPlane.physicsBody.velocity) < MIN_SPEED){
-        [self nextAttempt];
-        return;
-    }
-    
-    int xMin = _currentPlane.boundingBox.origin.x;
-    if (xMin < self.boundingBox.origin.x) {
-        [self nextAttempt];
-        return;
-    }
-    
-    int xMax = xMin + _currentPlane.boundingBox.size.width;
-    if (xMax > (self.boundingBox.origin.x + self.boundingBox.size.width)) {
-        [self nextAttempt];
-        return;
-    }
-    
 }
-- (void)nextAttempt {
-    _currentPlane = nil;
-    
-    CCActionMoveTo *actionMoveTo = [CCActionMoveTo actionWithDuration:1.f position:ccp(0, 0)];
-    [_contentNode runAction:actionMoveTo];
-}
+
 @end
