@@ -5,3 +5,43 @@
 #import "cocos2d.h"
 #import "cocos2d-ui.h"
 #endif
+
+//是否打印调试日志,可修改
+#define ENABLE_LOG
+//是否在日志中打印文件名,可修改
+//#define DEBUG_PRINT_FILENAME
+
+
+//更详细的日志信息
+#ifdef ENABLE_LOG
+#ifdef DEBUG_PRINT_FILENAME
+#define DEBUG_FILENAME [[NSString stringWithUTF8String:__FILE__] lastPathComponent]
+#define DEBUG_FILENAME_LINE_SEP ":"
+#else  //PRINT_FILENAME
+#define DEBUG_FILENAME @""
+#define DEBUG_FILENAME_LINE_SEP ""
+#endif //PRINT_FILENAME
+
+#define DEBUG_NEW_FMT(fmt) \
+[NSString stringWithFormat:@"%s(%@%s%d) %@", \
+__FUNCTION__, \
+DEBUG_FILENAME, \
+DEBUG_FILENAME_LINE_SEP, \
+__LINE__, \
+fmt]
+
+
+//打印日志
+#define LOG(fmt, ...) NSLog(DEBUG_NEW_FMT(fmt), ##__VA_ARGS__)
+//打印空日志，参数0为了消除编译器的警告
+#define LOG_FUN NSLog(DEBUG_NEW_FMT(@""), 0)
+//打印一个变量
+#define LOG_VAR(x, fmt)  do {  \
+DEBUG_LOG(@#x " = " #fmt, x); \
+} while(0)
+
+#else //DEBUG
+#define LOG(fmt, ...)
+#define LOG_FUN
+#define LOG_VAR(x, fmt)
+#endif //DEBUG

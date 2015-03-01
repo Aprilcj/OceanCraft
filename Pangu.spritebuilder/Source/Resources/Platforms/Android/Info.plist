@@ -5,15 +5,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>Pangu</string>
+	<string>PeevedPenguins</string>
 	<key>CFBundleExecutable</key>
-	<string>Pangu</string>
+	<string>PeevedPenguins</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.cocos2d.Pangu</string>
+	<string>org.cocos2d.PeevedPenguins</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Pangu</string>
+	<string>PeevedPenguins</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
