@@ -10,10 +10,7 @@
 #import "CCPhysics+ObjectiveChipmunk.h"
 #import "Plane.h"
 
-static const float MIN_SPEED = 5.f;
-static const float BASE_VELOCITY = 1000.f;
-static const float STEP = .1f;
-static const float scrollSpeed = 100.f;
+static const float scrollSpeed = 50.f;
 
 @implementation Gameplay{
     CCPhysicsNode *_physicsNode;
@@ -23,45 +20,44 @@ static const float scrollSpeed = 100.f;
     CCNode *_bg1;
     CCNode *_bg2;
     NSArray *_bgs;
+    NSArray *_bullets;
 }
 
 // is called when CCB file has completed loading
 - (void)didLoadFromCCB {
     _bgs = @[_bg1, _bg2];
-    
+    _bullets = [NSMutableArray array];
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;
+}
+- (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
     
 }
-
--(void) touchBegan:(CCTouch *)touch withEvent:(UIEvent *)event
-{
-    
-}
-
-- (void)releaseCatapult:(CCTouch *)touch withEvent:(UIEvent *)event {
-    
-    
-}
-
--(void) touchEnded:(CCTouch *)touch withEvent:(UIEvent *)event
-{
-    
-}
-
--(void) touchCancelled:(CCTouch *)touch withEvent:(UIEvent *)event
-{
-}
-
-- (void)touchMoved:(UITouch *)touch withEvent:(UIEvent *)event
+- (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
     CGPoint touchFrom = [touch previousLocationInView:[touch view]];
     CGPoint touchTo = [touch locationInView:[touch view]];
     CGPoint offset = ccpSub(touchTo, touchFrom);
-    offset.y = - offset.y;
+    offset.y = - offset.y;//I don't know why
     
     CGPoint targetFrom = [_hero position];
     CGPoint targetTo = ccpAdd(targetFrom, ccp(offset.x, offset.y));
+    float xMin = _hero.contentSize.width/2;
+    float xMax = _bg1.contentSize.width-xMin;
+    float yMin = _hero.contentSize.height/2;
+    float yMax = _bg1.contentSize.height - yMin;
+    if (targetTo.x < xMin) {
+        targetTo.x = xMin;
+    }
+    if (targetTo.x > xMax) {
+        targetTo.x = xMax;
+    }
+    if (targetTo.y < yMin) {
+        targetTo.y = yMin;
+    }
+    if (targetTo.y > yMax) {
+        targetTo.y = yMax;
+    }
     [_hero setPosition:targetTo];
     
 }
@@ -70,27 +66,12 @@ static const float scrollSpeed = 100.f;
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
 }
 
-- (void)sealRemoved:(CCNode *)seal {
-    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
-    explosion.autoRemoveOnFinish = TRUE;
-    explosion.position = seal.position;
-    [seal.parent addChild:explosion];
-    [seal removeFromParent];
-}
-
 -(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB
 {
-    float energy = [pair totalKineticEnergy];
-    
-    // if energy is large enough, remove the seal
-    if (energy > 5000.f) {
-        [[_physicsNode space] addPostStepBlock:^{
-            [self sealRemoved:nodeA];
-        } key:nodeA];
-    }
+
 }
 
-- (void)rollBackground:(CCTime)delta
+- (void)updateBackground:(CCTime)delta
 {
     float height = _bg1.contentSize.height;
     float doubleHeight = 2*height;
@@ -107,8 +88,8 @@ static const float scrollSpeed = 100.f;
 
 - (void)update:(CCTime)delta
 {
-    [self rollBackground:delta];
-    
+    [self updateBackground:delta];
+    [_hero fire:delta];
 }
 
 @end

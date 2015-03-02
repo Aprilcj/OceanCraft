@@ -9,5 +9,9 @@
 #import "CCSprite.h"
 
 @interface Plane : CCSprite
-@property (nonatomic, assign) BOOL launched;
+@property (nonatomic, assign) CGFloat range;
+@property (nonatomic, assign) CCTime fireInterval;
+@property (nonatomic, assign) CGFloat bulletSpeed;
+@property NSString *bulletName;
+-(void)fire:(CCTime)delta;
 @end
