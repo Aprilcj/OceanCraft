@@ -9,9 +9,12 @@
 #import "CCSprite.h"
 
 @interface Plane : CCSprite
+@property NSString *planeFile;
 @property (nonatomic, assign) CGFloat range;
 @property (nonatomic, assign) CCTime fireInterval;
-@property (nonatomic, assign) CGFloat bulletSpeed;
-@property NSString *bulletName;
+@property NSString *bulletFile;
+@property (nonatomic, assign) CGVector bulletSpeed;
+@property (nonatomic, assign) CGVector planeSpeed;
 -(void)fire:(CCTime)delta;
++ (Plane*) generate:(NSString*)planeFile;
 @end

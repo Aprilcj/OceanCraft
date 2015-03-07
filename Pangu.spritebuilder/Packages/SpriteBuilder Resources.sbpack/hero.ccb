@@ -57,7 +57,7 @@
 							<integer>7</integer>
 							<key>value</key>
 							<array>
-								<string>plane/heroNormal2.png</string>
+								<string>plane/hero_normal_2.png</string>
 								<string>Use regular file</string>
 							</array>
 						</dict>
@@ -75,7 +75,7 @@
 							<integer>7</integer>
 							<key>value</key>
 							<array>
-								<string>plane/heroNormal1.png</string>
+								<string>plane/hero_normal_1.png</string>
 								<string>Use regular file</string>
 							</array>
 						</dict>
@@ -93,7 +93,7 @@
 							<integer>7</integer>
 							<key>value</key>
 							<array>
-								<string>plane/heroNormal2.png</string>
+								<string>plane/hero_normal_2.png</string>
 								<string>Use regular file</string>
 							</array>
 						</dict>
@@ -111,7 +111,7 @@
 							<integer>7</integer>
 							<key>value</key>
 							<array>
-								<string>plane/heroNormal1.png</string>
+								<string>plane/hero_normal_1.png</string>
 								<string>Use regular file</string>
 							</array>
 						</dict>
@@ -129,7 +129,7 @@
 							<integer>7</integer>
 							<key>value</key>
 							<array>
-								<string>plane/heroNormal2.png</string>
+								<string>plane/hero_normal_2.png</string>
 								<string>Use regular file</string>
 							</array>
 						</dict>
@@ -147,7 +147,7 @@
 							<integer>7</integer>
 							<key>value</key>
 							<array>
-								<string>plane/heroNormal1.png</string>
+								<string>plane/hero_normal_1.png</string>
 								<string>Use regular file</string>
 							</array>
 						</dict>
@@ -178,7 +178,7 @@
 			<key>allowsRotation</key>
 			<false/>
 			<key>bodyShape</key>
-			<integer>1</integer>
+			<integer>0</integer>
 			<key>collisionCategories</key>
 			<array/>
 			<key>collisionMask</key>
@@ -186,24 +186,55 @@
 			<key>collisionType</key>
 			<string></string>
 			<key>cornerRadius</key>
-			<real>13</real>
+			<real>0.0</real>
 			<key>density</key>
-			<real>200</real>
+			<real>1</real>
 			<key>dynamic</key>
 			<true/>
 			<key>elasticity</key>
-			<real>0.0</real>
+			<real>0.30000001192092896</real>
 			<key>friction</key>
-			<real>1</real>
+			<real>0.30000001192092896</real>
 			<key>points</key>
 			<array>
 				<array>
-					<real>12.5</real>
-					<real>12.5</real>
+					<real>-0.70703125</real>
+					<real>18.28515625</real>
+				</array>
+				<array>
+					<real>25.52734375</real>
+					<real>78.9296875</real>
+				</array>
+				<array>
+					<real>39.69140625</real>
+					<real>78.70703125</real>
+				</array>
+				<array>
+					<real>66.94921875</real>
+					<real>20.25</real>
 				</array>
 			</array>
 			<key>polygons</key>
-			<array/>
+			<array>
+				<array>
+					<array>
+						<real>66.94921875</real>
+						<real>20.25</real>
+					</array>
+					<array>
+						<real>39.69140625</real>
+						<real>78.70703125</real>
+					</array>
+					<array>
+						<real>25.52734375</real>
+						<real>78.9296875</real>
+					</array>
+					<array>
+						<real>-0.70703125</real>
+						<real>18.28515625</real>
+					</array>
+				</array>
+			</array>
 		</dict>
 		<key>properties</key>
 		<array>
@@ -256,7 +287,7 @@
 			<dict>
 				<key>baseValue</key>
 				<array>
-					<string>plane/heroNormal1.png</string>
+					<string>plane/hero_normal_1.png</string>
 					<string>Use regular file</string>
 				</array>
 				<key>name</key>
@@ -266,7 +297,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>plane/heroNormal2.png</string>
+					<string>plane/hero_normal_2.png</string>
 				</array>
 			</dict>
 			<dict>
@@ -302,6 +333,8 @@
 				<array/>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 		<key>seqExpanded</key>
 		<true/>
 	</dict>
@@ -359,7 +392,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>0.60000002384185791</real>
+			<real>1</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

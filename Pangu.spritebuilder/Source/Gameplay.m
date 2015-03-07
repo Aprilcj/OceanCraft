@@ -9,6 +9,7 @@
 #import "Gameplay.h"
 #import "CCPhysics+ObjectiveChipmunk.h"
 #import "Plane.h"
+#import "IntervalScheduler.h"
 
 static const float scrollSpeed = 50.f;
 
@@ -21,27 +22,34 @@ static const float scrollSpeed = 50.f;
     CCNode *_bg2;
     NSArray *_bgs;
     NSArray *_bullets;
+    IntervalScheduler *_randomScheduler;
+    NSMutableArray *_planes;
+    CGSize _bgRect;
 }
 
 // is called when CCB file has completed loading
 - (void)didLoadFromCCB {
     _bgs = @[_bg1, _bg2];
+    _bgRect = [_bg1 contentSize];
     _bullets = [NSMutableArray array];
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;
+    _randomScheduler = [IntervalScheduler getInstance:1.f];
+    _planes = [NSMutableArray array];
 }
+
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-    
 }
+
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
     CGPoint touchFrom = [touch previousLocationInView:[touch view]];
     CGPoint touchTo = [touch locationInView:[touch view]];
     CGPoint offset = ccpSub(touchTo, touchFrom);
     offset.y = - offset.y;//I don't know why
-    
     CGPoint targetFrom = [_hero position];
     CGPoint targetTo = ccpAdd(targetFrom, ccp(offset.x, offset.y));
+    
     float xMin = _hero.contentSize.width/2;
     float xMax = _bg1.contentSize.width-xMin;
     float yMin = _hero.contentSize.height/2;
@@ -73,23 +81,49 @@ static const float scrollSpeed = 50.f;
 
 - (void)updateBackground:(CCTime)delta
 {
-    float height = _bg1.contentSize.height;
-    float doubleHeight = 2*height;
+    float doubleHeight = 2*_bgRect.height;
     float offset = scrollSpeed*delta;
     for (CCNode* bg in _bgs) {
         CGPoint newPosition = bg.position;
         newPosition.y -= offset;
-        if (newPosition.y <= -height) {
+        if (newPosition.y <= -_bgRect.height) {
             newPosition.y += doubleHeight;
         }
         bg.position = newPosition;
     }
 }
 
+- (void)addEnemy:(CCTime)delta{
+    if ([_randomScheduler scheduled:delta]) {
+        int random = arc4random()%100;
+        if (random < 50) {
+            Plane* plane = [Plane generate:@"small_plane"];
+            plane.position = ccp((arc4random()%((int)(_bgRect.width-plane.contentSize.width)))+plane.contentSize.width/2, _bgRect.height);
+            [_planes addObject:plane];
+            [_hero.parent addChild:plane];
+        }
+    }
+}
+
+- (void) moveEnemy{
+    NSMutableArray *itemsToBeRemoved = [NSMutableArray array];
+    for (Plane* plane in _planes) {
+        plane.position=ccp(plane.position.x + plane.planeSpeed.dx,plane.position.y+plane.planeSpeed.dy);
+        if (plane.position.y < 0) {
+            [itemsToBeRemoved addObject:plane];
+        }
+    }
+    for (Plane* plane in itemsToBeRemoved) {
+        [_planes removeObject:plane];
+        [_hero.parent removeChild:plane];
+    }
+}
 - (void)update:(CCTime)delta
 {
     [self updateBackground:delta];
     [_hero fire:delta];
+    [self addEnemy:delta];
+    [self moveEnemy];
 }
 
 @end
