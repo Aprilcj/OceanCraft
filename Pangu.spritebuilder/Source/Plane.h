@@ -13,7 +13,7 @@
 @property (nonatomic, assign) CGFloat range;
 @property (nonatomic, assign) CCTime fireInterval;
 @property NSString *bulletFile;
-@property (nonatomic, assign) CGVector bulletSpeed;
+@property (nonatomic, assign) CGPoint bulletSpeed;
 @property (nonatomic, assign) CGVector planeSpeed;
 -(void)fire:(CCTime)delta;
 + (Plane*) generate:(NSString*)planeFile;

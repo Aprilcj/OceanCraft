@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		114AD7DC1AACA6BF00905179 /* Bullet.m in Sources */ = {isa = PBXBuildFile; fileRef = 114AD7DB1AACA6BF00905179 /* Bullet.m */; };
 		11D7DDFA1A7D6D8A005AA0B9 /* Plane.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DDF91A7D6D8A005AA0B9 /* Plane.m */; };
 		11D7DDFE1A7D6DB4005AA0B9 /* Seal.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DDFD1A7D6DB4005AA0B9 /* Seal.m */; };
 		11D7DE011A7D8391005AA0B9 /* Gameplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DE001A7D8391005AA0B9 /* Gameplay.m */; };
@@ -147,6 +148,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		114AD7DA1AACA6BF00905179 /* Bullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bullet.h; path = Source/Bullet.h; sourceTree = "<group>"; };
+		114AD7DB1AACA6BF00905179 /* Bullet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bullet.m; path = Source/Bullet.m; sourceTree = "<group>"; };
 		11D7DDF81A7D6D8A005AA0B9 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = Source/Plane.h; sourceTree = "<group>"; };
 		11D7DDF91A7D6D8A005AA0B9 /* Plane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Plane.m; path = Source/Plane.m; sourceTree = "<group>"; };
 		11D7DDFC1A7D6DB4005AA0B9 /* Seal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Seal.h; path = Source/Seal.h; sourceTree = "<group>"; };
@@ -457,6 +460,8 @@
 				11D7DE031A7D8574005AA0B9 /* Bear.m */,
 				11F262461AA4207B00E37E85 /* IntervalScheduler.h */,
 				11F262471AA4207B00E37E85 /* IntervalScheduler.m */,
+				114AD7DA1AACA6BF00905179 /* Bullet.h */,
+				114AD7DB1AACA6BF00905179 /* Bullet.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -832,6 +837,7 @@
 				B73789871807631A0076A88C /* main.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* MainScene.m in Sources */,
 				11D7DDFA1A7D6D8A005AA0B9 /* Plane.m in Sources */,
+				114AD7DC1AACA6BF00905179 /* Bullet.m in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 				11D7DE011A7D8391005AA0B9 /* Gameplay.m in Sources */,
 				11F262481AA4207B00E37E85 /* IntervalScheduler.m in Sources */,

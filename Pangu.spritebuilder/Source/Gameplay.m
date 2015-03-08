@@ -30,15 +30,17 @@ static const float scrollSpeed = 50.f;
 // is called when CCB file has completed loading
 - (void)didLoadFromCCB {
     _bgs = @[_bg1, _bg2];
-    _bgRect = [_bg1 contentSize];
+    _bgRect = [CCDirector  sharedDirector].viewSize;
     _bullets = [NSMutableArray array];
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;
+//    _physicsNode.debugDraw = YES;
     _randomScheduler = [IntervalScheduler getInstance:1.f];
     _planes = [NSMutableArray array];
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
+    LOG(@"_hero.physicType = %@", _hero.physicsBody.collisionType);
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
@@ -74,9 +76,22 @@ static const float scrollSpeed = 50.f;
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair plane:(CCNode *)nodeA bullet:(CCNode *)nodeB
 {
+    [[_physicsNode space] addPostStepBlock:^{
+        [self planeRemove:nodeA];
+        [nodeB removeFromParent];
+    } key:nodeA];
+}
 
+- (void)planeRemove:(CCNode *)plane {
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
+    explosion.position = plane.position;
+    [plane.parent addChild:explosion];
+    explosion.autoRemoveOnFinish = YES;
+    
+    [plane removeFromParent];
+    [_planes removeObject:plane];
 }
 
 - (void)updateBackground:(CCTime)delta
