@@ -42,7 +42,7 @@ static const float scrollSpeed = -50.f;
     _physicsNode.collisionDelegate = self;
     //_physicsNode.debugDraw = YES;
     _randomScheduler = [IntervalScheduler getInstance:1.f];
-    _hero.planeSpeed = CGVectorMake(0, 0);
+    [_hero setSpeed:ccp(0, 0)];
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
@@ -92,6 +92,16 @@ static const float scrollSpeed = -50.f;
     } key:nodeA];
 }
 
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair plane:(CCNode *)nodeA plane:(CCNode *)nodeB
+{
+    Plane* planeA = (Plane*)nodeA;
+    Plane* planeB = (Plane*)nodeB;
+    [[_physicsNode space] addPostStepBlock:^{
+        [planeA onHitPlane:planeA];
+        [planeB onHitPlane:planeB];
+    } key:nodeA];
+}
+
 - (void)updateBackground
 {
     for (CCNode* bg in _bgs) {
@@ -121,7 +131,6 @@ static const float scrollSpeed = -50.f;
 - (void)update:(CCTime)delta
 {
     [self updateBackground];
-    [_hero fire:delta];
     [self addEnemy:delta];
 }
 

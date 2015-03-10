@@ -10,4 +10,6 @@
 
 @interface Bullet : CCSprite
 @property (nonatomic, assign) CGFloat damage;
+@property (nonatomic, assign) CGFloat range;
+@property (nonatomic, assign) CGPoint bulletSpeed;
 @end

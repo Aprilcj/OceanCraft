@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface IntervalScheduler : NSObject
-@property(nonatomic, assign) CGFloat interval;
 - (BOOL)scheduled:(CCTime) delta;
+- (void)setInterval:(CGFloat)interval;
 +(id) getInstance:(CCTime) interval;
 @end

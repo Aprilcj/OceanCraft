@@ -11,27 +11,34 @@
 #import "Bullet.h"
 
 @implementation Plane{
-    NSMutableArray *_bullets;
     IntervalScheduler* _fireScheduler;
+    CGPoint _speed;
 }
 
 - (void)didLoadFromCCB {
-    self.range = [CCDirector sharedDirector].viewSize.height;
-    self.fireInterval = 0.2f;
-    self.bulletSpeed = ccp(0, 150);
-    self.bulletFile = @"bullet1";
-    self.planeSpeed = CGVectorMake(0, -100);
     self.hp = 100;
-    _bullets = [NSMutableArray array];
     self.physicsBody.collisionType=@"plane";
-    _fireScheduler = [IntervalScheduler getInstance:self.fireInterval];
+    self.bulletFile = @"bullet1";
+    [self setSpeed:ccp(0, -100)];
+    _fireScheduler = [IntervalScheduler getInstance:0.2f];
+}
+
+-(void)setSpeed:(CGPoint)speed{
+    _speed = speed;
+    [self.physicsBody setVelocity:_speed];
+}
+
+-(void)setFireInterval:(CCTime)fireInterval{
+    [_fireScheduler setInterval:fireInterval];
 }
 
 + (Plane*)generate:(NSString *)planeFile{
     CGSize world = [CCDirector  sharedDirector].viewSize;
     Plane* plane = (Plane*)[CCBReader load:planeFile];
     plane.position = ccp((arc4random()%((int)(world.width-plane.contentSize.width)))+plane.contentSize.width/2, world.height);
+    plane.bulletFile = nil;
     if ([planeFile isEqual:@"small_plane"]) {
+        
     }else if([planeFile isEqual:@"big_plane"]){
         plane.hp = 500;
         
@@ -40,14 +47,18 @@
 }
 
 -(void)update:(CCTime)delta{
-    if (self.hp < 0) {
-        [self planeRemove];
+    if (self.hp < 1) {
+        [self explode];
         return;
     }
-    [self moveEnemy:delta];
+    if (self.position.y < 0) {
+        [self removeFromParent];
+        return;
+    }
+    [self fire:delta];
 }
 
-- (void)planeRemove{
+- (void)explode{
     CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
     explosion.position = self.position;
     [self.parent addChild:explosion];
@@ -59,33 +70,18 @@
     self.hp -= bullet.damage;
 }
 
+-(void)onHitPlane:(Plane *)plane{
+    self.hp -= plane.hp;
+}
+
 -(void)fire:(CCTime)delta{
-    //remove bullets out of boundry
-    NSMutableArray *itemsToBeRemoved = [NSMutableArray array];
-    for (CCSprite* bullet in _bullets) {
-        if (bullet.position.y > self.range) {
-            [itemsToBeRemoved addObject:bullet];
-        }
-    }
-    for (CCSprite* bullet in itemsToBeRemoved) {
-        [_bullets removeObject:bullet];
-        [bullet removeFromParent];
-    }
-    
-    
     if ([_fireScheduler scheduled:delta]) {
-        Bullet* bullet = (Bullet*)[CCBReader load:self.bulletFile];
-        bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height);
-        [_bullets addObject:bullet];
-        [[self parent] addChild:bullet];
-        [bullet.physicsBody setVelocity:self.bulletSpeed];
+        if (self.bulletFile) {
+            Bullet* bullet = (Bullet*)[CCBReader load:self.bulletFile];
+            bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height);
+            [[self parent] addChild:bullet];
+        }
     }
 }
 
-- (void) moveEnemy:(CCTime)delta{
-    self.position=ccp(self.position.x + self.planeSpeed.dx*delta,self.position.y+self.planeSpeed.dy*delta);
-    if (self.position.y < 0) {
-        [self removeFromParent];
-    }
-}
 @end

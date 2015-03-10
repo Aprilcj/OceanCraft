@@ -9,21 +9,27 @@
 #import "IntervalScheduler.h"
 
 @implementation IntervalScheduler{
-    CCTime leftTime;
+    CCTime _leftTime;
+    CCTime _interval;
 }
 
 + (id)getInstance:(CCTime)interval{
     IntervalScheduler* scheduler = [[IntervalScheduler alloc] init];
-    scheduler.interval = interval;
+    [scheduler setInterval:interval];
     return scheduler;
 }
 
+- (void)setInterval:(CGFloat)interval{
+    _interval = interval;
+    _leftTime = 0;
+}
+
 - (BOOL)scheduled:(CCTime) delta{
-    if (delta < leftTime) {
-        leftTime -= delta;
+    if (delta < _leftTime) {
+        _leftTime -= delta;
         return NO;
     }
-    leftTime += self.interval;
+    _leftTime += _interval;
     return YES;
 }
 @end

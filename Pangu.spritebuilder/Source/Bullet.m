@@ -14,7 +14,16 @@
 
 - (void)didLoadFromCCB{
     self.damage = 50;
+    self.range = [CCDirector sharedDirector].viewSize.height;
+    self.bulletSpeed = ccp(0, 150);
     self.physicsBody.collisionType=@"bullet";
 }
 
+-(void)update:(CCTime)delta{
+    if (self.position.y > self.range) {
+        [self removeFromParent];
+        return;
+    }
+    [self.physicsBody setVelocity:self.bulletSpeed];
+}
 @end

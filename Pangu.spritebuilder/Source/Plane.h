@@ -11,13 +11,10 @@
 
 @interface Plane : CCSprite
 @property NSString *planeFile;
-@property (nonatomic, assign) CGFloat range;
-@property (nonatomic, assign) CCTime fireInterval;
-@property NSString *bulletFile;
-@property (nonatomic, assign) CGPoint bulletSpeed;
-@property (nonatomic, assign) CGVector planeSpeed;
 @property (nonatomic, assign) CGFloat hp;
--(void)fire:(CCTime)delta;
+@property NSString *bulletFile;
 - (void)onHit: (Bullet*)bullet;
+- (void)onHitPlane: (Plane*)plane;
 + (Plane*) generate:(NSString*)planeFile;
+-(void)setSpeed:(CGPoint)speed;
 @end
