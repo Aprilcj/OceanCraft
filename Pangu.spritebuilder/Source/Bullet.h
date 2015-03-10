@@ -9,5 +9,5 @@
 #import "CCSprite.h"
 
 @interface Bullet : CCSprite
-
+@property (nonatomic, assign) CGFloat damage;
 @end

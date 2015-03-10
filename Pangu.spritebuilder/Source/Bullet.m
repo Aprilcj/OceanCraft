@@ -13,6 +13,7 @@
 }
 
 - (void)didLoadFromCCB{
+    self.damage = 50;
     self.physicsBody.collisionType=@"bullet";
 }
 
