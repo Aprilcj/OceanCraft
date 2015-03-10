@@ -107,16 +107,11 @@ static const float scrollSpeed = -50.f;
         
         if (random < 50) {
             Plane* plane = [Plane generate:@"small_plane"];
-            plane.position = ccp((arc4random()%((int)(_bgRect.width-plane.contentSize.width)))+plane.contentSize.width/2, _bgRect.height);
-            //[_planes addObject:plane];
             [_hero.parent addChild:plane];
         }
         
         if (random < 10) {
             Plane* plane = [Plane generate:@"big_plane"];
-            plane.hp = 500;
-            plane.position = ccp((arc4random()%((int)(_bgRect.width-plane.contentSize.width)))+plane.contentSize.width/2, _bgRect.height);
-            //[_planes addObject:plane];
             [_hero.parent addChild:plane];
         }
     }

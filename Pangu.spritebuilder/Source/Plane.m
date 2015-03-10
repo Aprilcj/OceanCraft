@@ -28,7 +28,14 @@
 }
 
 + (Plane*)generate:(NSString *)planeFile{
+    CGSize world = [CCDirector  sharedDirector].viewSize;
     Plane* plane = (Plane*)[CCBReader load:planeFile];
+    plane.position = ccp((arc4random()%((int)(world.width-plane.contentSize.width)))+plane.contentSize.width/2, world.height);
+    if ([planeFile isEqual:@"small_plane"]) {
+    }else if([planeFile isEqual:@"big_plane"]){
+        plane.hp = 500;
+        
+    }
     return plane;
 }
 
@@ -76,9 +83,9 @@
 }
 
 - (void) moveEnemy:(CCTime)delta{
-        self.position=ccp(self.position.x + self.planeSpeed.dx*delta,self.position.y+self.planeSpeed.dy*delta);
-        if (self.position.y < 0) {
-            [self removeFromParent];
-        }
+    self.position=ccp(self.position.x + self.planeSpeed.dx*delta,self.position.y+self.planeSpeed.dy*delta);
+    if (self.position.y < 0) {
+        [self removeFromParent];
+    }
 }
 @end
