@@ -47,7 +47,7 @@
 }
 
 -(void)update:(CCTime)delta{
-    if (self.hp < 1) {
+    if (self.hp < 0) {
         [self explode];
         return;
     }
@@ -66,7 +66,7 @@
     [self removeFromParent];
 }
 
-- (void)onHit: (Bullet*)bullet{
+- (void)onHitBullet: (Bullet*)bullet{
     self.hp -= bullet.damage;
 }
 
@@ -78,6 +78,7 @@
     if ([_fireScheduler scheduled:delta]) {
         if (self.bulletFile) {
             Bullet* bullet = (Bullet*)[CCBReader load:self.bulletFile];
+            bullet.physicsBody.collisionType = [self.physicsBody.collisionType stringByAppendingString:@"_bullet"];
             bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height);
             [[self parent] addChild:bullet];
         }

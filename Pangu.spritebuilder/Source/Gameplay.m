@@ -18,14 +18,14 @@ static const float scrollSpeed = -50.f;
     CCPhysicsNode *_physicsNode;
     CCNode *_contentNode;
     CCNode *_levelNode;
+    CCLabelTTF *_score;
+    int _scoreValue;
     Plane *_hero;
     CCNode *_bg1;
     CCNode *_bg2;
     NSArray *_bgs;
-    NSArray *_bullets;
     IntervalScheduler *_randomScheduler;
-    //NSMutableArray *_planes;
-    CGSize _bgRect;
+    CCButton *_retryButton;
 }
 
 // is called when CCB file has completed loading
@@ -35,14 +35,15 @@ static const float scrollSpeed = -50.f;
         [bg.physicsBody setVelocity:ccp(0, scrollSpeed)];
         bg.physicsBody.collisionMask = @[];
     }
+    _randomScheduler = [IntervalScheduler getInstance:1.f];
     
-    _bgRect = [CCDirector  sharedDirector].viewSize;
-    _bullets = [NSMutableArray array];
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;
     //_physicsNode.debugDraw = YES;
-    _randomScheduler = [IntervalScheduler getInstance:1.f];
+    
     [_hero setSpeed:ccp(0, 0)];
+    _hero.physicsBody.collisionType = @"hero";
+    _hero.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
@@ -82,33 +83,61 @@ static const float scrollSpeed = -50.f;
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair plane:(CCNode *)nodeA bullet:(CCNode *)nodeB
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(CCNode *)nodeA enemy_bullet:(CCNode *)nodeB
 {
     Plane* plane = (Plane*)nodeA;
     Bullet* bullet = (Bullet*)nodeB;
+    
     [[_physicsNode space] addPostStepBlock:^{
-        [plane onHit:bullet];
+        [plane onHitBullet:bullet];
         [nodeB removeFromParent];
     } key:nodeA];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair plane:(CCNode *)nodeA plane:(CCNode *)nodeB
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair enemy:(CCNode *)nodeA hero_bullet:(CCNode *)nodeB
+{
+    Plane* plane = (Plane*)nodeA;
+    Bullet* bullet = (Bullet*)nodeB;
+    
+    [[_physicsNode space] addPostStepBlock:^{
+        [plane onHitBullet:bullet];
+        [bullet removeFromParent];
+        if (plane.hp < 0) {
+            _scoreValue += 1;
+            _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
+        }
+    } key:nodeA];
+}
+
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(CCNode *)nodeA enemy:(CCNode *)nodeB
 {
     Plane* planeA = (Plane*)nodeA;
     Plane* planeB = (Plane*)nodeB;
     [[_physicsNode space] addPostStepBlock:^{
-        [planeA onHitPlane:planeA];
-        [planeB onHitPlane:planeB];
+        [planeA onHitPlane:planeB];
+        [planeB onHitPlane:planeA];
     } key:nodeA];
 }
 
 - (void)updateBackground
 {
+    CGSize _bgRect = [CCDirector sharedDirector].viewSize;
     for (CCNode* bg in _bgs) {
         if (bg.position.y <= -_bgRect.height) {
+            LOG(@"_bgRect=(%f, %f)", _bgRect.width, _bgRect.height);
             bg.position = ccp(bg.position.x, bg.position.y+2*_bgRect.height);
         }
     }
+}
+
+- (Plane*) newEnemy:(NSString*)planeFile{
+    CGSize world = [CCDirector  sharedDirector].viewSize;
+    Plane* plane = (Plane*)[CCBReader load:planeFile];
+    plane.position = ccp((arc4random()%((int)(world.width-plane.contentSize.width)))+plane.contentSize.width/2, world.height);
+    plane.bulletFile = nil;
+    plane.physicsBody.collisionType = @"enemy";
+    plane.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
+    return plane;
 }
 
 - (void)addEnemy:(CCTime)delta{
@@ -116,21 +145,32 @@ static const float scrollSpeed = -50.f;
         int random = arc4random()%100;
         
         if (random < 50) {
-            Plane* plane = [Plane generate:@"small_plane"];
+            Plane* plane = [self newEnemy:@"small_plane"];
             [_hero.parent addChild:plane];
         }
         
         if (random < 10) {
-            Plane* plane = [Plane generate:@"big_plane"];
+            Plane* plane = [self newEnemy:@"big_plane"];
+            plane.hp = 500;
             [_hero.parent addChild:plane];
         }
+        
     }
 }
 
+-(void)onGameOver{
+    _retryButton.visible = YES;
+}
 
 - (void)update:(CCTime)delta
 {
     [self updateBackground];
+    
+    if (_hero.hp < 0) {
+        LOG(@"game over", @"");
+        [self onGameOver];
+        return;
+    }
     [self addEnemy:delta];
 }
 

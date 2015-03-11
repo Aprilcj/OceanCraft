@@ -9,9 +9,7 @@
 /* Begin PBXBuildFile section */
 		114AD7DC1AACA6BF00905179 /* Bullet.m in Sources */ = {isa = PBXBuildFile; fileRef = 114AD7DB1AACA6BF00905179 /* Bullet.m */; };
 		11D7DDFA1A7D6D8A005AA0B9 /* Plane.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DDF91A7D6D8A005AA0B9 /* Plane.m */; };
-		11D7DDFE1A7D6DB4005AA0B9 /* Seal.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DDFD1A7D6DB4005AA0B9 /* Seal.m */; };
 		11D7DE011A7D8391005AA0B9 /* Gameplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DE001A7D8391005AA0B9 /* Gameplay.m */; };
-		11D7DE041A7D8574005AA0B9 /* Bear.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DE031A7D8574005AA0B9 /* Bear.m */; };
 		11F262481AA4207B00E37E85 /* IntervalScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F262471AA4207B00E37E85 /* IntervalScheduler.m */; };
 		5B121030197484FA004C1E1D /* PeevedPenguinsActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B12102F197484FA004C1E1D /* PeevedPenguinsActivity.m */; };
 		5B121038197487F2004C1E1D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B737893E1807617C0076A88C /* AppDelegate.m */; };
@@ -152,12 +150,8 @@
 		114AD7DB1AACA6BF00905179 /* Bullet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bullet.m; path = Source/Bullet.m; sourceTree = "<group>"; };
 		11D7DDF81A7D6D8A005AA0B9 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = Source/Plane.h; sourceTree = "<group>"; };
 		11D7DDF91A7D6D8A005AA0B9 /* Plane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Plane.m; path = Source/Plane.m; sourceTree = "<group>"; };
-		11D7DDFC1A7D6DB4005AA0B9 /* Seal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Seal.h; path = Source/Seal.h; sourceTree = "<group>"; };
-		11D7DDFD1A7D6DB4005AA0B9 /* Seal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Seal.m; path = Source/Seal.m; sourceTree = "<group>"; };
 		11D7DDFF1A7D8391005AA0B9 /* Gameplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gameplay.h; path = Source/Gameplay.h; sourceTree = "<group>"; };
 		11D7DE001A7D8391005AA0B9 /* Gameplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Gameplay.m; path = Source/Gameplay.m; sourceTree = "<group>"; };
-		11D7DE021A7D8574005AA0B9 /* Bear.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bear.h; path = Source/Bear.h; sourceTree = "<group>"; };
-		11D7DE031A7D8574005AA0B9 /* Bear.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bear.m; path = Source/Bear.m; sourceTree = "<group>"; };
 		11F262461AA4207B00E37E85 /* IntervalScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntervalScheduler.h; path = Source/IntervalScheduler.h; sourceTree = "<group>"; };
 		11F262471AA4207B00E37E85 /* IntervalScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntervalScheduler.m; path = Source/IntervalScheduler.m; sourceTree = "<group>"; };
 		5B12100919748273004C1E1D /* libEGL.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libEGL.so; path = /usr/lib/armv7a/libEGL.so; sourceTree = SDKROOT; };
@@ -446,22 +440,18 @@
 		B737893C1807616C0076A88C /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				11D7DDF81A7D6D8A005AA0B9 /* Plane.h */,
-				11D7DDF91A7D6D8A005AA0B9 /* Plane.m */,
+				114AD7DA1AACA6BF00905179 /* Bullet.h */,
+				114AD7DB1AACA6BF00905179 /* Bullet.m */,
 				11D7DDFF1A7D8391005AA0B9 /* Gameplay.h */,
 				11D7DE001A7D8391005AA0B9 /* Gameplay.m */,
-				7A40362019DDEF0D007B6E8F /* Platforms */,
+				11F262461AA4207B00E37E85 /* IntervalScheduler.h */,
+				11F262471AA4207B00E37E85 /* IntervalScheduler.m */,
 				B7378992180767190076A88C /* MainScene.h */,
 				B7378993180767190076A88C /* MainScene.m */,
 				D352B48019EC608A00829775 /* MetalShaders */,
-				11D7DDFC1A7D6DB4005AA0B9 /* Seal.h */,
-				11D7DDFD1A7D6DB4005AA0B9 /* Seal.m */,
-				11D7DE021A7D8574005AA0B9 /* Bear.h */,
-				11D7DE031A7D8574005AA0B9 /* Bear.m */,
-				11F262461AA4207B00E37E85 /* IntervalScheduler.h */,
-				11F262471AA4207B00E37E85 /* IntervalScheduler.m */,
-				114AD7DA1AACA6BF00905179 /* Bullet.h */,
-				114AD7DB1AACA6BF00905179 /* Bullet.m */,
+				11D7DDF81A7D6D8A005AA0B9 /* Plane.h */,
+				11D7DDF91A7D6D8A005AA0B9 /* Plane.m */,
+				7A40362019DDEF0D007B6E8F /* Platforms */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -832,8 +822,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11D7DE041A7D8574005AA0B9 /* Bear.m in Sources */,
-				11D7DDFE1A7D6DB4005AA0B9 /* Seal.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* MainScene.m in Sources */,
 				11D7DDFA1A7D6D8A005AA0B9 /* Plane.m in Sources */,

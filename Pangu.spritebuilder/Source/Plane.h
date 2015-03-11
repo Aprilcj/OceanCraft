@@ -9,11 +9,13 @@
 #import "CCSprite.h"
 #import "Bullet.h"
 
+
+
 @interface Plane : CCSprite
 @property NSString *planeFile;
 @property (nonatomic, assign) CGFloat hp;
 @property NSString *bulletFile;
-- (void)onHit: (Bullet*)bullet;
+- (void)onHitBullet: (Bullet*)bullet;
 - (void)onHitPlane: (Plane*)plane;
 + (Plane*) generate:(NSString*)planeFile;
 -(void)setSpeed:(CGPoint)speed;
