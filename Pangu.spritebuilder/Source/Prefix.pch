@@ -37,7 +37,7 @@ fmt]
 #define LOG_FUN NSLog(DEBUG_NEW_FMT(@""), 0)
 //打印一个变量
 #define LOG_VAR(x, fmt)  do {  \
-DEBUG_LOG(@#x " = " #fmt, x); \
+LOG(@#x " = " #fmt, x); \
 } while(0)
 
 #else //DEBUG

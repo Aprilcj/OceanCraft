@@ -11,5 +11,8 @@
 @interface Bullet : CCSprite
 @property (nonatomic, assign) CGFloat damage;
 @property (nonatomic, assign) CGFloat range;
-@property (nonatomic, assign) CGPoint bulletSpeed;
+@property NSString* file;
+- (void)setOwner:(NSString*)owner;
++ (Bullet*) generate:(NSString*)bulletFile;
++ (Bullet*) duplicate:(Bullet*)bullet;
 @end

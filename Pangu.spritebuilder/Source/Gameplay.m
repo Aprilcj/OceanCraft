@@ -28,7 +28,6 @@ static const float scrollSpeed = -50.f;
     CCButton *_retryButton;
 }
 
-// is called when CCB file has completed loading
 - (void)didLoadFromCCB {
     _bgs = @[_bg1, _bg2];
     for (CCNode* bg in _bgs) {
@@ -41,13 +40,12 @@ static const float scrollSpeed = -50.f;
     _physicsNode.collisionDelegate = self;
     //_physicsNode.debugDraw = YES;
     
-    [_hero setSpeed:ccp(0, 0)];
-    _hero.physicsBody.collisionType = @"hero";
-    _hero.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
+    _hero = [Plane generate:@"hero"];
+    [_physicsNode addChild:_hero];
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-    LOG(@"_hero.physicType = %@", _hero.physicsBody.collisionType);
+
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
@@ -85,10 +83,10 @@ static const float scrollSpeed = -50.f;
 
 -(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(CCNode *)nodeA enemy_bullet:(CCNode *)nodeB
 {
-    Plane* plane = (Plane*)nodeA;
-    Bullet* bullet = (Bullet*)nodeB;
-    
+    LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
+        Plane* plane = (Plane*)nodeA;
+        Bullet* bullet = (Bullet*)nodeB;
         [plane onHitBullet:bullet];
         [nodeB removeFromParent];
     } key:nodeA];
@@ -96,10 +94,10 @@ static const float scrollSpeed = -50.f;
 
 -(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair enemy:(CCNode *)nodeA hero_bullet:(CCNode *)nodeB
 {
-    Plane* plane = (Plane*)nodeA;
-    Bullet* bullet = (Bullet*)nodeB;
-    
+    LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
+        Plane* plane = (Plane*)nodeA;
+        Bullet* bullet = (Bullet*)nodeB;
         [plane onHitBullet:bullet];
         [bullet removeFromParent];
         if (plane.hp < 0) {
@@ -111,9 +109,11 @@ static const float scrollSpeed = -50.f;
 
 -(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(CCNode *)nodeA enemy:(CCNode *)nodeB
 {
-    Plane* planeA = (Plane*)nodeA;
-    Plane* planeB = (Plane*)nodeB;
+    LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
+        LOG_FUN;
+        Plane* planeA = (Plane*)nodeA;
+        Plane* planeB = (Plane*)nodeB;
         [planeA onHitPlane:planeB];
         [planeB onHitPlane:planeA];
     } key:nodeA];
@@ -130,28 +130,17 @@ static const float scrollSpeed = -50.f;
     }
 }
 
-- (Plane*) newEnemy:(NSString*)planeFile{
-    CGSize world = [CCDirector  sharedDirector].viewSize;
-    Plane* plane = (Plane*)[CCBReader load:planeFile];
-    plane.position = ccp((arc4random()%((int)(world.width-plane.contentSize.width)))+plane.contentSize.width/2, world.height);
-    plane.bulletFile = nil;
-    plane.physicsBody.collisionType = @"enemy";
-    plane.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
-    return plane;
-}
-
 - (void)addEnemy:(CCTime)delta{
     if ([_randomScheduler scheduled:delta]) {
         int random = arc4random()%100;
         
         if (random < 50) {
-            Plane* plane = [self newEnemy:@"small_plane"];
+            Plane* plane = [Plane generate:@"small_plane"];
             [_hero.parent addChild:plane];
         }
         
         if (random < 10) {
-            Plane* plane = [self newEnemy:@"big_plane"];
-            plane.hp = 500;
+            Plane* plane = [Plane generate:@"big_plane"];
             [_hero.parent addChild:plane];
         }
         
@@ -167,7 +156,6 @@ static const float scrollSpeed = -50.f;
     [self updateBackground];
     
     if (_hero.hp < 0) {
-        LOG(@"game over", @"");
         [self onGameOver];
         return;
     }
