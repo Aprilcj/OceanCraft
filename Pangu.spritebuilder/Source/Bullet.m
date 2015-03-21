@@ -9,7 +9,6 @@
 #import "Bullet.h"
 
 @implementation Bullet{
-    NSString* _owner;
 }
 
 + (Bullet*)duplicate:(Bullet *)bullet{
@@ -17,7 +16,6 @@
     newBullet.file = bullet.file;
     newBullet.damage = bullet.damage;
     newBullet.range = bullet.range;
-    [newBullet setOwner:[bullet owner]];
     [newBullet.physicsBody setVelocity:bullet.physicsBody.velocity];
     newBullet.physicsBody.collisionType = bullet.physicsBody.collisionType;
     newBullet.physicsBody.collisionMask = bullet.physicsBody.collisionMask;
@@ -34,16 +32,6 @@
         
     }
     return bullet;
-}
-
-- (void)setOwner:(NSString*)owner{
-    _owner = owner;
-    self.physicsBody.collisionType = [_owner stringByAppendingString:@"_bullet"];
-    self.physicsBody.collisionMask = @[@"enemy"];
-}
-
-- (NSString*)owner{
-    return _owner;
 }
 
 -(void)update:(CCTime)delta{

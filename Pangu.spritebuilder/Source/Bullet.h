@@ -12,7 +12,6 @@
 @property (nonatomic, assign) CGFloat damage;
 @property (nonatomic, assign) CGFloat range;
 @property NSString* file;
-- (void)setOwner:(NSString*)owner;
 + (Bullet*) generate:(NSString*)bulletFile;
 + (Bullet*) duplicate:(Bullet*)bullet;
 @end

@@ -26,6 +26,8 @@ static const float scrollSpeed = -50.f;
     NSArray *_bgs;
     IntervalScheduler *_randomScheduler;
     CCButton *_retryButton;
+    CCSprite *_life;
+    CCProgressNode *_lifeIndicator;
 }
 
 - (void)didLoadFromCCB {
@@ -42,10 +44,32 @@ static const float scrollSpeed = -50.f;
     
     _hero = [Plane generate:@"hero"];
     [_physicsNode addChild:_hero];
+    [self addLifeIndicator];
+}
+
+- (void)addLifeIndicator{
+    _lifeIndicator = [CCProgressNode progressWithSprite:_life];
+    _lifeIndicator.type = CCProgressNodeTypeBar;
+    _lifeIndicator.midpoint = ccp(0.0f, 0.0f);
+    _lifeIndicator.barChangeRate = ccp(1.0f, 0.0f);
+    _lifeIndicator.percentage = 0.0f;
+    
+    _lifeIndicator.anchorPoint = ccp(0, 0);
+    _lifeIndicator.positionType = CCPositionTypeNormalized;
+    _lifeIndicator.position = ccp(0, 0);
+    [_contentNode addChild:_lifeIndicator];
+}
+
+- (void)updateLifeIndicator{
+    CGFloat percentage = _hero.hp / _hero.maxHp * 100;
+    LOG_VAR(percentage, @"%f");
+    percentage = percentage < 0? 0 : percentage;
+    percentage = percentage > 100 ? 100 : percentage;
+    _lifeIndicator.percentage =percentage;
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-
+    _lifeIndicator.percentage += 10.0f;
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
@@ -79,6 +103,15 @@ static const float scrollSpeed = -50.f;
 
 - (void)retry {
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
+}
+
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(CCNode *)nodeA enemy_bullet:(CCNode *)nodeB
+{
+    LOG_FUN;
+    [[_physicsNode space] addPostStepBlock:^{
+        [nodeA removeFromParent];
+        [nodeB removeFromParent];
+    } key:nodeA];
 }
 
 -(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(CCNode *)nodeA enemy_bullet:(CCNode *)nodeB
@@ -160,6 +193,7 @@ static const float scrollSpeed = -50.f;
         return;
     }
     [self addEnemy:delta];
+    [self updateLifeIndicator];
 }
 
 @end

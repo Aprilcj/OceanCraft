@@ -33,10 +33,13 @@
         plane.position = ccp(world.width/2, world.height/4);
         plane.physicsBody.collisionType = @"hero";
         plane.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
-        plane.hp = 300;
-        plane.bullet.physicsBody.velocity = ccp(0, 150);
+        plane.maxHp = 300;
+        plane.hp = plane.maxHp;
         [plane setFireInterval:0.2f];
-        [plane.bullet setOwner:@"hero"];
+
+        plane.bullet.physicsBody.velocity = ccp(0, 150);
+        plane.bullet.physicsBody.collisionType = @"hero_bullet";
+        plane.bullet.physicsBody.collisionMask = @[@"enemy"];
         return plane;
     }
 
@@ -45,15 +48,16 @@
     plane.physicsBody.collisionType = @"enemy";
     plane.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
     plane.bullet.physicsBody.velocity = ccp(0, -200);
-    [plane.bullet setOwner:@"enemy"];
+    plane.bullet.physicsBody.collisionType = @"enemy_bullet";
+    plane.bullet.physicsBody.collisionMask = @[@"hero"];
     [plane setFireInterval:1.f];
     
     if ([planeFile isEqual:@"small_plane"]) {
-        plane.hp = 99;
+        plane.maxHp = 99;
     }else if([planeFile isEqual:@"big_plane"]){
-        plane.hp = 499;
-        
+        plane.maxHp = 499;
     }
+    plane.hp = plane.maxHp;
     return plane;
 }
 
