@@ -11,6 +11,7 @@
 #import "Plane.h"
 #import "IntervalScheduler.h"
 #import "Bullet.h"
+#import "cocos2d.h"
 
 static const float scrollSpeed = -50.f;
 
@@ -54,8 +55,8 @@ static const float scrollSpeed = -50.f;
     _lifeIndicator.barChangeRate = ccp(1.0f, 0.0f);
     _lifeIndicator.percentage = 0.0f;
     
-    _lifeIndicator.anchorPoint = ccp(0, 0);
     _lifeIndicator.positionType = CCPositionTypeNormalized;
+    _lifeIndicator.anchorPoint = ccp(0, 0);
     _lifeIndicator.position = ccp(0, 0);
     [_contentNode addChild:_lifeIndicator];
 }
@@ -65,11 +66,12 @@ static const float scrollSpeed = -50.f;
     LOG_VAR(percentage, @"%f");
     percentage = percentage < 0? 0 : percentage;
     percentage = percentage > 100 ? 100 : percentage;
-    _lifeIndicator.percentage =percentage;
+    if (_lifeIndicator.percentage != percentage) {
+        _lifeIndicator.percentage =percentage;
+    }
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-    _lifeIndicator.percentage += 10.0f;
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event

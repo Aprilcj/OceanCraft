@@ -31,6 +31,7 @@
     
     if ([planeFile isEqual:@"hero"]) {
         plane.position = ccp(world.width/2, world.height/4);
+        plane.physicsBody.collisionCategories = @[@"hero"];
         plane.physicsBody.collisionType = @"hero";
         plane.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
         plane.maxHp = 300;
@@ -38,6 +39,7 @@
         [plane setFireInterval:0.2f];
 
         plane.bullet.physicsBody.velocity = ccp(0, 150);
+        plane.bullet.physicsBody.collisionCategories=@[@"hero_bullet"];
         plane.bullet.physicsBody.collisionType = @"hero_bullet";
         plane.bullet.physicsBody.collisionMask = @[@"enemy"];
         return plane;
@@ -45,9 +47,11 @@
 
     plane.position = ccp((arc4random()%((int)(world.width-plane.contentSize.width)))+plane.contentSize.width/2, world.height);
     [plane.physicsBody setVelocity:ccp(0, -100)];
+    plane.physicsBody.collisionCategories=@[@"enemy"];
     plane.physicsBody.collisionType = @"enemy";
     plane.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
     plane.bullet.physicsBody.velocity = ccp(0, -200);
+    plane.bullet.physicsBody.collisionCategories=@[@"enemy_bullet"];
     plane.bullet.physicsBody.collisionType = @"enemy_bullet";
     plane.bullet.physicsBody.collisionMask = @[@"hero"];
     [plane setFireInterval:1.f];
