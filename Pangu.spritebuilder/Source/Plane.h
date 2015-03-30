@@ -19,4 +19,5 @@
 - (void)onHitPlane: (Plane*)plane;
 + (Plane*) generate:(NSString*)planeFile;
 -(void)setFireInterval:(CCTime)fireInterval;
+-(BOOL)dead;
 @end

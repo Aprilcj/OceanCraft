@@ -14,6 +14,7 @@
     IntervalScheduler* _fireScheduler;
 }
 
+static const float MIN_HP = 0.0001;
 
 -(void)setFireInterval:(CCTime)fireInterval{
     if (_fireScheduler == nil) {
@@ -65,8 +66,12 @@
     return plane;
 }
 
+- (BOOL)dead{
+    return self.hp < MIN_HP;
+}
+
 -(void)update:(CCTime)delta{
-    if (self.hp < 0) {
+    if ([self dead]) {
         [self explode];
         return;
     }
@@ -90,7 +95,7 @@
 }
 
 -(void)onHitPlane:(Plane *)plane{
-    self.hp -= plane.hp;
+    self.hp -= plane.maxHp;
 }
 
 -(void)fire:(CCTime)delta{

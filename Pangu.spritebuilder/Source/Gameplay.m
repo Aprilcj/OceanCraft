@@ -123,6 +123,7 @@ static const float scrollSpeed = -50.f;
         Plane* plane = (Plane*)nodeA;
         Bullet* bullet = (Bullet*)nodeB;
         [plane onHitBullet:bullet];
+        plane.physicsBody.velocity = ccp(0, 0);
         [nodeB removeFromParent];
     } key:nodeA];
 }
@@ -146,11 +147,11 @@ static const float scrollSpeed = -50.f;
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        LOG_FUN;
-        Plane* planeA = (Plane*)nodeA;
-        Plane* planeB = (Plane*)nodeB;
-        [planeA onHitPlane:planeB];
-        [planeB onHitPlane:planeA];
+        Plane* hero = (Plane*)nodeA;
+        Plane* enemy = (Plane*)nodeB;
+        [hero onHitPlane:enemy];
+        hero.physicsBody.velocity = ccp(0, 0);
+        [enemy onHitPlane:hero];
     } key:nodeA];
 }
 
@@ -189,13 +190,13 @@ static const float scrollSpeed = -50.f;
 - (void)update:(CCTime)delta
 {
     [self updateBackground];
+    [self updateLifeIndicator];
     
-    if (_hero.hp < 0) {
+    if ([_hero dead]) {
         [self onGameOver];
         return;
     }
     [self addEnemy:delta];
-    [self updateLifeIndicator];
 }
 
 @end
