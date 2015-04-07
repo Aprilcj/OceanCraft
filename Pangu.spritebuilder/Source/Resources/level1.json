@@ -1,0 +1,35 @@
+{
+  "actors": [
+    {
+      "time": 1000,
+      "names": [
+        "small_plane"
+      ]
+    },
+    {
+      "time": 1000,
+      "names": [
+        "small_plane"
+      ]
+    },
+    {
+      "time": 1000,
+      "names": [
+        "small_plane"
+      ]
+    },
+    {
+      "time": 1000,
+      "names": [
+        "small_plane"
+      ]
+    },
+    {
+      "time": 1000,
+      "names": [
+        "small_plane",
+        "big_plane"
+      ]
+    }
+  ]
+}

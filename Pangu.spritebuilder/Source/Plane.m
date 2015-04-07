@@ -24,6 +24,10 @@ static const float MIN_HP = 0.0001;
     }
 }
 
+- (void)didLoadFromCCB {
+    self.hp = self.maxHp;
+}
+
 + (Plane*)generate:(NSString *)planeFile{
     
     CGSize world = [CCDirector  sharedDirector].viewSize;
@@ -36,7 +40,6 @@ static const float MIN_HP = 0.0001;
         plane.physicsBody.collisionType = @"hero";
         plane.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
         plane.maxHp = 300;
-        plane.hp = plane.maxHp;
         [plane setFireInterval:0.2f];
 
         plane.bullet.physicsBody.velocity = ccp(0, 150);
@@ -58,16 +61,15 @@ static const float MIN_HP = 0.0001;
     [plane setFireInterval:1.f];
     
     if ([planeFile isEqual:@"small_plane"]) {
-        plane.maxHp = 99;
+        //plane.maxHp = 99;
     }else if([planeFile isEqual:@"big_plane"]){
-        plane.maxHp = 499;
+        //plane.maxHp = 499;
     }
-    plane.hp = plane.maxHp;
     return plane;
 }
 
 - (BOOL)dead{
-    return self.hp < MIN_HP;
+    return _hp < MIN_HP;
 }
 
 -(void)update:(CCTime)delta{

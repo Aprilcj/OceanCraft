@@ -165,6 +165,19 @@
 		<array/>
 		<key>customClass</key>
 		<string>Plane</string>
+		<key>customProperties</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>maxHp</string>
+				<key>optimized</key>
+				<false/>
+				<key>type</key>
+				<integer>1</integer>
+				<key>value</key>
+				<string>300.000000</string>
+			</dict>
+		</array>
 		<key>displayName</key>
 		<string>CCSprite</string>
 		<key>memberVarAssignmentName</key>

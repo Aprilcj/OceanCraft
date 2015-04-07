@@ -12,6 +12,7 @@
 #import "IntervalScheduler.h"
 #import "Bullet.h"
 #import "cocos2d.h"
+#import "ScriptLoader.h"
 
 static const float scrollSpeed = -50.f;
 
@@ -29,6 +30,7 @@ static const float scrollSpeed = -50.f;
     CCButton *_retryButton;
     CCSprite *_life;
     CCProgressNode *_lifeIndicator;
+    NSInteger level;
 }
 
 - (void)didLoadFromCCB {
@@ -46,6 +48,19 @@ static const float scrollSpeed = -50.f;
     _hero = [Plane generate:@"hero"];
     [_physicsNode addChild:_hero];
     [self addLifeIndicator];
+    [self addEnemies];
+    
+    //CCScene *level = (CCScene*)[CCBReader load:@"Levels/Level1"];
+    //[_levelNode addChild:level];
+}
+
+- (void) addEnemies{
+    NSDictionary* script = [ScriptLoader script];
+    for (NSDictionary* enemy in (NSArray*)[script objectForKey:@"enemies"]) {
+        [self scheduleBlock:^{
+            
+        } delay:<#(CCTime)#>]
+    }
 }
 
 - (void)addLifeIndicator{
@@ -136,8 +151,8 @@ static const float scrollSpeed = -50.f;
         Bullet* bullet = (Bullet*)nodeB;
         [plane onHitBullet:bullet];
         [bullet removeFromParent];
-        if (plane.hp < 0) {
-            _scoreValue += 1;
+        if ([plane dead]) {
+            _scoreValue += plane.maxHp;
             _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
         }
     } key:nodeA];

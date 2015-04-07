@@ -12,9 +12,9 @@
 
 
 @interface Plane : CCSprite
-@property (nonatomic, assign) CGFloat hp;
 @property (atomic, retain) Bullet* bullet;
-@property (nonatomic, assign) CGFloat maxHp;
+@property (nonatomic, assign) float maxHp;
+@property (nonatomic, assign) float hp;
 - (void)onHitBullet: (Bullet*)bullet;
 - (void)onHitPlane: (Plane*)plane;
 + (Plane*) generate:(NSString*)planeFile;
