@@ -8,35 +8,72 @@
 
 #import "ScriptLoader.h"
 
+static const NSString* SCENES = @"scenes";
+static const NSString* ROLES = @"roles";
+static const NSString* ROLE = @"role";
+static const NSString* PROPERTIES = @"properties";
+
 @implementation ScriptLoader{
-    int _currentEnemy;
 }
 
-static NSInteger level;
-static NSDictionary* script;
+static ScriptLoader* s_currentLevel;
 
-+ (NSDictionary*) loadLevel:(NSInteger) level{
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"level%ld", (long)level] ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:filePath];
-    NSError* error;
-    script = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    return script;
+
+#pragma mark init
+- (id)initWithLevel:(NSUInteger)level{
+    
+    if (self = [super init]) {
+        self.level = level;
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"level%ld", (long)level] ofType:@"json"];
+        NSData *data = [NSData dataWithContentsOfFile:filePath];
+        NSError* error;
+        self.script = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    }
+    return self;
 }
 
-+ (NSInteger)level{
-    return level;
++ (void) loadLevel:(NSInteger) level{
+    s_currentLevel = [[ScriptLoader alloc]initWithLevel:level];
 }
 
-+ (NSDictionary*) script{
-    return script;
++ (ScriptLoader*)currentLevel{
+    return s_currentLevel;
 }
 
+#pragma mark util
 
-- (NSDictionary*)nextEnemy{
-    NSDictionary* script = [ScriptLoader script];
-    NSArray* enemies = (NSArray*)[script objectForKey:@"enemies"];
-    NSArray* names = [(NSDictionary*)[enemies indexOfObject:_currentEnemy] objectForKey:@"names"];
-    return ;
++ (id) objectFrom: (id)object withPath:(NSArray*)path{
+    if (path == nil || [path count] == 0) {
+        return object;
+    }
+    id subPath = [path objectAtIndex:0];
+    NSMutableArray* restPath = [NSMutableArray arrayWithArray:path];
+    [restPath removeObjectAtIndex:0];
+    
+    id o = nil;
+    if ([object isKindOfClass:[NSDictionary class]]){
+        o = [((NSDictionary*)object) objectForKey:subPath];
+        
+    }else if ([object isKindOfClass:[NSArray class]]){
+        o = [((NSArray*)object) objectAtIndex:[subPath integerValue]];
+    }
+    return [ScriptLoader objectFrom:o withPath:restPath];
+}
+
++ (NSDictionary*) dictFrom: (id)object withPath:(NSArray*)path{
+    return (NSDictionary*)[ScriptLoader objectFrom:object withPath:path];
+}
+
++ (NSArray*) arrayFrom: (id)object withPath:(NSArray*)path{
+    return (NSArray*)[ScriptLoader objectFrom:object withPath:path];
+}
+
++ (NSString*) stringFrom: (id)object withPath:(NSArray*)path{
+    return (NSString*)[ScriptLoader objectFrom:object withPath:path];
+}
+
++ (NSInteger) intFrom: (id)object withPath:(NSArray*)path{
+    return [[ScriptLoader objectFrom:object withPath:path] integerValue];
 }
 
 @end

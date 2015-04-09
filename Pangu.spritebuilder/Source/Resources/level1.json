@@ -1,34 +1,25 @@
 {
-  "actors": [
+  "scenes": [
     {
-      "time": 1000,
-      "names": [
-        "small_plane"
+      "delay": 1,
+      "roles": [
+        {
+          "name": "small_plane",
+          "properties": {
+            "bullet": "bullet1"
+          }
+        }
       ]
     },
     {
-      "time": 1000,
-      "names": [
-        "small_plane"
-      ]
-    },
-    {
-      "time": 1000,
-      "names": [
-        "small_plane"
-      ]
-    },
-    {
-      "time": 1000,
-      "names": [
-        "small_plane"
-      ]
-    },
-    {
-      "time": 1000,
-      "names": [
-        "small_plane",
-        "big_plane"
+      "delay": 3,
+      "roles": [
+        {
+          "name": "small_plane",
+          "properties": {
+            "bullet": "bullet1"
+          }
+        }
       ]
     }
   ]

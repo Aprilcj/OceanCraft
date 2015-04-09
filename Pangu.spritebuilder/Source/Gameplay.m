@@ -30,7 +30,7 @@ static const float scrollSpeed = -50.f;
     CCButton *_retryButton;
     CCSprite *_life;
     CCProgressNode *_lifeIndicator;
-    NSInteger level;
+    NSUInteger _currentScene;
 }
 
 - (void)didLoadFromCCB {
@@ -45,22 +45,41 @@ static const float scrollSpeed = -50.f;
     _physicsNode.collisionDelegate = self;
     //_physicsNode.debugDraw = YES;
     
+    //init hero
     _hero = [Plane generate:@"hero"];
     [_physicsNode addChild:_hero];
-    [self addLifeIndicator];
-    [self addEnemies];
     
+    
+    [self addLifeIndicator];
+    _currentScene = 0;
+    [self addRoles];
     //CCScene *level = (CCScene*)[CCBReader load:@"Levels/Level1"];
     //[_levelNode addChild:level];
 }
 
-- (void) addEnemies{
-    NSDictionary* script = [ScriptLoader script];
-    for (NSDictionary* enemy in (NSArray*)[script objectForKey:@"enemies"]) {
-        [self scheduleBlock:^{
-            
-        } delay:<#(CCTime)#>]
+- (void) addRoles{
+    ScriptLoader* script = [ScriptLoader currentLevel];
+    NSArray* scenes = [ScriptLoader arrayFrom:script.script withPath:@[@"scenes"]];
+    if (_currentScene > [scenes count] - 1) {
+        LOG(@"script over", nil);
+        return;
     }
+    LOG(@"load scene : %ld", _currentScene);
+    NSDictionary* scene =  [ScriptLoader dictFrom:scenes withPath:@[[NSNumber numberWithUnsignedInteger:_currentScene++]]];
+    NSArray* roles = [ScriptLoader arrayFrom:scene withPath:@[@"roles"]];
+    
+    [self scheduleBlock:^(CCTimer* timer){
+        for (NSDictionary* role in roles) {
+            NSString* name = [ScriptLoader stringFrom:role withPath:@[@"name"]];
+            //NSDictionary* properties = [ScriptLoader dictFrom:role withPath:@[@"properties"]];
+            if ([name hasSuffix:@"plane"]) {
+                Plane* plane = [Plane generate:name];
+                [_hero.parent addChild:plane];
+            }
+        }
+        [self addRoles];
+    } delay:[ScriptLoader intFrom:scene withPath:@[@"delay"]]];
+    
 }
 
 - (void)addLifeIndicator{
@@ -78,7 +97,7 @@ static const float scrollSpeed = -50.f;
 
 - (void)updateLifeIndicator{
     CGFloat percentage = _hero.hp / _hero.maxHp * 100;
-    LOG_VAR(percentage, @"%f");
+//    LOG_VAR(percentage, @"%f");
     percentage = percentage < 0? 0 : percentage;
     percentage = percentage > 100 ? 100 : percentage;
     if (_lifeIndicator.percentage != percentage) {
@@ -211,7 +230,7 @@ static const float scrollSpeed = -50.f;
         [self onGameOver];
         return;
     }
-    [self addEnemy:delta];
+    //    [self addEnemy:delta];
 }
 
 @end
