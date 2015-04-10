@@ -39,41 +39,4 @@ static ScriptLoader* s_currentLevel;
 + (ScriptLoader*)currentLevel{
     return s_currentLevel;
 }
-
-#pragma mark util
-
-+ (id) objectFrom: (id)object withPath:(NSArray*)path{
-    if (path == nil || [path count] == 0) {
-        return object;
-    }
-    id subPath = [path objectAtIndex:0];
-    NSMutableArray* restPath = [NSMutableArray arrayWithArray:path];
-    [restPath removeObjectAtIndex:0];
-    
-    id o = nil;
-    if ([object isKindOfClass:[NSDictionary class]]){
-        o = [((NSDictionary*)object) objectForKey:subPath];
-        
-    }else if ([object isKindOfClass:[NSArray class]]){
-        o = [((NSArray*)object) objectAtIndex:[subPath integerValue]];
-    }
-    return [ScriptLoader objectFrom:o withPath:restPath];
-}
-
-+ (NSDictionary*) dictFrom: (id)object withPath:(NSArray*)path{
-    return (NSDictionary*)[ScriptLoader objectFrom:object withPath:path];
-}
-
-+ (NSArray*) arrayFrom: (id)object withPath:(NSArray*)path{
-    return (NSArray*)[ScriptLoader objectFrom:object withPath:path];
-}
-
-+ (NSString*) stringFrom: (id)object withPath:(NSArray*)path{
-    return (NSString*)[ScriptLoader objectFrom:object withPath:path];
-}
-
-+ (NSInteger) intFrom: (id)object withPath:(NSArray*)path{
-    return [[ScriptLoader objectFrom:object withPath:path] integerValue];
-}
-
 @end

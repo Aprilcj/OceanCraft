@@ -41,24 +41,26 @@ static const float MIN_HP = 0.0001;
         plane.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
         plane.maxHp = 300;
         [plane setFireInterval:0.2f];
-
+        
         plane.bullet.physicsBody.velocity = ccp(0, 150);
         plane.bullet.physicsBody.collisionCategories=@[@"hero_bullet"];
         plane.bullet.physicsBody.collisionType = @"hero_bullet";
         plane.bullet.physicsBody.collisionMask = @[@"enemy"];
         return plane;
     }
-
+    
     plane.position = ccp((arc4random()%((int)(world.width-plane.contentSize.width)))+plane.contentSize.width/2, world.height);
     [plane.physicsBody setVelocity:ccp(0, -100)];
     plane.physicsBody.collisionCategories=@[@"enemy"];
     plane.physicsBody.collisionType = @"enemy";
     plane.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
+    [plane setFireInterval:1.f];
+    
     plane.bullet.physicsBody.velocity = ccp(0, -200);
     plane.bullet.physicsBody.collisionCategories=@[@"enemy_bullet"];
     plane.bullet.physicsBody.collisionType = @"enemy_bullet";
     plane.bullet.physicsBody.collisionMask = @[@"hero"];
-    [plane setFireInterval:1.f];
+    
     
     if ([planeFile isEqual:@"small_plane"]) {
         //plane.maxHp = 99;
@@ -78,14 +80,14 @@ static const float MIN_HP = 0.0001;
         return;
     }
     if (self.position.y < 0) {
-//        [self removeFromParent];
+        [self removeFromParent];
         return;
     }
     [self fire:delta];
 }
 
 - (void)explode{
-    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"plane_explosion"];
     explosion.position = self.position;
     [self.parent addChild:explosion];
     explosion.autoRemoveOnFinish = YES;
@@ -102,7 +104,7 @@ static const float MIN_HP = 0.0001;
 
 -(void)fire:(CCTime)delta{
     if ([_fireScheduler scheduled:delta]) {
-        if (self.bullet) {            
+        if (self.bullet) {
             Bullet* bullet = [Bullet duplicate:self.bullet];
             if (self.bullet.physicsBody.velocity.y > 0) {
                 bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height/2+bullet.contentSize.height);

@@ -100,6 +100,7 @@
 		BC5399DA1A44DCC90063F482 /* GLActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D51A44DCC90063F482 /* GLActivityKit.framework */; };
 		BC5399DB1A44DCC90063F482 /* JavaFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D61A44DCC90063F482 /* JavaFoundation.framework */; };
 		BC5399DC1A44DCC90063F482 /* JavaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D71A44DCC90063F482 /* JavaKit.framework */; };
+		D4214E9D1AD7FEB3002DD936 /* NSObject+Config.m in Sources */ = {isa = PBXBuildFile; fileRef = D4214E9C1AD7FEB3002DD936 /* NSObject+Config.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -230,6 +231,8 @@
 		BC5399D61A44DCC90063F482 /* JavaFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaFoundation.framework; path = "../../../../Library/Application Support/Developer/Shared/Xcode/Platforms/Android.platform/Developer/SDKs/SBAndroid.sdk/System/Library/Frameworks/JavaFoundation.framework"; sourceTree = "<group>"; };
 		BC5399D71A44DCC90063F482 /* JavaKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaKit.framework; path = "../../../../Library/Application Support/Developer/Shared/Xcode/Platforms/Android.platform/Developer/SDKs/SBAndroid.sdk/System/Library/Frameworks/JavaKit.framework"; sourceTree = "<group>"; };
 		D352B48019EC608A00829775 /* MetalShaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MetalShaders; path = Source/MetalShaders; sourceTree = "<group>"; };
+		D4214E9B1AD7FEB3002DD936 /* NSObject+Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Config.h"; path = "Source/NSObject+Config.h"; sourceTree = "<group>"; };
+		D4214E9C1AD7FEB3002DD936 /* NSObject+Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Config.m"; path = "Source/NSObject+Config.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -495,6 +498,8 @@
 		B77F1B2517B978D7009739AE = {
 			isa = PBXGroup;
 			children = (
+				D4214E9B1AD7FEB3002DD936 /* NSObject+Config.h */,
+				D4214E9C1AD7FEB3002DD936 /* NSObject+Config.m */,
 				B737893C1807616C0076A88C /* Source */,
 				B77F1B4617B978D7009739AE /* Resources */,
 				9222E2B918734FF800A246C7 /* libs */,
@@ -853,6 +858,7 @@
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 				119574B21ACB65680099D14F /* ScriptLoader.m in Sources */,
 				11D7DE011A7D8391005AA0B9 /* Gameplay.m in Sources */,
+				D4214E9D1AD7FEB3002DD936 /* NSObject+Config.m in Sources */,
 				11F262481AA4207B00E37E85 /* IntervalScheduler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

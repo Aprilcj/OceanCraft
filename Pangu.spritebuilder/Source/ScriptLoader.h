@@ -12,12 +12,6 @@
 + (void) loadLevel:(NSInteger) level;
 + (ScriptLoader*)currentLevel;
 
-+ (id) objectFrom: (id)object withPath:(NSArray*)path;
-+ (NSDictionary*) dictFrom: (id)object withPath:(NSArray*)path;
-+ (NSArray*) arrayFrom: (id)object withPath:(NSArray*)path;
-+ (NSString*) stringFrom: (id)object withPath:(NSArray*)pth;
-+ (NSInteger) intFrom: (id)object withPath:(NSArray*)path;
-
 @property (nonatomic, assign) NSInteger level;
-@property (atomic, retain) NSDictionary* script;
+@property (nonatomic, retain) NSDictionary* script;
 @end

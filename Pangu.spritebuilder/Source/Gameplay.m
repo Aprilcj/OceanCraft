@@ -13,6 +13,7 @@
 #import "Bullet.h"
 #import "cocos2d.h"
 #import "ScriptLoader.h"
+#import "NSObject+Config.h"
 
 static const float scrollSpeed = -50.f;
 
@@ -51,34 +52,33 @@ static const float scrollSpeed = -50.f;
     
     
     [self addLifeIndicator];
+    
     _currentScene = 0;
     [self addRoles];
-    //CCScene *level = (CCScene*)[CCBReader load:@"Levels/Level1"];
-    //[_levelNode addChild:level];
 }
 
 - (void) addRoles{
     ScriptLoader* script = [ScriptLoader currentLevel];
-    NSArray* scenes = [ScriptLoader arrayFrom:script.script withPath:@[@"scenes"]];
+    NSArray* scenes = [script.script arrayFrom:@[@"scenes"]];
     if (_currentScene > [scenes count] - 1) {
         LOG(@"script over", nil);
         return;
     }
-    LOG(@"load scene : %ld", _currentScene);
-    NSDictionary* scene =  [ScriptLoader dictFrom:scenes withPath:@[[NSNumber numberWithUnsignedInteger:_currentScene++]]];
-    NSArray* roles = [ScriptLoader arrayFrom:scene withPath:@[@"roles"]];
+    NSDictionary* scene =  [scenes dictFrom:@[[NSNumber numberWithUnsignedInteger:_currentScene++]]];
+    NSArray* roles = [scene arrayFrom:@[@"roles"]];
     
     [self scheduleBlock:^(CCTimer* timer){
         for (NSDictionary* role in roles) {
-            NSString* name = [ScriptLoader stringFrom:role withPath:@[@"name"]];
-            //NSDictionary* properties = [ScriptLoader dictFrom:role withPath:@[@"properties"]];
+            NSString* name = [role stringFrom:@[@"name"]];
+            NSDictionary* properties = [role dictFrom:@[@"properties"]];
             if ([name hasSuffix:@"plane"]) {
                 Plane* plane = [Plane generate:name];
+                [plane setProperties:properties];
                 [_hero.parent addChild:plane];
             }
         }
         [self addRoles];
-    } delay:[ScriptLoader intFrom:scene withPath:@[@"delay"]]];
+    } delay:[scene intFrom:@[@"delay"]]];
     
 }
 
@@ -97,7 +97,7 @@ static const float scrollSpeed = -50.f;
 
 - (void)updateLifeIndicator{
     CGFloat percentage = _hero.hp / _hero.maxHp * 100;
-//    LOG_VAR(percentage, @"%f");
+    // LOG_VAR(percentage, @"%f");
     percentage = percentage < 0? 0 : percentage;
     percentage = percentage > 100 ? 100 : percentage;
     if (_lifeIndicator.percentage != percentage) {
@@ -200,23 +200,6 @@ static const float scrollSpeed = -50.f;
     }
 }
 
-- (void)addEnemy:(CCTime)delta{
-    if ([_randomScheduler scheduled:delta]) {
-        int random = arc4random()%100;
-        
-        if (random < 50) {
-            Plane* plane = [Plane generate:@"small_plane"];
-            [_hero.parent addChild:plane];
-        }
-        
-        if (random < 10) {
-            Plane* plane = [Plane generate:@"big_plane"];
-            [_hero.parent addChild:plane];
-        }
-        
-    }
-}
-
 -(void)onGameOver{
     _retryButton.visible = YES;
 }
@@ -230,7 +213,6 @@ static const float scrollSpeed = -50.f;
         [self onGameOver];
         return;
     }
-    //    [self addEnemy:delta];
 }
 
 @end

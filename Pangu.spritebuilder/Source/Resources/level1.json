@@ -6,7 +6,9 @@
         {
           "name": "small_plane",
           "properties": {
-            "bullet": "bullet1"
+            "bullet": {
+              "file": "bullet2"
+            }
           }
         }
       ]
@@ -17,7 +19,9 @@
         {
           "name": "small_plane",
           "properties": {
-            "bullet": "bullet1"
+            "bullet": {
+              "file": "bullet2"
+            }
           }
         }
       ]

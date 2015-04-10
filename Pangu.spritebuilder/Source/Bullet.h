@@ -7,10 +7,10 @@
 //
 
 #import "CCSprite.h"
-
 @interface Bullet : CCSprite
 @property (nonatomic, assign) CGFloat damage;
 @property (nonatomic, assign) CGFloat range;
+
 @property NSString* file;
 + (Bullet*) generate:(NSString*)bulletFile;
 + (Bullet*) duplicate:(Bullet*)bullet;

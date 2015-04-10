@@ -27,10 +27,7 @@
     bullet.file = bulletFile;
     bullet.damage = 100;
     bullet.range = [CCDirector sharedDirector].viewSize.height;
-    [bullet.physicsBody setVelocity:ccp(0, -150)];
-    if ([bulletFile isEqual:@"bullet1"]){
-        
-    }
+    bullet.physicsBody.velocity = ccp(0, -150);
     return bullet;
 }
 
