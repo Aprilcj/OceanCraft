@@ -13,8 +13,8 @@
 
 @interface Plane : CCSprite
 @property (nonatomic, retain) Bullet* bullet;
-@property (nonatomic, assign) float maxHp;
-@property (nonatomic, assign) float hp;
+@property (nonatomic, assign) CGFloat maxHp;
+@property (nonatomic, assign) CGFloat hp;
 @property (nonatomic, assign) CCTime fireInterval;
 @property (nonatomic, retain) NSArray* velocity;
 - (void)onHitBullet: (Bullet*)bullet;

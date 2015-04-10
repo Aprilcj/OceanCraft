@@ -121,7 +121,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>PeevedPenguinsAssets/menubackground.png</string>
+							<string>ocean/bg.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -215,8 +215,8 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1</real>
-							<real>1</real>
+							<real>0.48183825612068176</real>
+							<real>0.21797338128089905</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -285,7 +285,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>PeevedPenguinsAssets/button.png</string>
+							<string>ocean/play.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -296,7 +296,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>PeevedPenguinsAssets/button.png</string>
+							<string>ocean/play.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -320,7 +320,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>PeevedPenguinsAssets/button.png</string>
+							<string>ocean/play.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -339,7 +339,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>PeevedPenguinsAssets/button.png</string>
+							<string>ocean/play.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -568,13 +568,13 @@
 			<key>ext</key>
 			<string>phone</string>
 			<key>height</key>
-			<integer>320</integer>
+			<integer>568</integer>
 			<key>name</key>
-			<string>Phone Landscape</string>
+			<string>Phone Portrait</string>
 			<key>scale</key>
 			<real>1</real>
 			<key>width</key>
-			<integer>568</integer>
+			<integer>320</integer>
 		</dict>
 		<dict>
 			<key>centeredOrigin</key>
@@ -582,13 +582,13 @@
 			<key>ext</key>
 			<string>tablet phonehd</string>
 			<key>height</key>
-			<integer>384</integer>
+			<integer>512</integer>
 			<key>name</key>
-			<string>Tablet Landscape</string>
+			<string>Tablet Portrait</string>
 			<key>scale</key>
 			<real>2</real>
 			<key>width</key>
-			<integer>512</integer>
+			<integer>384</integer>
 		</dict>
 		<dict>
 			<key>centeredOrigin</key>
@@ -596,13 +596,13 @@
 			<key>ext</key>
 			<string>phone</string>
 			<key>height</key>
-			<integer>320</integer>
+			<integer>480</integer>
 			<key>name</key>
-			<string>Phone Landscape (short)</string>
+			<string>iPhone Portrait (short)</string>
 			<key>scale</key>
 			<real>1</real>
 			<key>width</key>
-			<integer>480</integer>
+			<integer>320</integer>
 		</dict>
 	</array>
 	<key>sequences</key>

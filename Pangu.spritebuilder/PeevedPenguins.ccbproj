@@ -84,7 +84,7 @@
 		<dict/>
 		<key>animation</key>
 		<dict>
-			<key>isSmartSpriteSheet</key>
+			<key>isDirty</key>
 			<true/>
 		</dict>
 		<key>ccbResources</key>

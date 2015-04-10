@@ -71,11 +71,13 @@ static const float scrollSpeed = -50.f;
         for (NSDictionary* role in roles) {
             NSString* name = [role stringFrom:@[@"name"]];
             NSDictionary* properties = [role dictFrom:@[@"properties"]];
-            if ([name hasSuffix:@"plane"]) {
+            //if ([name hasSuffix:@"plane"]) {
                 Plane* plane = [Plane generate:name];
-                [plane setProperties:properties];
+                if (properties){
+                    [plane setProperties:properties];                    
+                }
                 [_hero.parent addChild:plane];
-            }
+           // }
         }
         [self addRoles];
     } delay:[scene intFrom:@[@"delay"]]];

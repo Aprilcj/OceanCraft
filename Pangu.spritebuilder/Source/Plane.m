@@ -11,6 +11,8 @@
 #import "Bullet.h"
 
 @implementation Plane{
+    CGFloat _maxHp;
+    CGFloat _hp;
     NSArray* _velocity;
     CCTime _fireInterval;
     IntervalScheduler* _fireScheduler;
@@ -18,12 +20,19 @@
 
 @synthesize fireInterval = _fireInterval;
 @synthesize velocity = _velocity;
+@synthesize maxHp = _maxHp;
+@synthesize hp = _hp;
 
 static const float MIN_HP = 0.0001;
 
 - (void)setVelocity:(NSArray *)velocity{
     _velocity = velocity;
     self.physicsBody.velocity = ccp([_velocity[0] integerValue], [_velocity[1] integerValue]);
+}
+
+- (void)setMaxHp:(CGFloat)maxHp{
+    _hp = _hp/_maxHp*maxHp;
+    _maxHp = maxHp;
 }
 
 -(void)setFireInterval:(CCTime)fireInterval{
@@ -36,6 +45,7 @@ static const float MIN_HP = 0.0001;
 }
 
 - (void)didLoadFromCCB {
+    _maxHp = MIN_HP;
     self.hp = self.maxHp;
 }
 
@@ -44,14 +54,15 @@ static const float MIN_HP = 0.0001;
     CGSize world = [CCDirector  sharedDirector].viewSize;
     Plane* plane = (Plane*)[CCBReader load:planeFile];
     plane.bullet = [Bullet generate:@"bullet1"];
-    
+    plane.maxHp = 99;
+
     if ([planeFile isEqual:@"hero"]) {
+        plane.maxHp = 399;
         plane.position = ccp(world.width/2, world.height/4);
+        plane.fireInterval = 0.2f;
         plane.physicsBody.collisionCategories = @[@"hero"];
         plane.physicsBody.collisionType = @"hero";
         plane.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
-        plane.maxHp = 300;
-        plane.fireInterval = 0.2f;
         
         plane.bullet.velocity = @[@0, @150];
         plane.bullet.physicsBody.collisionCategories=@[@"hero_bullet"];
@@ -62,10 +73,10 @@ static const float MIN_HP = 0.0001;
     
     plane.position = ccp((arc4random()%((int)(world.width-plane.contentSize.width)))+plane.contentSize.width/2, world.height);
     plane.velocity = @[@0, @-100];
+    plane.fireInterval = 1.f;
     plane.physicsBody.collisionCategories=@[@"enemy"];
     plane.physicsBody.collisionType = @"enemy";
     plane.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
-    plane.fireInterval = 1.f;
     
     plane.bullet.velocity = @[@0, @-200];
     plane.bullet.physicsBody.collisionCategories=@[@"enemy_bullet"];

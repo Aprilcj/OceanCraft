@@ -8,11 +8,6 @@
 
 #import "ScriptLoader.h"
 
-static const NSString* SCENES = @"scenes";
-static const NSString* ROLES = @"roles";
-static const NSString* ROLE = @"role";
-static const NSString* PROPERTIES = @"properties";
-
 @implementation ScriptLoader{
 }
 
