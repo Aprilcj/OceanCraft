@@ -1,28 +1,95 @@
 {
   "scenes": [
     {
-      "delay": 1,
+      "delay": 0.5,
       "roles": [
         {
           "name": "jelly_fish"
         }
       ]
-    },{
-      "delay": 1,
+    },
+    {
+      "delay": 0.5,
       "roles": [
         {
           "name": "octopus"
         }
       ]
-    },{
-      "delay": 1,
+    },
+    {
+      "delay": 0.5,
       "roles": [
         {
           "name": "shrimp"
         }
       ]
-    },{
-      "delay": 1,
+    },
+    {
+      "delay": 0.5,
+      "roles": [
+        {
+          "name": "whale"
+        }
+      ]
+    },
+    {
+      "delay": 0.5,
+      "roles": [
+        {
+          "name": "jelly_fish"
+        }
+      ]
+    },
+    {
+      "delay": 0.5,
+      "roles": [
+        {
+          "name": "octopus"
+        }
+      ]
+    },
+    {
+      "delay": 0.5,
+      "roles": [
+        {
+          "name": "shrimp"
+        }
+      ]
+    },
+    {
+      "delay": 0.5,
+      "roles": [
+        {
+          "name": "whale"
+        }
+      ]
+    },
+    {
+      "delay": 0.5,
+      "roles": [
+        {
+          "name": "jelly_fish"
+        }
+      ]
+    },
+    {
+      "delay": 0.5,
+      "roles": [
+        {
+          "name": "octopus"
+        }
+      ]
+    },
+    {
+      "delay": 0.5,
+      "roles": [
+        {
+          "name": "shrimp"
+        }
+      ]
+    },
+    {
+      "delay": 0.5,
       "roles": [
         {
           "name": "whale"

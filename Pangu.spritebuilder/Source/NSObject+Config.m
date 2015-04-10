@@ -44,6 +44,10 @@
     return [[self objectFrom:path] integerValue];
 }
 
+- (CGFloat) doubleFrom:(NSArray*)path{
+    return [[self objectFrom:path] doubleValue];
+}
+
 - (void)setProperties:(NSDictionary*)properties{
     [properties enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         if ([obj isKindOfClass:[NSDictionary class]]) {

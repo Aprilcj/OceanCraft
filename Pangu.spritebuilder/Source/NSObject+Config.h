@@ -14,6 +14,7 @@
 - (NSArray*) arrayFrom:(NSArray*)path;
 - (NSString*) stringFrom:(NSArray*)pth;
 - (NSInteger) intFrom:(NSArray*)path;
+- (CGFloat) doubleFrom:(NSArray*)path;
 
 - (void)setProperties:(NSDictionary*)properties;
 @end

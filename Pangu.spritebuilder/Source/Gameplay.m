@@ -64,6 +64,7 @@ static const float scrollSpeed = -50.f;
         LOG(@"script over", nil);
         return;
     }
+    LOG(@"load scene: %ld", _currentScene);
     NSDictionary* scene =  [scenes dictFrom:@[[NSNumber numberWithUnsignedInteger:_currentScene++]]];
     NSArray* roles = [scene arrayFrom:@[@"roles"]];
     
@@ -80,7 +81,7 @@ static const float scrollSpeed = -50.f;
            // }
         }
         [self addRoles];
-    } delay:[scene intFrom:@[@"delay"]]];
+    } delay:[scene doubleFrom:@[@"delay"]]];
     
 }
 
