@@ -9,17 +9,26 @@
 #import "Bullet.h"
 
 @implementation Bullet{
+    NSArray* _velocity;
 }
+
+@synthesize velocity = _velocity;
 
 + (Bullet*)duplicate:(Bullet *)bullet{
     Bullet* newBullet = (Bullet*)[CCBReader load:bullet.file];
     newBullet.file = bullet.file;
     newBullet.damage = bullet.damage;
     newBullet.range = bullet.range;
-    newBullet.physicsBody.velocity = bullet.physicsBody.velocity;
+    newBullet.velocity = bullet.velocity;
+    //newBullet.physicsBody.velocity = bullet.physicsBody.velocity;
     newBullet.physicsBody.collisionType = bullet.physicsBody.collisionType;
     newBullet.physicsBody.collisionMask = bullet.physicsBody.collisionMask;
     return newBullet;
+}
+
+- (void)setVelocity:(NSArray *)velocity{
+    _velocity = velocity;
+    self.physicsBody.velocity = ccp([velocity[0] integerValue], [velocity[1] integerValue]);
 }
 
 + (Bullet*)generate:(NSString *)bulletFile{
@@ -27,7 +36,7 @@
     bullet.file = bulletFile;
     bullet.damage = 100;
     bullet.range = [CCDirector sharedDirector].viewSize.height;
-    bullet.physicsBody.velocity = ccp(0, -150);
+    bullet.velocity = @[@0, @-150];
     return bullet;
 }
 

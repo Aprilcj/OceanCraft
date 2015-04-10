@@ -7,18 +7,33 @@
           "name": "small_plane",
           "properties": {
             "bullet": {
-              "file": "bullet2"
+              "file": "bullet2",
+              "velocity": [200, -200]
             }
           }
         }
       ]
     },
     {
-      "delay": 3,
+      "delay": 1,
       "roles": [
         {
           "name": "small_plane",
           "properties": {
+            "velocity":[100, -100],
+            "bullet": {
+              "file": "bullet2"
+            }
+          }
+        }
+      ]
+    },{
+      "delay": 1,
+      "roles": [
+        {
+          "name": "big_plane",
+          "properties": {
+            "velocity":[100, -100],
             "bullet": {
               "file": "bullet2"
             }

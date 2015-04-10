@@ -11,12 +11,23 @@
 #import "Bullet.h"
 
 @implementation Plane{
+    NSArray* _velocity;
+    CCTime _fireInterval;
     IntervalScheduler* _fireScheduler;
 }
 
+@synthesize fireInterval = _fireInterval;
+@synthesize velocity = _velocity;
+
 static const float MIN_HP = 0.0001;
 
+- (void)setVelocity:(NSArray *)velocity{
+    _velocity = velocity;
+    self.physicsBody.velocity = ccp([_velocity[0] integerValue], [_velocity[1] integerValue]);
+}
+
 -(void)setFireInterval:(CCTime)fireInterval{
+    _fireInterval = fireInterval;
     if (_fireScheduler == nil) {
         _fireScheduler = [IntervalScheduler getInstance:fireInterval];
     }else{
@@ -40,9 +51,9 @@ static const float MIN_HP = 0.0001;
         plane.physicsBody.collisionType = @"hero";
         plane.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
         plane.maxHp = 300;
-        [plane setFireInterval:0.2f];
+        plane.fireInterval = 0.2f;
         
-        plane.bullet.physicsBody.velocity = ccp(0, 150);
+        plane.bullet.velocity = @[@0, @150];
         plane.bullet.physicsBody.collisionCategories=@[@"hero_bullet"];
         plane.bullet.physicsBody.collisionType = @"hero_bullet";
         plane.bullet.physicsBody.collisionMask = @[@"enemy"];
@@ -50,13 +61,13 @@ static const float MIN_HP = 0.0001;
     }
     
     plane.position = ccp((arc4random()%((int)(world.width-plane.contentSize.width)))+plane.contentSize.width/2, world.height);
-    [plane.physicsBody setVelocity:ccp(0, -100)];
+    plane.velocity = @[@0, @-100];
     plane.physicsBody.collisionCategories=@[@"enemy"];
     plane.physicsBody.collisionType = @"enemy";
     plane.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
-    [plane setFireInterval:1.f];
+    plane.fireInterval = 1.f;
     
-    plane.bullet.physicsBody.velocity = ccp(0, -200);
+    plane.bullet.velocity = @[@0, @-200];
     plane.bullet.physicsBody.collisionCategories=@[@"enemy_bullet"];
     plane.bullet.physicsBody.collisionType = @"enemy_bullet";
     plane.bullet.physicsBody.collisionMask = @[@"hero"];

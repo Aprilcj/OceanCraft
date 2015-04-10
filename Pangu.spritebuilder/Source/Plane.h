@@ -15,9 +15,10 @@
 @property (nonatomic, retain) Bullet* bullet;
 @property (nonatomic, assign) float maxHp;
 @property (nonatomic, assign) float hp;
+@property (nonatomic, assign) CCTime fireInterval;
+@property (nonatomic, retain) NSArray* velocity;
 - (void)onHitBullet: (Bullet*)bullet;
 - (void)onHitPlane: (Plane*)plane;
 + (Plane*) generate:(NSString*)planeFile;
--(void)setFireInterval:(CCTime)fireInterval;
 -(BOOL)dead;
 @end
