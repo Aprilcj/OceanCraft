@@ -31,6 +31,10 @@
     self.physicsBody.velocity = ccp([velocity[0] integerValue], [velocity[1] integerValue]);
 }
 
+-(void)onHit{
+    [self removeFromParent];
+}
+
 + (Bullet*)generate:(NSString *)bulletFile{
     Bullet* bullet = (Bullet*)[CCBReader load:bulletFile];
     bullet.file = bulletFile;

@@ -109,6 +109,8 @@ static const float scrollSpeed = -50.f;
 }
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
+    id action = [CCActionSpeed actionWithAction:[CCActionInterval actionWithDuration:2] speed:200];
+    [self runAction:action];
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
@@ -144,52 +146,46 @@ static const float scrollSpeed = -50.f;
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(CCNode *)nodeA enemy_bullet:(CCNode *)nodeB
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(Bullet *)hero_bullet enemy_bullet:(Bullet *)enemy_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        [nodeA removeFromParent];
-        [nodeB removeFromParent];
-    } key:nodeA];
+        [hero_bullet onHit];
+        [enemy_bullet onHit];
+    } key:hero_bullet];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(CCNode *)nodeA enemy_bullet:(CCNode *)nodeB
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(Plane *)hero enemy_bullet:(Bullet *)enemy_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        Plane* plane = (Plane*)nodeA;
-        Bullet* bullet = (Bullet*)nodeB;
-        [plane onHitBullet:bullet];
-        plane.physicsBody.velocity = ccp(0, 0);
-        [nodeB removeFromParent];
-    } key:nodeA];
+        [hero onHitBullet:enemy_bullet];
+        hero.physicsBody.velocity = ccp(0, 0);
+        [enemy_bullet onHit];
+    } key:hero];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair enemy:(CCNode *)nodeA hero_bullet:(CCNode *)nodeB
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair enemy:(Plane *)enemy hero_bullet:(Bullet *)hero_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        Plane* plane = (Plane*)nodeA;
-        Bullet* bullet = (Bullet*)nodeB;
-        [plane onHitBullet:bullet];
-        [bullet removeFromParent];
-        if ([plane dead]) {
-            _scoreValue += plane.maxHp;
+        [enemy onHitBullet:hero_bullet];
+        [hero_bullet onHit];
+        if ([enemy dead]) {
+            _scoreValue += enemy.maxHp;
             _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
         }
-    } key:nodeA];
+    } key:enemy];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(CCNode *)nodeA enemy:(CCNode *)nodeB
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(Plane *)hero enemy:(Plane *)enemy
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        Plane* hero = (Plane*)nodeA;
-        Plane* enemy = (Plane*)nodeB;
         [hero onHitPlane:enemy];
         hero.physicsBody.velocity = ccp(0, 0);
         [enemy onHitPlane:hero];
-    } key:nodeA];
+    } key:hero];
 }
 
 - (void)updateBackground

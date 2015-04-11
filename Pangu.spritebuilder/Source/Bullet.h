@@ -8,11 +8,11 @@
 
 #import "CCSprite.h"
 @interface Bullet : CCSprite
+@property (nonatomic, copy)NSString* file;
 @property (nonatomic, assign) CGFloat damage;
 @property (nonatomic, assign) CGFloat range;
 @property (nonatomic, retain) NSArray* velocity;
-
-@property NSString* file;
 + (Bullet*) generate:(NSString*)bulletFile;
 + (Bullet*) duplicate:(Bullet*)bullet;
+- (void)onHit;
 @end
