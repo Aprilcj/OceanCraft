@@ -17,6 +17,7 @@
 @property (nonatomic, assign) CGFloat hp;
 @property (nonatomic, assign) CCTime fireInterval;
 @property (nonatomic, retain) NSArray* velocity;
+@property (nonatomic, copy) NSString* deadCallback;
 - (void)onHitBullet: (Bullet*)bullet;
 - (void)onHitPlane: (Plane*)plane;
 + (Plane*) generate:(NSString*)planeFile;

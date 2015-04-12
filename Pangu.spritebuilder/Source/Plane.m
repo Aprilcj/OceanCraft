@@ -31,7 +31,11 @@ static const float MIN_HP = 0.0001;
 }
 
 - (void)setMaxHp:(CGFloat)maxHp{
-    _hp = _hp/_maxHp*maxHp;
+    if (_maxHp == 0) {
+        _maxHp = maxHp;
+    }else{
+        _hp = _hp/_maxHp*maxHp;
+    }
     _maxHp = maxHp;
 }
 

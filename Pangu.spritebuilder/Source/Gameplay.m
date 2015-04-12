@@ -17,6 +17,8 @@
 
 static const float scrollSpeed = -50.f;
 
+#pragma mark init
+
 @implementation Gameplay{
     CCPhysicsNode *_physicsNode;
     CCNode *_contentNode;
@@ -71,14 +73,19 @@ static const float scrollSpeed = -50.f;
     [self scheduleBlock:^(CCTimer* timer){
         for (NSDictionary* role in roles) {
             NSString* name = [role stringFrom:@[@"name"]];
+            NSString* deadCallback = [role stringFrom:@[@"deadCallback"]];
+            if (deadCallback) {
+                LOG_FUN;
+            }
             NSDictionary* properties = [role dictFrom:@[@"properties"]];
             //if ([name hasSuffix:@"plane"]) {
-                Plane* plane = [Plane generate:name];
-                if (properties){
-                    [plane setProperties:properties];                    
-                }
-                [_hero.parent addChild:plane];
-           // }
+            Plane* plane = [Plane generate:name];
+            plane.deadCallback = deadCallback;
+            if (properties){
+                [plane setProperties:properties];
+            }
+            [_hero.parent addChild:plane];
+            // }
         }
         [self addRoles];
     } delay:[scene doubleFrom:@[@"delay"]]];
@@ -107,6 +114,8 @@ static const float scrollSpeed = -50.f;
         _lifeIndicator.percentage =percentage;
     }
 }
+
+#pragma mark touch
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
     id action = [CCActionSpeed actionWithAction:[CCActionInterval actionWithDuration:2] speed:200];
@@ -142,9 +151,7 @@ static const float scrollSpeed = -50.f;
     
 }
 
-- (void)retry {
-    [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
-}
+#pragma mark collision
 
 -(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(Bullet *)hero_bullet enemy_bullet:(Bullet *)enemy_bullet
 {
@@ -171,10 +178,8 @@ static const float scrollSpeed = -50.f;
     [[_physicsNode space] addPostStepBlock:^{
         [enemy onHitBullet:hero_bullet];
         [hero_bullet onHit];
-        if ([enemy dead]) {
-            _scoreValue += enemy.maxHp;
-            _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
-        }
+        
+        [self onHitEnemy:enemy];
     } key:enemy];
 }
 
@@ -183,24 +188,54 @@ static const float scrollSpeed = -50.f;
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
         [hero onHitPlane:enemy];
-        hero.physicsBody.velocity = ccp(0, 0);
         [enemy onHitPlane:hero];
+        
+        hero.physicsBody.velocity = ccp(0, 0);
+        [self onHitEnemy:enemy];
     } key:hero];
 }
+
+#pragma mark on event
+
+-(void)onHitEnemy: (Plane*)enemy{
+    if ([enemy dead]) {
+        _scoreValue += enemy.maxHp;
+        _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
+        if (enemy.deadCallback) {
+            LOG_VAR(enemy.deadCallback, @"%@");
+            SEL callback = NSSelectorFromString(enemy.deadCallback);
+            if ([self respondsToSelector:callback]){
+                [self performSelector:callback];
+            }
+        }
+    }
+}
+
+-(void)onMissionComplete{
+    LOG_FUN;
+    CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
+    [[CCDirector sharedDirector] replaceScene:mainScene];
+}
+
+-(void)onGameOver{
+    _retryButton.visible = YES;
+}
+
+- (void)retry {
+    [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
+}
+
+#pragma mark update
 
 - (void)updateBackground
 {
     CGSize _bgRect = [CCDirector sharedDirector].viewSize;
     for (CCNode* bg in _bgs) {
         if (bg.position.y <= -_bgRect.height) {
-            LOG(@"_bgRect=(%f, %f)", _bgRect.width, _bgRect.height);
+            //LOG(@"_bgRect=(%f, %f)", _bgRect.width, _bgRect.height);
             bg.position = ccp(bg.position.x, bg.position.y+2*_bgRect.height);
         }
     }
-}
-
--(void)onGameOver{
-    _retryButton.visible = YES;
 }
 
 - (void)update:(CCTime)delta

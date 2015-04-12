@@ -89,10 +89,12 @@
       ]
     },
     {
-      "delay": 0.5,
+      "delay": 3,
       "roles": [
         {
-          "name": "whale"
+          "name": "terminal",
+          "maxHp":0,
+          "deadCallback":"onMissionComplete"
         }
       ]
     }
