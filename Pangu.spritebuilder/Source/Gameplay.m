@@ -204,7 +204,10 @@ static const float scrollSpeed = -50.f;
             LOG_VAR(enemy.deadCallback, @"%@");
             SEL callback = NSSelectorFromString(enemy.deadCallback);
             if ([self respondsToSelector:callback]){
-                [self performSelector:callback];
+                IMP imp = [self methodForSelector:callback];
+                void (*func)(id, SEL) = (void *)imp;
+                func(self, callback);
+                //[self performSelector:callback];
             }else{
                 LOG(@"can't find callback: %@", enemy.deadCallback);
             }
