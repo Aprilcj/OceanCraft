@@ -14,6 +14,7 @@
     CGFloat _maxHp;
     CGFloat _hp;
     NSArray* _velocity;
+    NSArray* _positionInPercent;
     CCTime _fireInterval;
     IntervalScheduler* _fireScheduler;
 }
@@ -22,12 +23,13 @@
 @synthesize velocity = _velocity;
 @synthesize maxHp = _maxHp;
 @synthesize hp = _hp;
+@synthesize positionInPercent = _positionInPercent;
 
 static const float MIN_HP = 0.0001;
 
 - (void)setVelocity:(NSArray *)velocity{
     _velocity = velocity;
-    self.physicsBody.velocity = ccp([_velocity[0] integerValue], [_velocity[1] integerValue]);
+    self.physicsBody.velocity = ccp([_velocity[0] doubleValue], [_velocity[1] doubleValue]);
 }
 
 - (void)setMaxHp:(CGFloat)maxHp{
@@ -37,6 +39,12 @@ static const float MIN_HP = 0.0001;
         _hp = _hp/_maxHp*maxHp;
     }
     _maxHp = maxHp;
+}
+
+- (void)setPositionInPercent:(NSArray *)positionInPercent{
+    _positionInPercent = positionInPercent;
+    CGSize world = [CCDirector  sharedDirector].viewSize;
+    self.position = ccp(world.width*[_positionInPercent[0] doubleValue], world.height*[_positionInPercent[1] doubleValue]);
 }
 
 -(void)setFireInterval:(CCTime)fireInterval{
@@ -59,7 +67,7 @@ static const float MIN_HP = 0.0001;
     Plane* plane = (Plane*)[CCBReader load:planeFile];
     plane.bullet = [Bullet generate:@"bullet1"];
     plane.maxHp = 99;
-
+    
     if ([planeFile isEqual:@"hero"]) {
         plane.maxHp = 399;
         plane.position = ccp(world.width/2, world.height/4);
@@ -130,8 +138,8 @@ static const float MIN_HP = 0.0001;
 
 -(void)fire:(CCTime)delta{
     if ([_fireScheduler scheduled:delta]) {
-        if (self.bullet) {
-            Bullet* bullet = [Bullet duplicate:self.bullet];
+        Bullet* bullet = [Bullet duplicate:self.bullet];
+        if (bullet) {
             if (self.bullet.physicsBody.velocity.y > 0) {
                 bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height/2+bullet.contentSize.height);
             }else{

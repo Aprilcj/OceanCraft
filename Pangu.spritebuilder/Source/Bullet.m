@@ -15,6 +15,9 @@
 @synthesize velocity = _velocity;
 
 + (Bullet*)duplicate:(Bullet *)bullet{
+    if (!bullet.file || bullet.file.length == 0) {
+        return nil;
+    }
     Bullet* newBullet = (Bullet*)[CCBReader load:bullet.file];
     newBullet.file = bullet.file;
     newBullet.damage = bullet.damage;
@@ -28,7 +31,7 @@
 
 - (void)setVelocity:(NSArray *)velocity{
     _velocity = velocity;
-    self.physicsBody.velocity = ccp([velocity[0] integerValue], [velocity[1] integerValue]);
+    self.physicsBody.velocity = ccp([velocity[0] doubleValue], [velocity[1] doubleValue]);
 }
 
 -(void)onHit{

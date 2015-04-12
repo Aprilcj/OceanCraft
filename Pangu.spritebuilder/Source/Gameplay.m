@@ -118,8 +118,7 @@ static const float scrollSpeed = -50.f;
 #pragma mark touch
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-    id action = [CCActionSpeed actionWithAction:[CCActionInterval actionWithDuration:2] speed:200];
-    [self runAction:action];
+
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
@@ -206,6 +205,8 @@ static const float scrollSpeed = -50.f;
             SEL callback = NSSelectorFromString(enemy.deadCallback);
             if ([self respondsToSelector:callback]){
                 [self performSelector:callback];
+            }else{
+                LOG(@"can't find callback: %@", enemy.deadCallback);
             }
         }
     }
@@ -213,8 +214,10 @@ static const float scrollSpeed = -50.f;
 
 -(void)onMissionComplete{
     LOG_FUN;
-    CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
-    [[CCDirector sharedDirector] replaceScene:mainScene];
+    [self scheduleBlock:^(CCTimer* cctimer){
+        CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
+        [[CCDirector sharedDirector] replaceScene:mainScene];
+    }delay:3];
 }
 
 -(void)onGameOver{
