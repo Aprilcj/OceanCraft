@@ -74,18 +74,19 @@ static const float scrollSpeed = -50.f;
         for (NSDictionary* role in roles) {
             NSString* name = [role stringFrom:@[@"name"]];
             NSString* deadCallback = [role stringFrom:@[@"deadCallback"]];
-            if (deadCallback) {
-                LOG_FUN;
-            }
             NSDictionary* properties = [role dictFrom:@[@"properties"]];
-            //if ([name hasSuffix:@"plane"]) {
-            Plane* plane = [Plane generate:name];
-            plane.deadCallback = deadCallback;
-            if (properties){
-                [plane setProperties:properties];
+            
+            CCNode* object =[CCBReader load:name];
+            if ([object isKindOfClass:[Plane class]]) {
+                Plane* plane = (Plane*)object;
+                [plane loadDefault:name];
+                plane.deadCallback = deadCallback;
             }
-            [_hero.parent addChild:plane];
-            // }
+            if (properties){
+                [object setProperties:properties];
+            }
+            [_hero.parent addChild:object];
+            
         }
         [self addRoles];
     } delay:[scene doubleFrom:@[@"delay"]]];
@@ -97,7 +98,7 @@ static const float scrollSpeed = -50.f;
     _lifeIndicator.type = CCProgressNodeTypeBar;
     _lifeIndicator.midpoint = ccp(0.0f, 0.0f);
     _lifeIndicator.barChangeRate = ccp(1.0f, 0.0f);
-    _lifeIndicator.percentage = 0.0f;
+    _lifeIndicator.percentage = 100.0f;
     
     _lifeIndicator.positionType = CCPositionTypeNormalized;
     _lifeIndicator.anchorPoint = ccp(0, 0);
@@ -106,11 +107,11 @@ static const float scrollSpeed = -50.f;
 }
 
 - (void)updateLifeIndicator{
-    CGFloat percentage = _hero.hp / _hero.maxHp * 100;
+    CGFloat percentage = _hero.hp* 100 / _hero.maxHp ;
     // LOG_VAR(percentage, @"%f");
     percentage = percentage < 0? 0 : percentage;
     percentage = percentage > 100 ? 100 : percentage;
-    if (_lifeIndicator.percentage != percentage) {
+    if (abs(_lifeIndicator.percentage - percentage) >= 1) {
         _lifeIndicator.percentage =percentage;
     }
 }

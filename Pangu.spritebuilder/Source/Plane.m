@@ -25,7 +25,7 @@
 @synthesize hp = _hp;
 @synthesize positionInPercent = _positionInPercent;
 
-static const float MIN_HP = 0.0001;
+static const float MIN_HP = 1;
 
 - (void)setVelocity:(NSArray *)velocity{
     _velocity = velocity;
@@ -62,46 +62,51 @@ static const float MIN_HP = 0.0001;
 }
 
 + (Plane*)generate:(NSString *)planeFile{
-    
-    CGSize world = [CCDirector  sharedDirector].viewSize;
     Plane* plane = (Plane*)[CCBReader load:planeFile];
-    plane.bullet = [Bullet generate:@"bullet1"];
-    plane.maxHp = 99;
+    [plane loadDefault:planeFile];
+    return plane;
+}
+
+- (void)loadDefault:(NSString*)file{
+    self.file = file;
+    CGSize world = [CCDirector  sharedDirector].viewSize;
+    self.bullet = [Bullet generate:@"bullet1"];
+    self.maxHp = 99;
     
-    if ([planeFile isEqual:@"hero"]) {
-        plane.maxHp = 399;
-        plane.position = ccp(world.width/2, world.height/4);
-        plane.fireInterval = 0.2f;
-        plane.physicsBody.collisionCategories = @[@"hero"];
-        plane.physicsBody.collisionType = @"hero";
-        plane.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
+    if ([self.file isEqual:@"hero"]) {
+        self.maxHp = 399;
+        self.position = ccp(world.width/2, world.height/4);
+        self.fireInterval = 0.2f;
+        self.physicsBody.collisionCategories = @[@"hero"];
+        self.physicsBody.collisionType = @"hero";
+        self.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
         
-        plane.bullet.velocity = @[@0, @150];
-        plane.bullet.physicsBody.collisionCategories=@[@"hero_bullet"];
-        plane.bullet.physicsBody.collisionType = @"hero_bullet";
-        plane.bullet.physicsBody.collisionMask = @[@"enemy"];
-        return plane;
+        self.bullet.velocity = @[@0, @150];
+        self.bullet.physicsBody.collisionCategories=@[@"hero_bullet"];
+        self.bullet.physicsBody.collisionType = @"hero_bullet";
+        self.bullet.physicsBody.collisionMask = @[@"enemy"];
+        return;
     }
     
-    plane.position = ccp((arc4random()%((int)(world.width-plane.contentSize.width)))+plane.contentSize.width/2, world.height);
-    plane.velocity = @[@0, @-100];
-    plane.fireInterval = 1.f;
-    plane.physicsBody.collisionCategories=@[@"enemy"];
-    plane.physicsBody.collisionType = @"enemy";
-    plane.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
+    self.position = ccp((arc4random()%((int)(world.width-self.contentSize.width)))+self.contentSize.width/2, world.height);
+    self.velocity = @[@0, @-100];
+    self.fireInterval = 1.f;
+    self.physicsBody.collisionCategories=@[@"enemy"];
+    self.physicsBody.collisionType = @"enemy";
+    self.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
     
-    plane.bullet.velocity = @[@0, @-200];
-    plane.bullet.physicsBody.collisionCategories=@[@"enemy_bullet"];
-    plane.bullet.physicsBody.collisionType = @"enemy_bullet";
-    plane.bullet.physicsBody.collisionMask = @[@"hero"];
+    self.bullet.velocity = @[@0, @-200];
+    self.bullet.physicsBody.collisionCategories=@[@"enemy_bullet"];
+    self.bullet.physicsBody.collisionType = @"enemy_bullet";
+    self.bullet.physicsBody.collisionMask = @[@"hero"];
     
     
-    if ([planeFile isEqual:@"small_plane"]) {
+    if ([self.file isEqual:@"small_plane"]) {
         //plane.maxHp = 99;
-    }else if([planeFile isEqual:@"big_plane"]){
+    }else if([self.file isEqual:@"big_plane"]){
         //plane.maxHp = 499;
     }
-    return plane;
+
 }
 
 - (BOOL)dead{

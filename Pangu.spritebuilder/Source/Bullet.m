@@ -23,7 +23,6 @@
     newBullet.damage = bullet.damage;
     newBullet.range = bullet.range;
     newBullet.velocity = bullet.velocity;
-    //newBullet.physicsBody.velocity = bullet.physicsBody.velocity;
     newBullet.physicsBody.collisionType = bullet.physicsBody.collisionType;
     newBullet.physicsBody.collisionMask = bullet.physicsBody.collisionMask;
     return newBullet;
