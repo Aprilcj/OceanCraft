@@ -17,9 +17,8 @@
 @property (nonatomic, assign) CGFloat maxHp;
 @property (nonatomic, assign) CGFloat hp;
 @property (nonatomic, assign) CCTime fireInterval;
-@property (nonatomic, retain) NSArray* velocity;
 @property (nonatomic, copy) NSString* deadCallback;
-@property (nonatomic, retain) NSArray* positionInPercent;
+@property (nonatomic, assign) CGPoint positionInPercent;
 - (void)onHitBullet: (Bullet*)bullet;
 - (void)onHitPlane: (Plane*)plane;
 + (Plane*) generate:(NSString*)planeFile;

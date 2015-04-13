@@ -48,15 +48,40 @@
     return [[self objectFrom:path] doubleValue];
 }
 
+static NSSet* CGPointProperties;
+
++ (BOOL) isCGPoint:(NSString*)propertyName{
+    if (!CGPointProperties) {
+        CGPointProperties = [NSSet setWithObjects:@"velocity",@"position",@"positionInPercent",nil];
+    }
+    return [CGPointProperties containsObject:propertyName];
+}
+
++ (id)nsvalueWithKey:(id)key value:(id)value{
+    if ([NSObject isCGPoint:key]) {
+        return [NSValue valueWithCGPoint:ccp([[value objectForKey:@"x"] doubleValue], [[value objectForKey:@"y"] doubleValue])];
+    }
+    return value;
+}
+
 - (void)setProperties:(NSDictionary*)properties{
-    [properties enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
-        id target = [self valueForKey:key];
-        if ([obj isKindOfClass:[NSDictionary class]]) {
-            id subObject = [self valueForKey:key];
-            [subObject setProperties:obj];
-        }else{
-            [self setValue:obj forKey:key];
+    [properties enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop){
+        id targetProperty = [self valueForKey:key];
+        
+        // e.g. self.position = ccp(0,0);
+        if ([targetProperty isKindOfClass:[NSValue class]]){
+            id nsvalue = [NSObject nsvalueWithKey:key value:value];
+            [self setValue:nsvalue forKey:key];
+            return;
         }
+        
+        // recursively apply sub properties
+        if ([value isKindOfClass:[NSDictionary class]]) {
+            [targetProperty setProperties:value];
+            return;
+        }
+        
+        [self setValue:value forKey:key];
     }];
 }
 

@@ -13,24 +13,17 @@
 @implementation Plane{
     CGFloat _maxHp;
     CGFloat _hp;
-    NSArray* _velocity;
-    NSArray* _positionInPercent;
+    CGPoint _positionInPercent;
     CCTime _fireInterval;
     IntervalScheduler* _fireScheduler;
 }
 
 @synthesize fireInterval = _fireInterval;
-@synthesize velocity = _velocity;
 @synthesize maxHp = _maxHp;
 @synthesize hp = _hp;
 @synthesize positionInPercent = _positionInPercent;
 
 static const float MIN_HP = 1;
-
-- (void)setVelocity:(NSArray *)velocity{
-    _velocity = velocity;
-    self.physicsBody.velocity = ccp([_velocity[0] doubleValue], [_velocity[1] doubleValue]);
-}
 
 - (void)setMaxHp:(CGFloat)maxHp{
     if (_maxHp == 0) {
@@ -41,10 +34,10 @@ static const float MIN_HP = 1;
     _maxHp = maxHp;
 }
 
-- (void)setPositionInPercent:(NSArray *)positionInPercent{
+- (void)setPositionInPercent:(CGPoint)positionInPercent{
     _positionInPercent = positionInPercent;
     CGSize world = [CCDirector  sharedDirector].viewSize;
-    self.position = ccp(world.width*[_positionInPercent[0] doubleValue], world.height*[_positionInPercent[1] doubleValue]);
+    self.position = ccp(world.width*_positionInPercent.x, world.height*_positionInPercent.y);
 }
 
 -(void)setFireInterval:(CCTime)fireInterval{
@@ -81,7 +74,7 @@ static const float MIN_HP = 1;
         self.physicsBody.collisionType = @"hero";
         self.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
         
-        self.bullet.velocity = @[@0, @150];
+        self.bullet.physicsBody.velocity = ccp(0, 150);
         self.bullet.physicsBody.collisionCategories=@[@"hero_bullet"];
         self.bullet.physicsBody.collisionType = @"hero_bullet";
         self.bullet.physicsBody.collisionMask = @[@"enemy"];
@@ -89,13 +82,13 @@ static const float MIN_HP = 1;
     }
     
     self.position = ccp((arc4random()%((int)(world.width-self.contentSize.width)))+self.contentSize.width/2, world.height);
-    self.velocity = @[@0, @-100];
+    self.physicsBody.velocity = ccp(0, -100);
     self.fireInterval = 1.f;
     self.physicsBody.collisionCategories=@[@"enemy"];
     self.physicsBody.collisionType = @"enemy";
     self.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
     
-    self.bullet.velocity = @[@0, @-200];
+    self.bullet.physicsBody.velocity = ccp(0, -200);
     self.bullet.physicsBody.collisionCategories=@[@"enemy_bullet"];
     self.bullet.physicsBody.collisionType = @"enemy_bullet";
     self.bullet.physicsBody.collisionMask = @[@"hero"];

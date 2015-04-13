@@ -94,14 +94,16 @@
         {
           "name": "terminal",
           "properties": {
-            "positionInPercent": [
-              0.5,
-              0.5
-            ],
-            "velocity": [
-              0,
-              0
-            ],
+            "positionInPercent": {
+              "x":0.5,
+              "y":0.5
+            },
+            "physicsBody": {
+              "velocity": {
+                "x": 0,
+                "y": 50
+              }
+            },
             "maxHp": 1,
             "bullet": {
               "file": ""

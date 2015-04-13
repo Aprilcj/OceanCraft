@@ -9,10 +9,7 @@
 #import "Bullet.h"
 
 @implementation Bullet{
-    NSArray* _velocity;
 }
-
-@synthesize velocity = _velocity;
 
 + (Bullet*)duplicate:(Bullet *)bullet{
     if (!bullet.file || bullet.file.length == 0) {
@@ -22,15 +19,10 @@
     newBullet.file = bullet.file;
     newBullet.damage = bullet.damage;
     newBullet.range = bullet.range;
-    newBullet.velocity = bullet.velocity;
+    newBullet.physicsBody.velocity = bullet.physicsBody.velocity;
     newBullet.physicsBody.collisionType = bullet.physicsBody.collisionType;
     newBullet.physicsBody.collisionMask = bullet.physicsBody.collisionMask;
     return newBullet;
-}
-
-- (void)setVelocity:(NSArray *)velocity{
-    _velocity = velocity;
-    self.physicsBody.velocity = ccp([velocity[0] doubleValue], [velocity[1] doubleValue]);
 }
 
 -(void)onHit{
@@ -42,7 +34,7 @@
     bullet.file = bulletFile;
     bullet.damage = 100;
     bullet.range = [CCDirector sharedDirector].viewSize.height;
-    bullet.velocity = @[@0, @-150];
+    bullet.physicsBody.velocity = ccp(0, -150);
     return bullet;
 }
 
