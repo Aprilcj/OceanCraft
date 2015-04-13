@@ -29,7 +29,6 @@ static const float scrollSpeed = -50.f;
     CCNode *_bg1;
     CCNode *_bg2;
     NSArray *_bgs;
-    IntervalScheduler *_randomScheduler;
     CCButton *_retryButton;
     CCSprite *_life;
     CCProgressNode *_lifeIndicator;
@@ -42,7 +41,6 @@ static const float scrollSpeed = -50.f;
         [bg.physicsBody setVelocity:ccp(0, scrollSpeed)];
         bg.physicsBody.collisionMask = @[];
     }
-    _randomScheduler = [IntervalScheduler getInstance:1.f];
     
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;

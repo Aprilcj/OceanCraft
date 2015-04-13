@@ -50,6 +50,7 @@
 
 - (void)setProperties:(NSDictionary*)properties{
     [properties enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
+        id target = [self valueForKey:key];
         if ([obj isKindOfClass:[NSDictionary class]]) {
             id subObject = [self valueForKey:key];
             [subObject setProperties:obj];
