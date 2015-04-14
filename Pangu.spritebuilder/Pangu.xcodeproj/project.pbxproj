@@ -101,6 +101,7 @@
 		BC5399DB1A44DCC90063F482 /* JavaFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D61A44DCC90063F482 /* JavaFoundation.framework */; };
 		BC5399DC1A44DCC90063F482 /* JavaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D71A44DCC90063F482 /* JavaKit.framework */; };
 		D4214E9D1AD7FEB3002DD936 /* NSObject+Config.m in Sources */ = {isa = PBXBuildFile; fileRef = D4214E9C1AD7FEB3002DD936 /* NSObject+Config.m */; };
+		D4813D7A1ADC4FDA000577C9 /* adornment.json in Resources */ = {isa = PBXBuildFile; fileRef = D4813D781ADC4FDA000577C9 /* adornment.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,6 +234,7 @@
 		D352B48019EC608A00829775 /* MetalShaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MetalShaders; path = Source/MetalShaders; sourceTree = "<group>"; };
 		D4214E9B1AD7FEB3002DD936 /* NSObject+Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Config.h"; path = "Source/NSObject+Config.h"; sourceTree = "<group>"; };
 		D4214E9C1AD7FEB3002DD936 /* NSObject+Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Config.m"; path = "Source/NSObject+Config.m"; sourceTree = "<group>"; };
+		D4813D781ADC4FDA000577C9 /* adornment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = adornment.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -556,6 +558,7 @@
 				B737893A180761570076A88C /* Published-iOS */,
 				B78A0B0F198AF87200C63841 /* Published-Android */,
 				119574AE1ACB62860099D14F /* level1.json */,
+				D4813D781ADC4FDA000577C9 /* adornment.json */,
 			);
 			name = Resources;
 			path = Source/Resources;
@@ -771,6 +774,7 @@
 				B71F591A188484E7003F4D28 /* Settings@2x.png in Resources */,
 				B7378976180762440076A88C /* Default-Landscape~ipad.png in Resources */,
 				B71F5915188484E7003F4D28 /* iPhone-old.png in Resources */,
+				D4813D7A1ADC4FDA000577C9 /* adornment.json in Resources */,
 				B71F5917188484E7003F4D28 /* iPhone.png in Resources */,
 				B7378975180762440076A88C /* Default-568h@2x.png in Resources */,
 				119574AF1ACB62860099D14F /* level1.json in Resources */,

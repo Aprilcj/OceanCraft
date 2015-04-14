@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface ScriptLoader : NSObject
-+ (void) loadLevel:(NSInteger) level;
-+ (ScriptLoader*)currentLevel;
 
-@property (nonatomic, assign) NSInteger level;
++(ScriptLoader*) loaderOfLevel:(NSInteger)level;
++(ScriptLoader*) loaderOfFile:(NSString*)file;
 @property (nonatomic, retain) NSDictionary* script;
+
 @end

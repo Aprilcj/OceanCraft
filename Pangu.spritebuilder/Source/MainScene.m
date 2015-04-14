@@ -1,13 +1,12 @@
 #import "MainScene.h"
-#import "ScriptLoader.h"
-
+#import "Gameplay.h"
 @implementation MainScene{
     
 }
 
 - (void)play {
     NSLog(@"play");
-    [ScriptLoader loadLevel:1];
+    [Gameplay loadLevel:1];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Gameplay"];
     [[CCDirector sharedDirector] replaceScene:gameplayScene];
 }

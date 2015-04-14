@@ -17,48 +17,75 @@
 
 static const float scrollSpeed = -50.f;
 
-#pragma mark init
 
+
+#pragma mark init
 @implementation Gameplay{
     CCPhysicsNode *_physicsNode;
     CCNode *_contentNode;
-    CCNode *_levelNode;
+    
+    //score
     CCLabelTTF *_score;
     int _scoreValue;
+    
+    //hero
     Plane *_hero;
+
+    //background
     CCNode *_bg1;
     CCNode *_bg2;
     NSArray *_bgs;
+    
+    CCNode* _adornment;
+    NSInteger _currentAdornment;
+    
     CCButton *_retryButton;
-    CCSprite *_life;
+    
+    //lifebar
+    CCSprite *_lifebar_fill;
     CCProgressNode *_lifeIndicator;
+    CCNode* _lifebar_bg;
+    CCNode* _lifebar_container;
+    
     NSUInteger _currentScene;
 }
 
+static NSInteger s_currentLevel;
+
++ (void) loadLevel:(NSInteger) level{
+    s_currentLevel = level;
+}
+
 - (void)didLoadFromCCB {
+    self.userInteractionEnabled = TRUE;
+    _physicsNode.collisionDelegate = self;
+    _physicsNode.debugDraw = YES;
+    
+    //background
     _bgs = @[_bg1, _bg2];
     for (CCNode* bg in _bgs) {
         [bg.physicsBody setVelocity:ccp(0, scrollSpeed)];
         bg.physicsBody.collisionMask = @[];
     }
     
-    self.userInteractionEnabled = TRUE;
-    _physicsNode.collisionDelegate = self;
-    //_physicsNode.debugDraw = YES;
-    
-    //init hero
+    // hero
     _hero = [Plane generate:@"hero"];
     [_physicsNode addChild:_hero];
     
-    
+    //lifebar
     [self addLifeIndicator];
     
+    //actors
     _currentScene = 0;
     [self addRoles];
+    
+    //adornment
+    _currentAdornment = 0;
+    //[self addAdornment];
 }
 
 - (void) addRoles{
-    ScriptLoader* script = [ScriptLoader currentLevel];
+    ScriptLoader* script = [ScriptLoader loaderOfLevel:s_currentLevel];
     NSArray* scenes = [script.script arrayFrom:@[@"scenes"]];
     if (_currentScene > [scenes count] - 1) {
         LOG(@"script over", nil);
@@ -91,17 +118,45 @@ static const float scrollSpeed = -50.f;
     
 }
 
+- (void) addAdornment{
+    ScriptLoader* script = [ScriptLoader loaderOfFile:@"adornment"];
+    NSArray* adornmentGroups = [script.script arrayFrom:@[@"adornments"]];
+    if (_currentAdornment == [adornmentGroups count]) {
+        _currentAdornment = 0;
+    }
+    LOG(@"load adornment: %ld", _currentAdornment);
+    NSDictionary* adornmentGroup =  [adornmentGroups dictFrom:@[[NSNumber numberWithUnsignedInteger:_currentAdornment++]]];
+    NSArray* objects = [adornmentGroup arrayFrom:@[@"objects"]];
+    
+    [self scheduleBlock:^(CCTimer* timer){
+        for (NSDictionary* role in objects) {
+            NSString* name = [role stringFrom:@[@"name"]];
+            NSDictionary* properties = [role dictFrom:@[@"properties"]];
+            
+            CCNode* object =[CCBReader load:name];
+            if (properties){
+                [object setProperties:properties];
+            }
+            [_adornment addChild:object];
+            
+        }
+        [self addAdornment];
+    } delay:[adornmentGroup doubleFrom:@[@"delay"]]];
+    
+}
+
+
 - (void)addLifeIndicator{
-    _lifeIndicator = [CCProgressNode progressWithSprite:_life];
+    _lifeIndicator = [CCProgressNode progressWithSprite:_lifebar_fill];
     _lifeIndicator.type = CCProgressNodeTypeBar;
     _lifeIndicator.midpoint = ccp(0.0f, 0.0f);
     _lifeIndicator.barChangeRate = ccp(1.0f, 0.0f);
     _lifeIndicator.percentage = 100.0f;
     
-    _lifeIndicator.positionType = CCPositionTypeNormalized;
-    _lifeIndicator.anchorPoint = ccp(0, 0);
-    _lifeIndicator.position = ccp(0, 0);
-    [_contentNode addChild:_lifeIndicator];
+    _lifeIndicator.positionType = _lifebar_bg.positionType;
+    _lifeIndicator.anchorPoint = _lifebar_bg.anchorPoint;
+    _lifeIndicator.position = _lifebar_bg.position;
+    [_lifebar_bg.parent addChild:_lifeIndicator];
 }
 
 - (void)updateLifeIndicator{
@@ -176,7 +231,6 @@ static const float scrollSpeed = -50.f;
     [[_physicsNode space] addPostStepBlock:^{
         [enemy onHitBullet:hero_bullet];
         [hero_bullet onHit];
-        
         [self onHitEnemy:enemy];
     } key:enemy];
 }
@@ -217,6 +271,9 @@ static const float scrollSpeed = -50.f;
 -(void)onMissionComplete{
     LOG_FUN;
     [self scheduleBlock:^(CCTimer* cctimer){
+        if ([_hero dead]) {
+            return;
+        }
         CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
         [[CCDirector sharedDirector] replaceScene:mainScene];
     }delay:3];
@@ -234,11 +291,10 @@ static const float scrollSpeed = -50.f;
 
 - (void)updateBackground
 {
-    CGSize _bgRect = [CCDirector sharedDirector].viewSize;
     for (CCNode* bg in _bgs) {
-        if (bg.position.y <= -_bgRect.height) {
+        if (bg.position.y <= -bg.contentSize.height) {
             //LOG(@"_bgRect=(%f, %f)", _bgRect.width, _bgRect.height);
-            bg.position = ccp(bg.position.x, bg.position.y+2*_bgRect.height);
+            bg.position = ccp(bg.position.x, bg.position.y+2*bg.contentSize.height);
         }
     }
 }

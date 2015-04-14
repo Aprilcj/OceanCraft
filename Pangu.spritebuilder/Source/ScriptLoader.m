@@ -11,27 +11,25 @@
 @implementation ScriptLoader{
 }
 
-static ScriptLoader* s_currentLevel;
-
-
 #pragma mark init
-- (id)initWithLevel:(NSUInteger)level{
++(ScriptLoader*) loaderOfLevel:(NSInteger)level{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"level%ld", level] ofType:@"json"];
+    return [[ScriptLoader alloc] initWithFile:filePath];
+}
+
++(ScriptLoader*)loaderOfFile:(NSString *)file{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:file ofType:@"json"];
+    return [[ScriptLoader alloc] initWithFile:filePath];
+}
+
+- (id)initWithFile:(NSString*)file{
     
     if (self = [super init]) {
-        self.level = level;
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"level%ld", (long)level] ofType:@"json"];
-        NSData *data = [NSData dataWithContentsOfFile:filePath];
+        NSData *data = [NSData dataWithContentsOfFile:file];
         NSError* error;
         self.script = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
     }
     return self;
 }
 
-+ (void) loadLevel:(NSInteger) level{
-    s_currentLevel = [[ScriptLoader alloc]initWithLevel:level];
-}
-
-+ (ScriptLoader*)currentLevel{
-    return s_currentLevel;
-}
 @end
