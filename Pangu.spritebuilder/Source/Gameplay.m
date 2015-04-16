@@ -59,7 +59,7 @@ static NSInteger s_currentLevel;
 - (void)didLoadFromCCB {
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;
-    _physicsNode.debugDraw = YES;
+    // _physicsNode.debugDraw = YES;
     
     //background
     _bgs = @[_bg1, _bg2];
@@ -172,7 +172,6 @@ static NSInteger s_currentLevel;
 #pragma mark touch
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event

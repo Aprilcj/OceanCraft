@@ -1,7 +1,11 @@
 #import "MainScene.h"
 #import "Gameplay.h"
+
 @implementation MainScene{
-    
+    CCParticleSystem* _playButton;
+}
+
+- (void)didLoadFromCCB {
 }
 
 - (void)play {
