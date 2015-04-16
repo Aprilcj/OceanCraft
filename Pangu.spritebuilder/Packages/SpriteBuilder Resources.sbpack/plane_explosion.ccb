@@ -120,7 +120,7 @@
 				<key>type</key>
 				<string>Float</string>
 				<key>value</key>
-				<real>100000</real>
+				<real>10000</real>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -315,9 +315,11 @@
 				<key>type</key>
 				<string>Texture</string>
 				<key>value</key>
-				<string>ccbResources/ccbParticleFire.png</string>
+				<string>ccbResources/ccbParticleSmoke.png</string>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>
@@ -373,7 +375,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>2.7999999523162842</real>
+			<real>1.7000000476837158</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>

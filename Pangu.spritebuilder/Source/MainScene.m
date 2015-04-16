@@ -1,6 +1,18 @@
 #import "MainScene.h"
 #import "Gameplay.h"
 @implementation MainScene{
+    CCButton* _left;
+    CCButton* _right;
+}
+
+- (void)didLoadFromCCB {
+}
+
+- (void)leftClick{
+    
+}
+
+- (void)rightClick{
     
 }
 

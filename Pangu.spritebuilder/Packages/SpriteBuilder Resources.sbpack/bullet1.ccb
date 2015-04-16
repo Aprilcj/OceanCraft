@@ -79,14 +79,14 @@
 				</array>
 				<array>
 					<real>0.0</real>
-					<real>7</real>
+					<real>16</real>
 				</array>
 				<array>
-					<real>3</real>
-					<real>7</real>
+					<real>18</real>
+					<real>16</real>
 				</array>
 				<array>
-					<real>3</real>
+					<real>18</real>
 					<real>0.0</real>
 				</array>
 			</array>
@@ -94,16 +94,16 @@
 			<array>
 				<array>
 					<array>
-						<real>3</real>
+						<real>18</real>
 						<real>0.0</real>
 					</array>
 					<array>
-						<real>3</real>
-						<real>7</real>
+						<real>18</real>
+						<real>16</real>
 					</array>
 					<array>
 						<real>0.0</real>
-						<real>7</real>
+						<real>16</real>
 					</array>
 					<array>
 						<real>0.0</real>
@@ -168,7 +168,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>plane/bullet_1.png</string>
+					<string>ocean/bubble_colorful_64.png</string>
 				</array>
 			</dict>
 			<dict>

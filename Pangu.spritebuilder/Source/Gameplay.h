@@ -10,4 +10,5 @@
 
 @interface Gameplay : CCNode<CCPhysicsCollisionDelegate>
 + (void) loadLevel:(NSInteger) level;
++ (NSInteger)level;
 @end

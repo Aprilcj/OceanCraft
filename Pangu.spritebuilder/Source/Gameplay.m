@@ -47,18 +47,34 @@ static const float scrollSpeed = -50.f;
     CCNode* _lifebar_bg;
     CCNode* _lifebar_container;
     
+    NSInteger _currentLevel;
     NSUInteger _currentScene;
 }
 
-static NSInteger s_currentLevel;
+static NSMutableDictionary* _gameInfo;
 
-+ (void) loadLevel:(NSInteger) level{
-    s_currentLevel = level;
++ (NSDictionary*)gameInfo{
+    if (!_gameInfo) {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"game_info"] ofType:@"plist"];
+       _gameInfo = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
+    }
+    
+    return _gameInfo;
+}
+
++ (NSInteger)level{
+    return [[[Gameplay gameInfo] valueForKey:@"level_unlocked" ]integerValue];
+}
+
++ (void)loadLevel:(NSInteger)level{
+    [[Gameplay gameInfo] setValue:[NSNumber numberWithInteger:level ]forKey:@"level_unlocked"];
 }
 
 - (void)didLoadFromCCB {
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;
+    
+    _currentLevel = [Gameplay level];
     //_physicsNode.debugDraw = YES;
     
     //background
@@ -85,7 +101,7 @@ static NSInteger s_currentLevel;
 }
 
 - (void) addRoles{
-    ScriptLoader* script = [ScriptLoader loaderOfLevel:s_currentLevel];
+    ScriptLoader* script = [ScriptLoader loaderOfLevel:_currentLevel];
     NSArray* scenes = [script.script arrayFrom:@[@"scenes"]];
     if (_currentScene > [scenes count] - 1) {
         LOG(@"script over", nil);

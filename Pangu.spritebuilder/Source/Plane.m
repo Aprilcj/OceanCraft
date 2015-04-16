@@ -69,7 +69,7 @@ static const float MIN_HP = 1;
     if ([self.file isEqual:@"hero"]) {
         self.maxHp = 399;
         self.position = ccp(world.width/2, world.height/4);
-        self.fireInterval = 0.2f;
+        self.fireInterval = 0.5f;
         self.physicsBody.collisionCategories = @[@"hero"];
         self.physicsBody.collisionType = @"hero";
         self.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
@@ -83,7 +83,7 @@ static const float MIN_HP = 1;
     
     self.position = ccp((arc4random()%((int)(world.width-self.contentSize.width)))+self.contentSize.width/2, world.height);
     self.physicsBody.velocity = ccp(0, -100);
-    self.fireInterval = 1.f;
+    self.fireInterval = 2.0f;
     self.physicsBody.collisionCategories=@[@"enemy"];
     self.physicsBody.collisionType = @"enemy";
     self.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];

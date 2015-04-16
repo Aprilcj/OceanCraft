@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		114AD7DC1AACA6BF00905179 /* Bullet.m in Sources */ = {isa = PBXBuildFile; fileRef = 114AD7DB1AACA6BF00905179 /* Bullet.m */; };
+		117682471ADF82DA007472C8 /* game_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 117682461ADF82DA007472C8 /* game_info.plist */; };
 		119574AF1ACB62860099D14F /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 119574AE1ACB62860099D14F /* level1.json */; };
 		119574B21ACB65680099D14F /* ScriptLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 119574B11ACB65680099D14F /* ScriptLoader.m */; };
 		11D7DDFA1A7D6D8A005AA0B9 /* Plane.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DDF91A7D6D8A005AA0B9 /* Plane.m */; };
@@ -159,6 +160,7 @@
 /* Begin PBXFileReference section */
 		114AD7DA1AACA6BF00905179 /* Bullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bullet.h; path = Source/Bullet.h; sourceTree = "<group>"; };
 		114AD7DB1AACA6BF00905179 /* Bullet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Bullet.m; path = Source/Bullet.m; sourceTree = "<group>"; };
+		117682461ADF82DA007472C8 /* game_info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_info.plist; sourceTree = "<group>"; };
 		119574AE1ACB62860099D14F /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 		119574B01ACB65680099D14F /* ScriptLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptLoader.h; path = Source/ScriptLoader.h; sourceTree = "<group>"; };
 		119574B11ACB65680099D14F /* ScriptLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScriptLoader.m; path = Source/ScriptLoader.m; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				117682461ADF82DA007472C8 /* game_info.plist */,
 				7A40366119DDF8C2007B6E8F /* Platforms */,
 				5B12100D197483EE004C1E1D /* res */,
 				B73789911807667A0076A88C /* Icons */,
@@ -657,7 +660,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B77F1B2917B978D7009739AE /* Build configuration list for PBXProject "Pangu" */;
+			buildConfigurationList = B77F1B2917B978D7009739AE /* Build configuration list for PBXProject "pangu" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -774,6 +777,7 @@
 				B71F591A188484E7003F4D28 /* Settings@2x.png in Resources */,
 				B7378976180762440076A88C /* Default-Landscape~ipad.png in Resources */,
 				B71F5915188484E7003F4D28 /* iPhone-old.png in Resources */,
+				117682471ADF82DA007472C8 /* game_info.plist in Resources */,
 				D4813D7A1ADC4FDA000577C9 /* adornment.json in Resources */,
 				B71F5917188484E7003F4D28 /* iPhone.png in Resources */,
 				B7378975180762440076A88C /* Default-568h@2x.png in Resources */,
@@ -1230,7 +1234,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B77F1B2917B978D7009739AE /* Build configuration list for PBXProject "Pangu" */ = {
+		B77F1B2917B978D7009739AE /* Build configuration list for PBXProject "pangu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B77F1CDC17B978D8009739AE /* Debug */,
