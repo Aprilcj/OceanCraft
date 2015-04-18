@@ -120,7 +120,7 @@
 				<key>type</key>
 				<string>Float</string>
 				<key>value</key>
-				<real>10000</real>
+				<real>100000</real>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -315,7 +315,7 @@
 				<key>type</key>
 				<string>Texture</string>
 				<key>value</key>
-				<string>ccbResources/ccbParticleSmoke.png</string>
+				<string>ccbResources/ccbParticleFire.png</string>
 			</dict>
 		</array>
 		<key>selected</key>

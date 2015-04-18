@@ -13,7 +13,7 @@
 
 #pragma mark init
 +(ScriptLoader*) loaderOfLevel:(NSInteger)level{
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"level%ld", level] ofType:@"json"];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"level%d", level] ofType:@"json"];
     return [[ScriptLoader alloc] initWithFile:filePath];
 }
 
