@@ -7,7 +7,6 @@
 //
 
 #import "Plane.h"
-#import "IntervalScheduler.h"
 #import "Bullet.h"
 #import "NSObject+Config.h"
 #import "Gameplay.h"
@@ -17,7 +16,6 @@
     NSInteger _hp;
     CGPoint _positionInPercent;
     CCTime _fireInterval;
-    IntervalScheduler* _fireScheduler;
     CGSize OUT_OF_STAGE;
 }
 
@@ -49,11 +47,7 @@ static inline float mod(float x, float y){
 
 -(void)setFireInterval:(CCTime)fireInterval{
     _fireInterval = fireInterval;
-    if (_fireScheduler == nil) {
-        _fireScheduler = [IntervalScheduler getInstance:fireInterval];
-    }else{
-        [_fireScheduler setInterval:fireInterval];
-    }
+    [self schedule:@selector(fire) interval:fireInterval];
 }
 
 - (void)didLoadFromCCB {
@@ -127,7 +121,6 @@ static inline float mod(float x, float y){
         [self removeFromParent];
         return;
     }
-    [self fire:delta];
 }
 
 - (void)onDead{
@@ -167,8 +160,7 @@ static inline float mod(float x, float y){
     self.hp -= plane.maxHp;
 }
 
--(void)fire:(CCTime)delta{
-    if ([_fireScheduler scheduled:delta]) {
+-(void)fire{
         Bullet* bullet = [Bullet duplicate:self.bullet];
         if (bullet) {
             if (self.bullet.physicsBody.velocity.y > 0) {
@@ -179,7 +171,6 @@ static inline float mod(float x, float y){
             }
             [[self parent] addChild:bullet];
         }
-    }
 }
 
 @end

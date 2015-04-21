@@ -8,7 +8,6 @@
 
 #import "Gameplay.h"
 #import "CCPhysics+ObjectiveChipmunk.h"
-#import "IntervalScheduler.h"
 #import "Bullet.h"
 #import "cocos2d.h"
 #import "ScriptLoader.h"
