@@ -152,12 +152,13 @@ static const CGFloat MIN_UNIT = 0.00001;
         return;
     }
     
+    //hero's bullet
     if ([self.category isEqualToString:TYPE_HERO_BULLET]) {
         self.sailTo = @"up";
         self.maxHp = 100;
         self.physicsBody.collisionCategories=@[TYPE_HERO_BULLET];
         self.physicsBody.collisionType = TYPE_HERO_BULLET;
-        self.physicsBody.collisionMask = @[TYPE_ENEMY];
+        self.physicsBody.collisionMask = @[TYPE_ENEMY, TYPE_ENEMY_BULLET];
         return;
     }
     
@@ -171,13 +172,14 @@ static const CGFloat MIN_UNIT = 0.00001;
         return;
     }
     
+    // enemy's bullet
     if ([self.category isEqualToString:TYPE_ENEMY_BULLET]) {
         self.speed = 150;
         self.maxHp = 100;
         self.sailTo=@"down";
         self.physicsBody.collisionCategories=@[TYPE_ENEMY_BULLET];
         self.physicsBody.collisionType = TYPE_ENEMY_BULLET;
-        self.physicsBody.collisionMask = @[TYPE_HERO];
+        self.physicsBody.collisionMask = @[TYPE_HERO, TYPE_HERO_BULLET];
         return;
     }
     
