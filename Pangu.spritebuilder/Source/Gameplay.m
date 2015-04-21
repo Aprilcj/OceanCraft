@@ -24,7 +24,7 @@ static const float scrollSpeed = -50.f;
     int _scoreValue;
     
     //hero
-    Plane *_hero;
+    OCObject *_hero;
 
     //background
     CCNode *_bg1;
@@ -89,7 +89,7 @@ static Gameplay* s_currentGame;
     }
     
     // hero
-    _hero = [Plane generate:@"hero"];
+    _hero = [OCObject generate:@"hero"];
     [_physicsNode addChild:_hero];
     
     //lifebar
@@ -121,8 +121,8 @@ static Gameplay* s_currentGame;
             NSDictionary* properties = [role dictFrom:@[@"properties"]];
             
             CCNode* object =[CCBReader load:name];
-            if ([object isKindOfClass:[Plane class]]) {
-                Plane* plane = (Plane*)object;
+            if ([object isKindOfClass:[OCObject class]]) {
+                OCObject* plane = (OCObject*)object;
                 [plane loadDefault:name];
                 plane.config = role;
             }
@@ -225,7 +225,7 @@ static Gameplay* s_currentGame;
 
 #pragma mark collision
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(Plane *)hero_bullet enemy_bullet:(Plane *)enemy_bullet
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(OCObject *)hero_bullet enemy_bullet:(OCObject *)enemy_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
@@ -234,7 +234,7 @@ static Gameplay* s_currentGame;
     } key:hero_bullet];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(Plane *)hero enemy_bullet:(Plane *)enemy_bullet
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero enemy_bullet:(OCObject *)enemy_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
@@ -244,7 +244,7 @@ static Gameplay* s_currentGame;
     } key:hero];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair enemy:(Plane *)enemy hero_bullet:(Plane *)hero_bullet
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair enemy:(OCObject *)enemy hero_bullet:(OCObject *)hero_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
@@ -253,7 +253,7 @@ static Gameplay* s_currentGame;
     } key:enemy];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(Plane *)hero enemy:(Plane *)enemy
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero enemy:(OCObject *)enemy
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
@@ -264,7 +264,7 @@ static Gameplay* s_currentGame;
     } key:hero];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(Plane *)hero equipment:(Plane *)equipment
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero equipment:(OCObject *)equipment
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
@@ -275,7 +275,7 @@ static Gameplay* s_currentGame;
 
 #pragma mark on event
 
--(void)onHitDown: (Plane*)plane{
+-(void)onHitDown: (OCObject*)plane{
     if ([plane isEqual:_hero]) {
         return;
     }

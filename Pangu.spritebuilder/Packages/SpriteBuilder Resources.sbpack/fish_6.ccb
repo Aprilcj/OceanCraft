@@ -40,7 +40,7 @@
 		<key>children</key>
 		<array/>
 		<key>customClass</key>
-		<string>Plane</string>
+		<string>OCObject</string>
 		<key>customProperties</key>
 		<array>
 			<dict>

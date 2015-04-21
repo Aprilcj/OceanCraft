@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Apportable. All rights reserved.
 //
 
-#import "Plane.h"
+#import "OCObject.h"
 #import "NSObject+Config.h"
 #import "Gameplay.h"
 
-@implementation Plane{
+@implementation OCObject{
     NSInteger _maxHp;
     NSInteger _hp;
     CGPoint _positionInPercent;
@@ -120,15 +120,15 @@ static const CGFloat MIN_UNIT = 0.00001;
     OUT_OF_STAGE = CGSizeMake(world.width+self.contentSize.width, world.height + self.contentSize.height);
 }
 
-+ (Plane*)generate:(NSString *)planeFile{
-    Plane* plane = (Plane*)[CCBReader load:planeFile];
++ (OCObject*)generate:(NSString *)planeFile{
+    OCObject* plane = (OCObject*)[CCBReader load:planeFile];
     plane.file = planeFile;
     [plane loadDefault:planeFile];
     return plane;
 }
 
-+ (Plane*)generate:(NSString *)planeFile category:(NSString*)category{
-    Plane* plane = (Plane*)[CCBReader load:planeFile];
++ (OCObject*)generate:(NSString *)planeFile category:(NSString*)category{
+    OCObject* plane = (OCObject*)[CCBReader load:planeFile];
     plane.file = planeFile;
     plane.category = category;
     [plane loadDefault:planeFile];
@@ -145,7 +145,7 @@ static const CGFloat MIN_UNIT = 0.00001;
         self.position = ccp(world.width/2, world.height/4);
         self.fireInterval = 0.5f;
         self.explosionEffect = @"plane_explosion";
-        self.bullet = [Plane generate:@"bullet1" category: TYPE_HERO_BULLET];
+        self.bullet = [OCObject generate:@"bullet1" category: TYPE_HERO_BULLET];
         self.physicsBody.collisionCategories = @[TYPE_HERO];
         self.physicsBody.collisionType =TYPE_HERO;
         self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET,TYPE_ENEMY, TYPE_EQUIPMENT];
@@ -186,7 +186,7 @@ static const CGFloat MIN_UNIT = 0.00001;
     self.sailTo = @"down";
     self.fireInterval = 3.0f;
     self.explosionEffect = @"plane_explosion";
-    self.bullet = self.bullet = [Plane generate:@"bullet1" category: TYPE_ENEMY_BULLET];
+    self.bullet = self.bullet = [OCObject generate:@"bullet1" category: TYPE_ENEMY_BULLET];
     self.physicsBody.collisionCategories=@[TYPE_ENEMY];
     self.physicsBody.collisionType = TYPE_ENEMY;
     self.physicsBody.collisionMask = @[TYPE_HERO_BULLET,TYPE_HERO];
@@ -239,12 +239,12 @@ static const CGFloat MIN_UNIT = 0.00001;
     [self removeFromParent];
 }
 
--(void)onHitPlane:(Plane *)plane{
+-(void)onHitPlane:(OCObject *)plane{
     self.hp -= plane.maxHp;
 }
 
 -(void)fire{
-        Plane* bullet = [Plane duplicate:self.bullet];
+        OCObject* bullet = [OCObject duplicate:self.bullet];
         if (bullet) {
             if (self.bullet.physicsBody.velocity.y > MIN_UNIT) {
                 bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height/2+bullet.contentSize.height);
@@ -256,11 +256,11 @@ static const CGFloat MIN_UNIT = 0.00001;
         }
 }
 
-+ (Plane*)duplicate:(Plane *)bullet{
++ (OCObject*)duplicate:(OCObject *)bullet{
     if (!bullet.file || bullet.file.length == 0) {
         return nil;
     }
-    Plane* newBullet = [Plane generate:bullet.file category:bullet.category];
+    OCObject* newBullet = [OCObject generate:bullet.file category:bullet.category];
     newBullet.speed = bullet.speed;
     newBullet.direction = bullet.direction;
     newBullet.physicsBody.velocity = bullet.physicsBody.velocity;
