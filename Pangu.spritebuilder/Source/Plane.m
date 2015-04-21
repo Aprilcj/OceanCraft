@@ -17,18 +17,21 @@
     CGPoint _positionInPercent;
     CCTime _fireInterval;
     CGSize OUT_OF_STAGE;
+    NSString* _sailTo;
+    CGPoint _direction;
+    CGFloat _speed;
 }
 
 @synthesize fireInterval = _fireInterval;
 @synthesize maxHp = _maxHp;
 @synthesize hp = _hp;
 @synthesize positionInPercent = _positionInPercent;
+@synthesize sailTo = _sailTo;
+@synthesize direction = _direction;
+@synthesize speed = _speed;
 
 static const NSInteger MIN_HP = 0;
-
-static inline float mod(float x, float y){
-    return sqrt(x*x + y*y);
-}
+static const CGFloat MIN_UNIT = 0.00001;
 
 - (void)setMaxHp:(NSInteger)maxHp{
     if (_maxHp == 0) {
@@ -37,6 +40,69 @@ static inline float mod(float x, float y){
         _hp = 1.0*_hp/_maxHp*maxHp;
     }
     _maxHp = maxHp;
+}
+
+-(void)setDirection:(CGPoint)direction{
+    _direction = direction;
+    [self updateVelocity ];
+}
+
+-(void)setSpeed:(CGFloat)speed{
+    _speed = speed;
+    [self updateVelocity ];
+}
+
+-(void)updateVelocity{
+    if (abs(_direction.x) < MIN_UNIT && abs(_direction.y) < MIN_UNIT) {
+        self.physicsBody.velocity = ccp(0, 0);
+        return;
+    }
+    
+    CGPoint normalizedDirection = ccpNormalize(_direction);
+    self.physicsBody.velocity = ccp(normalizedDirection.x*_speed, normalizedDirection.y*_speed);
+}
+
+-(void)setSailTo:(NSString *)sailTo{
+    CGPoint beginPosition;
+    if ([sailTo isEqualToString:@"up"]) {
+        _direction = ccp(0, 1);
+    }else if ([sailTo isEqualToString:@"down"]) {
+        _direction = ccp(0, -1);
+    }else if ([sailTo isEqualToString:@"left"]) {
+        _direction = ccp(-1, 0);
+    }else if ([sailTo isEqualToString:@"right"]) {
+        _direction = ccp(1, 0);
+    }else if ([sailTo isEqualToString:@"upLeft"]||[sailTo isEqualToString:@"leftUp"]) {
+        _direction = ccp(-1, 1);
+    }else if ([sailTo isEqualToString:@"upRight"]||[sailTo isEqualToString:@"rightUp"]) {
+        _direction = ccp(1, 1);
+    }else if ([sailTo isEqualToString:@"downLeft"]||[sailTo isEqualToString:@"leftDown"]) {
+        _direction = ccp(-1, -1);
+    }else if ([sailTo isEqualToString:@"downRight"]||[sailTo isEqualToString:@"rightDown"]) {
+        _direction = ccp(1, -1);
+    }else{
+        _direction = ccp(0, 0);
+    }
+    
+    CGSize world = [CCDirector  sharedDirector].viewSize;
+    if (_direction.x < -MIN_UNIT) {
+        beginPosition.x = world.width + self.contentSize.width/2;
+    }else if(_direction.x > MIN_UNIT){
+        beginPosition.x = 0 - self.contentSize.width/2;
+    }else{
+        beginPosition.x =(arc4random()%((int)(world.width-self.contentSize.width)))+self.contentSize.width/2;
+    }
+    
+    if (_direction.y < -MIN_UNIT) {
+        beginPosition.y = world.height + self.contentSize.height/2;
+    }else if(_direction.y > MIN_UNIT){
+        beginPosition.y = 0 - self.contentSize.height/2;
+    }else{
+        beginPosition.y =(arc4random()%((int)(world.height-self.contentSize.height)))+self.contentSize.height/2;
+    }
+    
+    self.position = beginPosition;
+    [self updateVelocity];
 }
 
 - (void)setPositionInPercent:(CGPoint)positionInPercent{
@@ -64,7 +130,9 @@ static inline float mod(float x, float y){
 
 - (void)loadDefault:(NSString*)file{
     CGSize world = [CCDirector  sharedDirector].viewSize;
+    self.speed = 100;
     
+    // hero
     if ([self.category isEqualToString:TYPE_HERO]) {
         self.maxHp = 500;
         self.position = ccp(world.width/2, world.height/4);
@@ -81,21 +149,23 @@ static inline float mod(float x, float y){
         return;
     }
     
+    //equipment
     if ([self.category isEqualToString:TYPE_EQUIPMENT]) {
         self.maxHp = 0;
-        self.position = ccp((arc4random()%((int)(world.width-self.contentSize.width)))+self.contentSize.width/2, world.height);
-        self.physicsBody.velocity = ccp(0, -100);
+        self.sailTo = @"down";
         self.physicsBody.collisionCategories = @[TYPE_EQUIPMENT];
         self.physicsBody.collisionType =TYPE_EQUIPMENT;
         self.physicsBody.collisionMask = @[TYPE_HERO];
         return;
     }
     
+    
+    //enemy
     self.bullet = [Bullet generate:@"bullet1"];
-    self.maxHp = (mod(self.contentSize.width, self.contentSize.height)/55 + 1)*100;
-    self.position = ccp((arc4random()%((int)(world.width-self.contentSize.width)))+self.contentSize.width/2, world.height);
-    self.physicsBody.velocity = ccp(0, -100);
+    self.maxHp = (ccpLength(ccpFromSize(self.contentSize))/55 + 1)*100;
+    self.sailTo = @"down";
     self.fireInterval = 3.0f;
+    
     self.physicsBody.collisionCategories=@[TYPE_ENEMY];
     self.physicsBody.collisionType = TYPE_ENEMY;
     self.physicsBody.collisionMask = @[TYPE_HERO_BULLET,TYPE_HERO];
@@ -117,7 +187,7 @@ static inline float mod(float x, float y){
         [self explode];
         return;
     }
-    if (self.position.y < 0 || self.position.x < 0 || self.position.x > OUT_OF_STAGE.width || self.position.y > OUT_OF_STAGE.height) {
+    if (self.position.y < -self.contentSize.height || self.position.x < -self.contentSize.width || self.position.x > OUT_OF_STAGE.width || self.position.y > OUT_OF_STAGE.height) {
         [self removeFromParent];
         return;
     }

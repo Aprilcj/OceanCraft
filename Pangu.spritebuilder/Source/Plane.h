@@ -20,6 +20,9 @@
 @property (nonatomic, assign) CGPoint positionInPercent;
 @property (nonatomic, retain) NSDictionary* config;
 @property (nonatomic, copy) NSString* category;
+@property (nonatomic, copy) NSString* sailTo;
+@property (nonatomic, assign) CGPoint direction;
+@property (nonatomic, assign) CGFloat speed;
 
 - (void)onHitBullet: (Bullet*)bullet;
 - (void)onHitPlane: (Plane*)plane;
