@@ -10,8 +10,6 @@
 #import "OCObject.h"
 
 @interface Gameplay : CCNode<CCPhysicsCollisionDelegate>
-+ (void) loadLevel:(NSInteger) level;
-+ (NSInteger)level;
 + (Gameplay*)currentGame;
 
 -(void)onHitDown: (OCObject*)plane;

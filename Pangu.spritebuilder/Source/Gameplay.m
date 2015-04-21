@@ -11,6 +11,7 @@
 #import "cocos2d.h"
 #import "ScriptLoader.h"
 #import "NSObject+Config.h"
+#import "MainScene.h"
 
 static const float scrollSpeed = -50.f;
 
@@ -46,40 +47,20 @@ static const float scrollSpeed = -50.f;
     NSUInteger _currentActor;
 }
 
-static NSMutableDictionary* _gameInfo;
 static Gameplay* s_currentGame;
 
 + (Gameplay*)currentGame{
     return s_currentGame;
 }
 
-+ (NSDictionary*)gameInfo{
-    if (!_gameInfo) {
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"game_info"] ofType:@"plist"];
-       _gameInfo = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
-    }
-    
-    return _gameInfo;
-}
-
-+ (NSInteger)level{
-    return [[[Gameplay gameInfo] valueForKey:@"level_unlocked" ]integerValue];
-}
-
-+ (void)loadLevel:(NSInteger)level{
-    [[Gameplay gameInfo] setValue:[NSNumber numberWithInteger:level ]forKey:@"level_unlocked"];
-}
-
-
 #pragma mark init
 - (void)didLoadFromCCB {
     s_currentGame = self;
+    _currentLevel = [MainScene unlockedLevel];
     
+    //_physicsNode.debugDraw = YES;
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;
-    
-    _currentLevel = [Gameplay level];
-    //_physicsNode.debugDraw = YES;
     
     //background
     _bgs = @[_bg1, _bg2];

@@ -32,6 +32,8 @@
 static const NSInteger MIN_HP = 0;
 static const CGFloat MIN_UNIT = 0.00001;
 
+#pragma mark setters
+
 - (void)setMaxHp:(NSInteger)maxHp{
     if (_maxHp == 0) {
         _hp = maxHp;
@@ -115,6 +117,7 @@ static const CGFloat MIN_UNIT = 0.00001;
     [self schedule:@selector(fire) interval:fireInterval];
 }
 
+#pragma mark init
 - (void)didLoadFromCCB {
     CGSize world = [CCDirector  sharedDirector].viewSize;
     OUT_OF_STAGE = CGSizeMake(world.width+self.contentSize.width, world.height + self.contentSize.height);
@@ -194,6 +197,21 @@ static const CGFloat MIN_UNIT = 0.00001;
     self.physicsBody.collisionMask = @[TYPE_HERO_BULLET,TYPE_HERO];
 }
 
++ (OCObject*)duplicate:(OCObject *)bullet{
+    if (!bullet.file || bullet.file.length == 0) {
+        return nil;
+    }
+    OCObject* newBullet = [OCObject generate:bullet.file category:bullet.category];
+    newBullet.speed = bullet.speed;
+    newBullet.direction = bullet.direction;
+    newBullet.physicsBody.velocity = bullet.physicsBody.velocity;
+    newBullet.physicsBody.collisionType = bullet.physicsBody.collisionType;
+    newBullet.physicsBody.collisionMask = bullet.physicsBody.collisionMask;
+    return newBullet;
+}
+
+#pragma mark update
+
 - (BOOL)dead{
     return _hp < MIN_HP;
 }
@@ -210,6 +228,8 @@ static const CGFloat MIN_UNIT = 0.00001;
     }
 }
 
+#pragma mark event
+
 - (void)onDead{
     Gameplay* gameplay = [Gameplay currentGame];
     [gameplay onHitDown:self];
@@ -219,7 +239,7 @@ static const CGFloat MIN_UNIT = 0.00001;
     if (!callback) {
         return;
     }
-
+    
     NSString* method = [callback stringFrom:@[@"method"]];
     LOG_VAR(method, @"%@");
     
@@ -246,29 +266,16 @@ static const CGFloat MIN_UNIT = 0.00001;
 }
 
 -(void)fire{
-        OCObject* bullet = [OCObject duplicate:self.bullet];
-        if (bullet) {
-            if (self.bullet.physicsBody.velocity.y > MIN_UNIT) {
-                bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height/2+bullet.contentSize.height);
-            }else if (self.bullet.physicsBody.velocity.y < -MIN_UNIT){
-                bullet.position=ccp(self.position.x,self.position.y-self.contentSize.height/2-bullet.contentSize.height);
-                
-            }
-            [[self parent] addChild:bullet];
+    OCObject* bullet = [OCObject duplicate:self.bullet];
+    if (bullet) {
+        if (self.bullet.physicsBody.velocity.y > MIN_UNIT) {
+            bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height/2+bullet.contentSize.height);
+        }else if (self.bullet.physicsBody.velocity.y < -MIN_UNIT){
+            bullet.position=ccp(self.position.x,self.position.y-self.contentSize.height/2-bullet.contentSize.height);
+            
         }
-}
-
-+ (OCObject*)duplicate:(OCObject *)bullet{
-    if (!bullet.file || bullet.file.length == 0) {
-        return nil;
+        [[self parent] addChild:bullet];
     }
-    OCObject* newBullet = [OCObject generate:bullet.file category:bullet.category];
-    newBullet.speed = bullet.speed;
-    newBullet.direction = bullet.direction;
-    newBullet.physicsBody.velocity = bullet.physicsBody.velocity;
-    newBullet.physicsBody.collisionType = bullet.physicsBody.collisionType;
-    newBullet.physicsBody.collisionMask = bullet.physicsBody.collisionMask;
-    return newBullet;
 }
 
 @end
