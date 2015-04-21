@@ -1,5 +1,25 @@
 {
-  "scenes": [
+  "actors": [
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "drop_black",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet12",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 300
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     {
       "delay": 1,
       "roles": [

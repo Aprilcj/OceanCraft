@@ -8,7 +8,6 @@
 
 #import "Gameplay.h"
 #import "CCPhysics+ObjectiveChipmunk.h"
-#import "Plane.h"
 #import "IntervalScheduler.h"
 #import "Bullet.h"
 #import "cocos2d.h"
@@ -18,7 +17,6 @@
 static const float scrollSpeed = -50.f;
 
 
-#pragma mark init
 @implementation Gameplay{
     CCPhysicsNode *_physicsNode;
     CCNode *_contentNode;
@@ -47,7 +45,7 @@ static const float scrollSpeed = -50.f;
     CCNode* _lifebar_container;
     
     NSInteger _currentLevel;
-    NSUInteger _currentScene;
+    NSUInteger _currentActor;
 }
 
 static NSMutableDictionary* _gameInfo;
@@ -74,6 +72,8 @@ static Gameplay* s_currentGame;
     [[Gameplay gameInfo] setValue:[NSNumber numberWithInteger:level ]forKey:@"level_unlocked"];
 }
 
+
+#pragma mark init
 - (void)didLoadFromCCB {
     s_currentGame = self;
     
@@ -98,7 +98,7 @@ static Gameplay* s_currentGame;
     [self addLifeIndicator];
     
     //actors
-    _currentScene = 0;
+    _currentActor = 0;
     [self addRoles];
     
     //adornment
@@ -108,14 +108,14 @@ static Gameplay* s_currentGame;
 
 - (void) addRoles{
     ScriptLoader* script = [ScriptLoader loaderOfLevel:_currentLevel];
-    NSArray* scenes = [script.script arrayFrom:@[@"scenes"]];
-    if (_currentScene > [scenes count] - 1) {
+    NSArray* actors = [script.script arrayFrom:@[@"actors"]];
+    if (_currentActor > [actors count] - 1) {
         LOG(@"script over", nil);
         return;
     }
-    LOG(@"load scene: %ld", _currentScene);
-    NSDictionary* scene =  [scenes dictFrom:@[[NSNumber numberWithUnsignedInteger:_currentScene++]]];
-    NSArray* roles = [scene arrayFrom:@[@"roles"]];
+    LOG(@"load scene: %ld", _currentActor);
+    NSDictionary* actor =  [actors dictFrom:@[[NSNumber numberWithUnsignedInteger:_currentActor++]]];
+    NSArray* roles = [actor arrayFrom:@[@"roles"]];
     
     [self scheduleBlock:^(CCTimer* timer){
         for (NSDictionary* role in roles) {
@@ -135,7 +135,7 @@ static Gameplay* s_currentGame;
             
         }
         [self addRoles];
-    } delay:[scene doubleFrom:@[@"delay"]]];
+    } delay:[actor doubleFrom:@[@"delay"]]];
     
 }
 
@@ -252,7 +252,6 @@ static Gameplay* s_currentGame;
     [[_physicsNode space] addPostStepBlock:^{
         [enemy onHitBullet:hero_bullet];
         [hero_bullet onHit];
-        [self onHitEnemy:enemy];
     } key:enemy];
 }
 
@@ -264,17 +263,26 @@ static Gameplay* s_currentGame;
         [enemy onHitPlane:hero];
         
         hero.physicsBody.velocity = ccp(0, 0);
-        [self onHitEnemy:enemy];
+    } key:hero];
+}
+
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(Plane *)hero equipment:(Plane *)equipment
+{
+    LOG_FUN;
+    [[_physicsNode space] addPostStepBlock:^{
+        [equipment onHitPlane:hero];
+        hero.physicsBody.velocity = ccp(0, 0);
     } key:hero];
 }
 
 #pragma mark on event
 
--(void)onHitEnemy: (Plane*)enemy{
-    if ([enemy dead]) {
-        _scoreValue += enemy.maxHp;
-        _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
+-(void)onHitDown: (Plane*)plane{
+    if ([plane isEqual:_hero]) {
+        return;
     }
+    _scoreValue += plane.maxHp;
+    _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
 }
 
 -(void)changeBullet:(NSDictionary*)newBullet{

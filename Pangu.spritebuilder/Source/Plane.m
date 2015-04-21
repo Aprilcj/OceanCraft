@@ -18,6 +18,7 @@
     CGPoint _positionInPercent;
     CCTime _fireInterval;
     IntervalScheduler* _fireScheduler;
+    CGSize OUT_OF_STAGE;
 }
 
 @synthesize fireInterval = _fireInterval;
@@ -25,7 +26,11 @@
 @synthesize hp = _hp;
 @synthesize positionInPercent = _positionInPercent;
 
-static const float MIN_HP = 1;
+static const NSInteger MIN_HP = 0;
+
+static inline float mod(float x, float y){
+    return sqrt(x*x + y*y);
+}
 
 - (void)setMaxHp:(NSInteger)maxHp{
     if (_maxHp == 0) {
@@ -52,25 +57,27 @@ static const float MIN_HP = 1;
 }
 
 - (void)didLoadFromCCB {
+    CGSize world = [CCDirector  sharedDirector].viewSize;
+    OUT_OF_STAGE = CGSizeMake(world.width+self.contentSize.width, world.height + self.contentSize.height);
 }
 
 + (Plane*)generate:(NSString *)planeFile{
     Plane* plane = (Plane*)[CCBReader load:planeFile];
+    plane.file = planeFile;
     [plane loadDefault:planeFile];
     return plane;
 }
 
 - (void)loadDefault:(NSString*)file{
-    self.file = file;
     CGSize world = [CCDirector  sharedDirector].viewSize;
     
-    if ([self.file isEqualToString:TYPE_HERO]) {
+    if ([self.category isEqualToString:TYPE_HERO]) {
         self.maxHp = 500;
         self.position = ccp(world.width/2, world.height/4);
         self.fireInterval = 0.5f;
         self.physicsBody.collisionCategories = @[TYPE_HERO];
         self.physicsBody.collisionType =TYPE_HERO;
-        self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET,TYPE_ENEMY];
+        self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET,TYPE_ENEMY, TYPE_EQUIPMENT];
         
         self.bullet = [Bullet generate:@"bullet1"];
         self.bullet.physicsBody.velocity = ccp(0, 150);
@@ -80,16 +87,26 @@ static const float MIN_HP = 1;
         return;
     }
     
+    if ([self.category isEqualToString:TYPE_EQUIPMENT]) {
+        self.maxHp = 0;
+        self.position = ccp((arc4random()%((int)(world.width-self.contentSize.width)))+self.contentSize.width/2, world.height);
+        self.physicsBody.velocity = ccp(0, -100);
+        self.physicsBody.collisionCategories = @[TYPE_EQUIPMENT];
+        self.physicsBody.collisionType =TYPE_EQUIPMENT;
+        self.physicsBody.collisionMask = @[TYPE_HERO];
+        return;
+    }
+    
     self.bullet = [Bullet generate:@"bullet1"];
-    self.maxHp = 100;
+    self.maxHp = (mod(self.contentSize.width, self.contentSize.height)/55 + 1)*100;
     self.position = ccp((arc4random()%((int)(world.width-self.contentSize.width)))+self.contentSize.width/2, world.height);
     self.physicsBody.velocity = ccp(0, -100);
-    self.fireInterval = 2.0f;
+    self.fireInterval = 3.0f;
     self.physicsBody.collisionCategories=@[TYPE_ENEMY];
     self.physicsBody.collisionType = TYPE_ENEMY;
     self.physicsBody.collisionMask = @[TYPE_HERO_BULLET,TYPE_HERO];
     
-    self.bullet.physicsBody.velocity = ccp(0, -200);
+    self.bullet.physicsBody.velocity = ccp(0, -150);
     self.bullet.physicsBody.collisionCategories=@[TYPE_ENEMY_BULLET];
     self.bullet.physicsBody.collisionType = TYPE_ENEMY_BULLET;
     self.bullet.physicsBody.collisionMask = @[TYPE_HERO];
@@ -106,7 +123,7 @@ static const float MIN_HP = 1;
         [self explode];
         return;
     }
-    if (self.position.y < 0) {
+    if (self.position.y < 0 || self.position.x < 0 || self.position.x > OUT_OF_STAGE.width || self.position.y > OUT_OF_STAGE.height) {
         [self removeFromParent];
         return;
     }
@@ -114,13 +131,15 @@ static const float MIN_HP = 1;
 }
 
 - (void)onDead{
+    Gameplay* gameplay = [Gameplay currentGame];
+    [gameplay onHitDown:self];
+    
     LOG_FUN;
     NSDictionary* callback = [self.config dictFrom:@[@"onDead"]];
     if (!callback) {
         return;
     }
 
-    Gameplay* gameplay = [Gameplay currentGame];
     NSString* method = [callback stringFrom:@[@"method"]];
     LOG_VAR(method, @"%@");
     

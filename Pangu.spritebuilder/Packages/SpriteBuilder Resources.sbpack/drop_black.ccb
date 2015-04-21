@@ -41,6 +41,19 @@
 		<array/>
 		<key>customClass</key>
 		<string>Plane</string>
+		<key>customProperties</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>category</string>
+				<key>optimized</key>
+				<false/>
+				<key>type</key>
+				<integer>3</integer>
+				<key>value</key>
+				<string>equipment</string>
+			</dict>
+		</array>
 		<key>displayName</key>
 		<string>CCSprite</string>
 		<key>memberVarAssignmentName</key>
@@ -79,11 +92,11 @@
 				</array>
 				<array>
 					<real>0.0</real>
-					<real>19</real>
+					<real>29</real>
 				</array>
 				<array>
 					<real>19</real>
-					<real>19</real>
+					<real>29</real>
 				</array>
 				<array>
 					<real>19</real>
@@ -99,11 +112,11 @@
 					</array>
 					<array>
 						<real>19</real>
-						<real>19</real>
+						<real>29</real>
 					</array>
 					<array>
 						<real>0.0</real>
-						<real>19</real>
+						<real>29</real>
 					</array>
 					<array>
 						<real>0.0</real>
@@ -168,7 +181,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>ocean/jelly_fish.png</string>
+					<string>ocean/drop_black.png</string>
 				</array>
 			</dict>
 			<dict>

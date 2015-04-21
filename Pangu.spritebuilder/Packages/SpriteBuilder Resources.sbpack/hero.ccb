@@ -50,13 +50,13 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>maxHp</string>
+				<string>category</string>
 				<key>optimized</key>
 				<false/>
 				<key>type</key>
-				<integer>1</integer>
+				<integer>3</integer>
 				<key>value</key>
-				<string>300.000000</string>
+				<string>hero</string>
 			</dict>
 		</array>
 		<key>displayName</key>

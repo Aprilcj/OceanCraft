@@ -3,6 +3,7 @@
 @implementation MainScene{
     CCButton* _left;
     CCButton* _right;
+    CCNode* _levelPic;
 }
 
 - (void)didLoadFromCCB {
