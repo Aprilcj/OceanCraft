@@ -7,7 +7,6 @@
 //
 
 #import "Plane.h"
-#import "Bullet.h"
 #import "NSObject+Config.h"
 #import "Gameplay.h"
 
@@ -128,6 +127,14 @@ static const CGFloat MIN_UNIT = 0.00001;
     return plane;
 }
 
++ (Plane*)generate:(NSString *)planeFile category:(NSString*)category{
+    Plane* plane = (Plane*)[CCBReader load:planeFile];
+    plane.file = planeFile;
+    plane.category = category;
+    [plane loadDefault:planeFile];
+    return plane;
+}
+
 - (void)loadDefault:(NSString*)file{
     CGSize world = [CCDirector  sharedDirector].viewSize;
     self.speed = 100;
@@ -137,15 +144,20 @@ static const CGFloat MIN_UNIT = 0.00001;
         self.maxHp = 500;
         self.position = ccp(world.width/2, world.height/4);
         self.fireInterval = 0.5f;
+        self.explosionEffect = @"plane_explosion";
+        self.bullet = [Plane generate:@"bullet1" category: TYPE_HERO_BULLET];
         self.physicsBody.collisionCategories = @[TYPE_HERO];
         self.physicsBody.collisionType =TYPE_HERO;
         self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET,TYPE_ENEMY, TYPE_EQUIPMENT];
-        
-        self.bullet = [Bullet generate:@"bullet1"];
-        self.bullet.physicsBody.velocity = ccp(0, 150);
-        self.bullet.physicsBody.collisionCategories=@[TYPE_HERO_BULLET];
-        self.bullet.physicsBody.collisionType = TYPE_HERO_BULLET;
-        self.bullet.physicsBody.collisionMask = @[TYPE_ENEMY];
+        return;
+    }
+    
+    if ([self.category isEqualToString:TYPE_HERO_BULLET]) {
+        self.sailTo = @"up";
+        self.maxHp = 100;
+        self.physicsBody.collisionCategories=@[TYPE_HERO_BULLET];
+        self.physicsBody.collisionType = TYPE_HERO_BULLET;
+        self.physicsBody.collisionMask = @[TYPE_ENEMY];
         return;
     }
     
@@ -159,22 +171,25 @@ static const CGFloat MIN_UNIT = 0.00001;
         return;
     }
     
+    if ([self.category isEqualToString:TYPE_ENEMY_BULLET]) {
+        self.speed = 150;
+        self.maxHp = 100;
+        self.sailTo=@"down";
+        self.physicsBody.collisionCategories=@[TYPE_ENEMY_BULLET];
+        self.physicsBody.collisionType = TYPE_ENEMY_BULLET;
+        self.physicsBody.collisionMask = @[TYPE_HERO];
+        return;
+    }
     
     //enemy
-    self.bullet = [Bullet generate:@"bullet1"];
     self.maxHp = (ccpLength(ccpFromSize(self.contentSize))/55 + 1)*100;
     self.sailTo = @"down";
     self.fireInterval = 3.0f;
-    
+    self.explosionEffect = @"plane_explosion";
+    self.bullet = self.bullet = [Plane generate:@"bullet1" category: TYPE_ENEMY_BULLET];
     self.physicsBody.collisionCategories=@[TYPE_ENEMY];
     self.physicsBody.collisionType = TYPE_ENEMY;
     self.physicsBody.collisionMask = @[TYPE_HERO_BULLET,TYPE_HERO];
-    
-    self.bullet.physicsBody.velocity = ccp(0, -150);
-    self.bullet.physicsBody.collisionCategories=@[TYPE_ENEMY_BULLET];
-    self.bullet.physicsBody.collisionType = TYPE_ENEMY_BULLET;
-    self.bullet.physicsBody.collisionMask = @[TYPE_HERO];
-
 }
 
 - (BOOL)dead{
@@ -215,15 +230,13 @@ static const CGFloat MIN_UNIT = 0.00001;
 }
 
 - (void)explode{
-    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"plane_explosion"];
-    explosion.position = self.position;
-    [self.parent addChild:explosion];
-    explosion.autoRemoveOnFinish = YES;
+    if (self.explosionEffect) {
+        CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:self.explosionEffect];
+        explosion.position = self.position;
+        [self.parent addChild:explosion];
+        explosion.autoRemoveOnFinish = YES;
+    }
     [self removeFromParent];
-}
-
-- (void)onHitBullet: (Bullet*)bullet{
-    self.hp -= bullet.damage;
 }
 
 -(void)onHitPlane:(Plane *)plane{
@@ -231,16 +244,29 @@ static const CGFloat MIN_UNIT = 0.00001;
 }
 
 -(void)fire{
-        Bullet* bullet = [Bullet duplicate:self.bullet];
+        Plane* bullet = [Plane duplicate:self.bullet];
         if (bullet) {
-            if (self.bullet.physicsBody.velocity.y > 0) {
+            if (self.bullet.physicsBody.velocity.y > MIN_UNIT) {
                 bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height/2+bullet.contentSize.height);
-            }else{
+            }else if (self.bullet.physicsBody.velocity.y < -MIN_UNIT){
                 bullet.position=ccp(self.position.x,self.position.y-self.contentSize.height/2-bullet.contentSize.height);
                 
             }
             [[self parent] addChild:bullet];
         }
+}
+
++ (Plane*)duplicate:(Plane *)bullet{
+    if (!bullet.file || bullet.file.length == 0) {
+        return nil;
+    }
+    Plane* newBullet = [Plane generate:bullet.file category:bullet.category];
+    newBullet.speed = bullet.speed;
+    newBullet.direction = bullet.direction;
+    newBullet.physicsBody.velocity = bullet.physicsBody.velocity;
+    newBullet.physicsBody.collisionType = bullet.physicsBody.collisionType;
+    newBullet.physicsBody.collisionMask = bullet.physicsBody.collisionMask;
+    return newBullet;
 }
 
 @end

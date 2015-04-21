@@ -7,13 +7,11 @@
 //
 
 #import "CCSprite.h"
-#import "Bullet.h"
-
 
 
 @interface Plane : CCSprite
 @property (nonatomic, copy)NSString* file;
-@property (nonatomic, retain) Bullet* bullet;
+@property (nonatomic, retain) Plane* bullet;
 @property (nonatomic, assign) NSInteger maxHp;
 @property (nonatomic, assign) NSInteger hp;
 @property (nonatomic, assign) CCTime fireInterval;
@@ -23,12 +21,12 @@
 @property (nonatomic, copy) NSString* sailTo;
 @property (nonatomic, assign) CGPoint direction;
 @property (nonatomic, assign) CGFloat speed;
-
-- (void)onHitBullet: (Bullet*)bullet;
+@property (nonatomic, copy) NSString* explosionEffect;
 - (void)onHitPlane: (Plane*)plane;
 + (Plane*) generate:(NSString*)planeFile;
 - (void)loadDefault:(NSString*)file;
 -(BOOL)dead;
+- (void)explode;
 @end
 
 static NSString* TYPE_HERO = @"hero";

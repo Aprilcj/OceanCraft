@@ -8,7 +8,6 @@
 
 #import "Gameplay.h"
 #import "CCPhysics+ObjectiveChipmunk.h"
-#import "Bullet.h"
 #import "cocos2d.h"
 #import "ScriptLoader.h"
 #import "NSObject+Config.h"
@@ -226,31 +225,31 @@ static Gameplay* s_currentGame;
 
 #pragma mark collision
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(Bullet *)hero_bullet enemy_bullet:(Bullet *)enemy_bullet
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(Plane *)hero_bullet enemy_bullet:(Plane *)enemy_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        [hero_bullet onHit];
-        [enemy_bullet onHit];
+        [hero_bullet explode];
+        [enemy_bullet explode];
     } key:hero_bullet];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(Plane *)hero enemy_bullet:(Bullet *)enemy_bullet
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(Plane *)hero enemy_bullet:(Plane *)enemy_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        [hero onHitBullet:enemy_bullet];
+        [hero onHitPlane:enemy_bullet];
         hero.physicsBody.velocity = ccp(0, 0);
-        [enemy_bullet onHit];
+        [enemy_bullet explode];
     } key:hero];
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair enemy:(Plane *)enemy hero_bullet:(Bullet *)hero_bullet
+-(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair enemy:(Plane *)enemy hero_bullet:(Plane *)hero_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        [enemy onHitBullet:hero_bullet];
-        [hero_bullet onHit];
+        [enemy onHitPlane:hero_bullet];
+        [hero_bullet explode];
     } key:enemy];
 }
 
