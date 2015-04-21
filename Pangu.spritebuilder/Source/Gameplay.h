@@ -11,4 +11,8 @@
 @interface Gameplay : CCNode<CCPhysicsCollisionDelegate>
 + (void) loadLevel:(NSInteger) level;
 + (NSInteger)level;
++ (Gameplay*)currentGame;
+
+-(void)onMissionComplete;
+-(void)changeBullet:(NSDictionary*)newBullet;
 @end

@@ -18,7 +18,6 @@
 static const float scrollSpeed = -50.f;
 
 
-
 #pragma mark init
 @implementation Gameplay{
     CCPhysicsNode *_physicsNode;
@@ -52,6 +51,11 @@ static const float scrollSpeed = -50.f;
 }
 
 static NSMutableDictionary* _gameInfo;
+static Gameplay* s_currentGame;
+
++ (Gameplay*)currentGame{
+    return s_currentGame;
+}
 
 + (NSDictionary*)gameInfo{
     if (!_gameInfo) {
@@ -71,6 +75,8 @@ static NSMutableDictionary* _gameInfo;
 }
 
 - (void)didLoadFromCCB {
+    s_currentGame = self;
+    
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;
     
@@ -114,14 +120,13 @@ static NSMutableDictionary* _gameInfo;
     [self scheduleBlock:^(CCTimer* timer){
         for (NSDictionary* role in roles) {
             NSString* name = [role stringFrom:@[@"name"]];
-            NSString* deadCallback = [role stringFrom:@[@"deadCallback"]];
             NSDictionary* properties = [role dictFrom:@[@"properties"]];
             
             CCNode* object =[CCBReader load:name];
             if ([object isKindOfClass:[Plane class]]) {
                 Plane* plane = (Plane*)object;
                 [plane loadDefault:name];
-                plane.deadCallback = deadCallback;
+                plane.config = role;
             }
             if (properties){
                 [object setProperties:properties];
@@ -269,19 +274,11 @@ static NSMutableDictionary* _gameInfo;
     if ([enemy dead]) {
         _scoreValue += enemy.maxHp;
         _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
-        if (enemy.deadCallback) {
-            LOG_VAR(enemy.deadCallback, @"%@");
-            SEL callback = NSSelectorFromString(enemy.deadCallback);
-            if ([self respondsToSelector:callback]){
-                IMP imp = [self methodForSelector:callback];
-                void (*func)(id, SEL) = (void *)imp;
-                func(self, callback);
-                //[self performSelector:callback];
-            }else{
-                LOG(@"can't find callback: %@", enemy.deadCallback);
-            }
-        }
     }
+}
+
+-(void)changeBullet:(NSDictionary*)newBullet{
+    [_hero.bullet setProperties:newBullet];
 }
 
 -(void)onMissionComplete{

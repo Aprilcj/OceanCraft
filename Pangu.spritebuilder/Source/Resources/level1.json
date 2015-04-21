@@ -4,7 +4,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "jelly_fish"
+          "name": "fish_1",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet1",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -12,7 +24,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "octopus"
+          "name": "fish_2",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet2",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -20,7 +44,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "shrimp"
+          "name": "fish_3",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet3",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -28,7 +64,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "whale"
+          "name": "fish_4",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet4",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -36,7 +84,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "jelly_fish"
+          "name": "fish_5",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet5",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -44,7 +104,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "octopus"
+          "name": "fish_6",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet6",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -52,7 +124,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "shrimp"
+          "name": "fish_7",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet7",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -60,7 +144,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "whale"
+          "name": "fish_8",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet8",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -68,7 +164,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "jelly_fish"
+          "name": "fish_9",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet9",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -76,7 +184,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "octopus"
+          "name": "fish_10",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet10",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -84,7 +204,19 @@
       "delay": 1,
       "roles": [
         {
-          "name": "shrimp"
+          "name": "fish_11",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet11",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -95,8 +227,8 @@
           "name": "terminal",
           "properties": {
             "positionInPercent": {
-              "x":0.5,
-              "y":0.5
+              "x": 0.5,
+              "y": 0.5
             },
             "physicsBody": {
               "velocity": {
@@ -109,7 +241,9 @@
               "file": ""
             }
           },
-          "deadCallback": "onMissionComplete"
+          "onDead": {
+            "method": "onMissionComplete"
+          }
         }
       ]
     }

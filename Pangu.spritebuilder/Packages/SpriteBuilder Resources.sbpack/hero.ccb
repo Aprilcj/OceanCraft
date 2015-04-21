@@ -97,14 +97,14 @@
 				</array>
 				<array>
 					<real>0.0</real>
-					<real>58</real>
+					<real>50</real>
 				</array>
 				<array>
-					<real>32</real>
-					<real>58</real>
+					<real>24</real>
+					<real>50</real>
 				</array>
 				<array>
-					<real>32</real>
+					<real>24</real>
 					<real>0.0</real>
 				</array>
 			</array>
@@ -112,16 +112,16 @@
 			<array>
 				<array>
 					<array>
-						<real>32</real>
+						<real>24</real>
 						<real>0.0</real>
 					</array>
 					<array>
-						<real>32</real>
-						<real>58</real>
+						<real>24</real>
+						<real>50</real>
 					</array>
 					<array>
 						<real>0.0</real>
-						<real>58</real>
+						<real>50</real>
 					</array>
 					<array>
 						<real>0.0</real>

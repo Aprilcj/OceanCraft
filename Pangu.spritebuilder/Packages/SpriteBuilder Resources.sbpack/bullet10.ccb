@@ -40,7 +40,7 @@
 		<key>children</key>
 		<array/>
 		<key>customClass</key>
-		<string>Plane</string>
+		<string>Bullet</string>
 		<key>displayName</key>
 		<string>CCSprite</string>
 		<key>memberVarAssignmentName</key>
@@ -54,7 +54,7 @@
 			<key>allowsRotation</key>
 			<false/>
 			<key>bodyShape</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>collisionCategories</key>
 			<array/>
 			<key>collisionMask</key>
@@ -62,9 +62,9 @@
 			<key>collisionType</key>
 			<string></string>
 			<key>cornerRadius</key>
-			<real>0.0</real>
+			<real>27</real>
 			<key>density</key>
-			<real>1</real>
+			<real>0.0099999997764825821</real>
 			<key>dynamic</key>
 			<true/>
 			<key>elasticity</key>
@@ -74,43 +74,12 @@
 			<key>points</key>
 			<array>
 				<array>
-					<real>0.0</real>
-					<real>0.0</real>
-				</array>
-				<array>
-					<real>0.0</real>
-					<real>19</real>
-				</array>
-				<array>
-					<real>19</real>
-					<real>19</real>
-				</array>
-				<array>
-					<real>19</real>
-					<real>0.0</real>
+					<real>27</real>
+					<real>15</real>
 				</array>
 			</array>
 			<key>polygons</key>
-			<array>
-				<array>
-					<array>
-						<real>19</real>
-						<real>0.0</real>
-					</array>
-					<array>
-						<real>19</real>
-						<real>19</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>19</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>0.0</real>
-					</array>
-				</array>
-			</array>
+			<array/>
 		</dict>
 		<key>properties</key>
 		<array>
@@ -168,7 +137,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>ocean/cram.png</string>
+					<string>ocean/wave_3.png</string>
 				</array>
 			</dict>
 			<dict>

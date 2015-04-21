@@ -54,7 +54,7 @@
 			<key>allowsRotation</key>
 			<false/>
 			<key>bodyShape</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>collisionCategories</key>
 			<array/>
 			<key>collisionMask</key>
@@ -62,7 +62,7 @@
 			<key>collisionType</key>
 			<string></string>
 			<key>cornerRadius</key>
-			<real>0.0</real>
+			<real>38.5</real>
 			<key>density</key>
 			<real>1</real>
 			<key>dynamic</key>
@@ -74,43 +74,12 @@
 			<key>points</key>
 			<array>
 				<array>
-					<real>0.0</real>
-					<real>0.0</real>
-				</array>
-				<array>
-					<real>0.0</real>
-					<real>19</real>
-				</array>
-				<array>
-					<real>19</real>
-					<real>19</real>
-				</array>
-				<array>
-					<real>19</real>
-					<real>0.0</real>
+					<real>38.5</real>
+					<real>29</real>
 				</array>
 			</array>
 			<key>polygons</key>
-			<array>
-				<array>
-					<array>
-						<real>19</real>
-						<real>0.0</real>
-					</array>
-					<array>
-						<real>19</real>
-						<real>19</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>19</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>0.0</real>
-					</array>
-				</array>
-			</array>
+			<array/>
 		</dict>
 		<key>properties</key>
 		<array>
@@ -168,7 +137,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>ocean/octopus.png</string>
+					<string>ocean/octopus_1.png</string>
 				</array>
 			</dict>
 			<dict>

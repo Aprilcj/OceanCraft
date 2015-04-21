@@ -41,6 +41,19 @@
 		<array/>
 		<key>customClass</key>
 		<string>Bullet</string>
+		<key>customProperties</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>category</string>
+				<key>optimized</key>
+				<false/>
+				<key>type</key>
+				<integer>3</integer>
+				<key>value</key>
+				<string>bullet</string>
+			</dict>
+		</array>
 		<key>displayName</key>
 		<string>CCSprite</string>
 		<key>memberVarAssignmentName</key>
@@ -79,14 +92,14 @@
 				</array>
 				<array>
 					<real>0.0</real>
-					<real>16</real>
+					<real>19</real>
 				</array>
 				<array>
-					<real>18</real>
-					<real>16</real>
+					<real>25</real>
+					<real>19</real>
 				</array>
 				<array>
-					<real>18</real>
+					<real>25</real>
 					<real>0.0</real>
 				</array>
 			</array>
@@ -94,16 +107,16 @@
 			<array>
 				<array>
 					<array>
-						<real>18</real>
+						<real>25</real>
 						<real>0.0</real>
 					</array>
 					<array>
-						<real>18</real>
-						<real>16</real>
+						<real>25</real>
+						<real>19</real>
 					</array>
 					<array>
 						<real>0.0</real>
-						<real>16</real>
+						<real>19</real>
 					</array>
 					<array>
 						<real>0.0</real>
@@ -168,7 +181,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>ocean/arrow.png</string>
+					<string>ocean/bubble_white_64.png</string>
 				</array>
 			</dict>
 			<dict>

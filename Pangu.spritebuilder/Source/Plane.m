@@ -9,10 +9,12 @@
 #import "Plane.h"
 #import "IntervalScheduler.h"
 #import "Bullet.h"
+#import "NSObject+Config.h"
+#import "Gameplay.h"
 
 @implementation Plane{
-    CGFloat _maxHp;
-    CGFloat _hp;
+    NSInteger _maxHp;
+    NSInteger _hp;
     CGPoint _positionInPercent;
     CCTime _fireInterval;
     IntervalScheduler* _fireScheduler;
@@ -25,11 +27,11 @@
 
 static const float MIN_HP = 1;
 
-- (void)setMaxHp:(CGFloat)maxHp{
+- (void)setMaxHp:(NSInteger)maxHp{
     if (_maxHp == 0) {
-        _maxHp = maxHp;
+        _hp = maxHp;
     }else{
-        _hp = _hp/_maxHp*maxHp;
+        _hp = 1.0*_hp/_maxHp*maxHp;
     }
     _maxHp = maxHp;
 }
@@ -50,8 +52,6 @@ static const float MIN_HP = 1;
 }
 
 - (void)didLoadFromCCB {
-    _maxHp = MIN_HP;
-    self.hp = self.maxHp;
 }
 
 + (Plane*)generate:(NSString *)planeFile{
@@ -63,42 +63,36 @@ static const float MIN_HP = 1;
 - (void)loadDefault:(NSString*)file{
     self.file = file;
     CGSize world = [CCDirector  sharedDirector].viewSize;
-    self.bullet = [Bullet generate:@"bullet1"];
-    self.maxHp = 99;
     
-    if ([self.file isEqual:@"hero"]) {
-        self.maxHp = 399;
+    if ([self.file isEqualToString:TYPE_HERO]) {
+        self.maxHp = 500;
         self.position = ccp(world.width/2, world.height/4);
         self.fireInterval = 0.5f;
-        self.physicsBody.collisionCategories = @[@"hero"];
-        self.physicsBody.collisionType = @"hero";
-        self.physicsBody.collisionMask = @[@"enemy_bullet",@"enemy"];
+        self.physicsBody.collisionCategories = @[TYPE_HERO];
+        self.physicsBody.collisionType =TYPE_HERO;
+        self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET,TYPE_ENEMY];
         
+        self.bullet = [Bullet generate:@"bullet1"];
         self.bullet.physicsBody.velocity = ccp(0, 150);
-        self.bullet.physicsBody.collisionCategories=@[@"hero_bullet"];
-        self.bullet.physicsBody.collisionType = @"hero_bullet";
-        self.bullet.physicsBody.collisionMask = @[@"enemy"];
+        self.bullet.physicsBody.collisionCategories=@[TYPE_HERO_BULLET];
+        self.bullet.physicsBody.collisionType = TYPE_HERO_BULLET;
+        self.bullet.physicsBody.collisionMask = @[TYPE_ENEMY];
         return;
     }
     
+    self.bullet = [Bullet generate:@"bullet1"];
+    self.maxHp = 100;
     self.position = ccp((arc4random()%((int)(world.width-self.contentSize.width)))+self.contentSize.width/2, world.height);
     self.physicsBody.velocity = ccp(0, -100);
     self.fireInterval = 2.0f;
-    self.physicsBody.collisionCategories=@[@"enemy"];
-    self.physicsBody.collisionType = @"enemy";
-    self.physicsBody.collisionMask = @[@"hero_bullet",@"hero"];
+    self.physicsBody.collisionCategories=@[TYPE_ENEMY];
+    self.physicsBody.collisionType = TYPE_ENEMY;
+    self.physicsBody.collisionMask = @[TYPE_HERO_BULLET,TYPE_HERO];
     
     self.bullet.physicsBody.velocity = ccp(0, -200);
-    self.bullet.physicsBody.collisionCategories=@[@"enemy_bullet"];
-    self.bullet.physicsBody.collisionType = @"enemy_bullet";
-    self.bullet.physicsBody.collisionMask = @[@"hero"];
-    
-    
-    if ([self.file isEqual:@"small_plane"]) {
-        //plane.maxHp = 99;
-    }else if([self.file isEqual:@"big_plane"]){
-        //plane.maxHp = 499;
-    }
+    self.bullet.physicsBody.collisionCategories=@[TYPE_ENEMY_BULLET];
+    self.bullet.physicsBody.collisionType = TYPE_ENEMY_BULLET;
+    self.bullet.physicsBody.collisionMask = @[TYPE_HERO];
 
 }
 
@@ -108,6 +102,7 @@ static const float MIN_HP = 1;
 
 -(void)update:(CCTime)delta{
     if ([self dead]) {
+        [self onDead];
         [self explode];
         return;
     }
@@ -116,6 +111,25 @@ static const float MIN_HP = 1;
         return;
     }
     [self fire:delta];
+}
+
+- (void)onDead{
+    LOG_FUN;
+    NSDictionary* callback = [self.config dictFrom:@[@"onDead"]];
+    if (!callback) {
+        return;
+    }
+
+    Gameplay* gameplay = [Gameplay currentGame];
+    NSString* method = [callback stringFrom:@[@"method"]];
+    LOG_VAR(method, @"%@");
+    
+    if ([method isEqualToString:@"changeBullet"]) {
+        NSDictionary* newBullet = [callback dictFrom:@[@"newBullet"]];
+        [gameplay changeBullet:newBullet];
+    }else if([method isEqualToString:@"onMissionComplete"]){
+        [gameplay onMissionComplete];
+    }
 }
 
 - (void)explode{
