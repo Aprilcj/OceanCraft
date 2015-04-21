@@ -275,7 +275,7 @@ static Gameplay* s_currentGame;
             return;
         }
         CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
-        [[CCDirector sharedDirector] replaceScene:mainScene];
+        [[CCDirector sharedDirector] replaceScene:mainScene withTransition:[CCTransition transitionFadeWithDuration:1]];
     }delay:3];
 }
 
@@ -284,7 +284,7 @@ static Gameplay* s_currentGame;
 }
 
 - (void)retry {
-    [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"]];
+    [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"] withTransition:[CCTransition transitionFadeWithDuration:1]];
 }
 
 #pragma mark update

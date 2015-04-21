@@ -94,6 +94,6 @@ static NSMutableDictionary* _gameInfo;
     }
     [MainScene setUnlockedLevel:1];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Gameplay"];
-    [[CCDirector sharedDirector] replaceScene:gameplayScene];
+    [[CCDirector sharedDirector] replaceScene:gameplayScene withTransition:[CCTransition transitionFadeWithDuration:1]];
 }
 @end
