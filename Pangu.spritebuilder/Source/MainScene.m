@@ -49,12 +49,14 @@ static NSMutableDictionary* _gameInfo;
 - (void)leftClick{
     s_level--;
     [self setLevelPic:s_level];
+    [[OALSimpleAudio sharedInstance] playEffect:@"select.wav"];
     [self updateButtons];
 }
 
 - (void)rightClick{
     s_level++;
     [self setLevelPic:s_level];
+    [[OALSimpleAudio sharedInstance] playEffect:@"select.wav"];
     [self updateButtons];
 }
 
@@ -88,6 +90,7 @@ static NSMutableDictionary* _gameInfo;
     if ([MainScene level] > [MainScene unlockedLevel]) {
         return;
     }
+    [[OALSimpleAudio sharedInstance] playEffect:@"ok.wav"];
     [MainScene setUnlockedLevel:1];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Gameplay"];
     [[CCDirector sharedDirector] replaceScene:gameplayScene withTransition:[CCTransition transitionFadeWithDuration:1]];

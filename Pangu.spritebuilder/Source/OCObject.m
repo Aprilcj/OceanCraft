@@ -19,6 +19,7 @@
     NSString* _sailTo;
     CGPoint _direction;
     CGFloat _speed;
+    BOOL _dodge;
 }
 
 @synthesize fireInterval = _fireInterval;
@@ -29,7 +30,7 @@
 @synthesize direction = _direction;
 @synthesize speed = _speed;
 
-static const NSInteger MIN_HP = 0;
+static const NSInteger MIN_HP = 1;
 static const CGFloat MIN_UNIT = 0.00001;
 
 #pragma mark setters
@@ -133,19 +134,22 @@ static const CGFloat MIN_UNIT = 0.00001;
         plane = [[OCObject alloc] initWithImageNamed:pngFile];
     }
     plane.file = objectName;
-    plane.category = category;
+    plane.category = category ? category : TYPE_ENEMY;
     [plane loadDefault];
     return plane;
 }
 
 - (void)loadDefault{
+    //common default
     CGSize world = [CCDirector  sharedDirector].viewSize;
     STAGE = CGSizeMake(world.width+self.contentSize.width, world.height + self.contentSize.height);
     if (!self.physicsBody) {
-        self.physicsBody = [CCPhysicsBody bodyWithRect:CGRectMake(0,0, self.contentSize.width, self.contentSize.height) cornerRadius:2];
+        CGFloat shorterSide =  MIN(self.contentSize.width, self.contentSize.height);
+        self.physicsBody = [CCPhysicsBody bodyWithRect:CGRectMake(0,0, self.contentSize.width, self.contentSize.height) cornerRadius:shorterSide/2];
         self.physicsBody.affectedByGravity = FALSE;
         self.physicsBody.allowsRotation = FALSE;
     }
+    _dodge = NO;
     self.speed = 100;
     
     // hero
@@ -157,7 +161,7 @@ static const CGFloat MIN_UNIT = 0.00001;
         self.bullet = [OCObject generate:@"bullet1" category: TYPE_HERO_BULLET];
         self.physicsBody.collisionCategories = @[TYPE_HERO];
         self.physicsBody.collisionType =TYPE_HERO;
-        self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET,TYPE_ENEMY, TYPE_EQUIPMENT];
+        self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET, TYPE_ENEMY, TYPE_EQUIPMENT];
         return;
     }
     
@@ -197,7 +201,7 @@ static const CGFloat MIN_UNIT = 0.00001;
     self.sailTo = @"down";
     self.fireInterval = 3.0f;
     self.explosionEffect = @"plane_explosion";
-    self.bullet = self.bullet = [OCObject generate:@"bullet1" category: TYPE_ENEMY_BULLET];
+    self.bullet = [OCObject generate:@"bullet1" category: TYPE_ENEMY_BULLET];
     self.physicsBody.collisionCategories=@[TYPE_ENEMY];
     self.physicsBody.collisionType = TYPE_ENEMY;
     self.physicsBody.collisionMask = @[TYPE_HERO_BULLET,TYPE_HERO];
@@ -268,10 +272,29 @@ static const CGFloat MIN_UNIT = 0.00001;
 }
 
 -(void)onHit:(OCObject *)object{
-    if ([object.category isEqualToString:TYPE_EQUIPMENT]||[object.category isEqualToString:TYPE_ADORNMENT]) {
-    }else{
-        self.hp -= object.maxHp;
+    if ([object.category isEqualToString:TYPE_EQUIPMENT]) {
+        [[OALSimpleAudio sharedInstance] playEffect:@"eat.wav"];
+        return;
     }
+    if ([object.category isEqualToString:TYPE_ENEMY_BULLET]||[object.category isEqualToString:TYPE_HERO_BULLET]) {
+        self.hp -= object.maxHp;
+        return;
+    }
+    
+    if ([object.category isEqualToString:TYPE_HERO] || [object.category isEqualToString:TYPE_ENEMY]){
+        if (!_dodge) {
+            self.hp -= MIN(100, object.maxHp);
+            [self dodge];
+        }
+        return;
+    }
+}
+
+-(void)dodge{
+    _dodge = YES;
+    [self scheduleBlock:^(CCTimer* timer){
+        _dodge = NO;
+    }delay:1];
 }
 
 -(void)fire{
@@ -281,10 +304,23 @@ static const CGFloat MIN_UNIT = 0.00001;
             bullet.position=ccp(self.position.x,self.position.y+self.contentSize.height/2+bullet.contentSize.height);
         }else if (self.bullet.physicsBody.velocity.y < -MIN_UNIT){
             bullet.position=ccp(self.position.x,self.position.y-self.contentSize.height/2-bullet.contentSize.height);
-            
         }
         [[self parent] addChild:bullet];
+        if (self.bullet.forkable) {
+            [bullet fork];
+        }
     }
+}
+
+- (void)fork{
+    OCObject* left = [OCObject duplicate:self];
+    left.direction = ccp(-1, 1.7);
+    left.position = self.position;
+    OCObject* right = [OCObject duplicate:self];
+    right.direction = ccp(1, 1.7);
+    right.position = self.position;
+    [self.parent addChild:left];
+    [self.parent addChild:right];
 }
 
 @end

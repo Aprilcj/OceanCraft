@@ -61,6 +61,7 @@ static Gameplay* s_currentGame;
     //_physicsNode.debugDraw = YES;
     self.userInteractionEnabled = TRUE;
     _physicsNode.collisionDelegate = self;
+    _physicsNode.physicsBody.collisionMask=@[];
     
     //background
     _bgs = @[_bg1, _bg2];
@@ -206,53 +207,56 @@ static Gameplay* s_currentGame;
 }
 
 #pragma mark collision
-
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(OCObject *)hero_bullet enemy_bullet:(OCObject *)enemy_bullet
-{
+-(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(OCObject *)hero_bullet enemy_bullet:(OCObject *)enemy_bullet{
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
         [hero_bullet explode];
         [enemy_bullet explode];
     } key:hero_bullet];
+    return NO;
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero enemy_bullet:(OCObject *)enemy_bullet
+-(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero enemy_bullet:(OCObject *)enemy_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
         [hero onHit:enemy_bullet];
-        hero.physicsBody.velocity = ccp(0, 0);
         [enemy_bullet explode];
+        hero.physicsBody.velocity = ccp(0, 0);
     } key:hero];
+    return NO;
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair enemy:(OCObject *)enemy hero_bullet:(OCObject *)hero_bullet
+-(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair enemy:(OCObject *)enemy hero_bullet:(OCObject *)hero_bullet
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
         [enemy onHit:hero_bullet];
         [hero_bullet explode];
     } key:enemy];
+    return NO;
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero enemy:(OCObject *)enemy
+-(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero enemy:(OCObject *)enemy
 {
     LOG_FUN;
-    [[_physicsNode space] addPostStepBlock:^{
+    [_physicsNode.space addPostStepBlock:^{
         [hero onHit:enemy];
         [enemy onHit:hero];
-        
         hero.physicsBody.velocity = ccp(0, 0);
     } key:hero];
+    return NO;
 }
 
--(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero equipment:(OCObject *)equipment
+-(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero equipment:(OCObject *)equipment
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
         [equipment onHit:hero];
+        [hero onHit:equipment];
         hero.physicsBody.velocity = ccp(0, 0);
     } key:hero];
+    return NO;
 }
 
 #pragma mark on event

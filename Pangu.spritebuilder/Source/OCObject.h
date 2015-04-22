@@ -22,6 +22,8 @@
 @property (nonatomic, assign) CGPoint direction;
 @property (nonatomic, assign) CGFloat speed;
 @property (nonatomic, copy) NSString* explosionEffect;
+@property (nonatomic,assign) BOOL forkable;
+
 - (void)onHit: (OCObject*)object;
 - (void)loadDefault;
 -(BOOL)dead;

@@ -4,11 +4,48 @@
       "delay": 1,
       "roles": [
         {
-          "name": "ocean/turtle_1",
+          "name": "ocean/sea_star"
+        }
+      ]
+    },{
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_2"
+        }
+      ]
+    },{
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_3"
+        }
+      ]
+    },{
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_1"
+        }
+      ]
+    },{
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_2"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/ball_blue",
+          "category":"equipment",
           "onDead": {
             "method": "changeBullet",
             "newBullet": {
-              "file": "bullet12",
+              "file": "ocean/ball_blue",
               "speed": 500
             }
           }
@@ -19,17 +56,13 @@
       "delay": 1,
       "roles": [
         {
-          "name": "fish_1",
+          "name": "ocean/ball_green",
+          "category":"equipment",
           "onDead": {
             "method": "changeBullet",
             "newBullet": {
-              "file": "bullet1",
-              "physicsBody": {
-                "velocity": {
-                  "x": 0,
-                  "y": 400
-                }
-              }
+              "file": "ocean/ball_green",
+              "forkable":1
             }
           }
         }
@@ -241,6 +274,7 @@
         {
           "name": "terminal",
           "properties": {
+            "maxHp":1,
             "positionInPercent": {
               "x": 0.5,
               "y": 0.5
