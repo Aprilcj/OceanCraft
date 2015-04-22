@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:pangu.xcodeproj">
+      location = "self:OceanCraft.xcodeproj">
    </FileRef>
 </Workspace>

@@ -45,13 +45,13 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>maxHp</string>
+				<string>category</string>
 				<key>optimized</key>
 				<false/>
 				<key>type</key>
-				<integer>1</integer>
+				<integer>3</integer>
 				<key>value</key>
-				<string>99.000000</string>
+				<string>enemy</string>
 			</dict>
 		</array>
 		<key>displayName</key>
@@ -67,7 +67,7 @@
 			<key>allowsRotation</key>
 			<false/>
 			<key>bodyShape</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>collisionCategories</key>
 			<array/>
 			<key>collisionMask</key>
@@ -75,55 +75,24 @@
 			<key>collisionType</key>
 			<string></string>
 			<key>cornerRadius</key>
-			<real>0.0</real>
+			<real>21</real>
 			<key>density</key>
-			<real>1</real>
+			<real>10</real>
 			<key>dynamic</key>
 			<true/>
 			<key>elasticity</key>
 			<real>0.30000001192092896</real>
 			<key>friction</key>
-			<real>0.30000001192092896</real>
+			<real>1</real>
 			<key>points</key>
 			<array>
 				<array>
-					<real>0.0</real>
-					<real>0.0</real>
-				</array>
-				<array>
-					<real>0.0</real>
-					<real>25</real>
-				</array>
-				<array>
-					<real>34</real>
-					<real>25</real>
-				</array>
-				<array>
-					<real>34</real>
-					<real>0.0</real>
+					<real>21</real>
+					<real>19</real>
 				</array>
 			</array>
 			<key>polygons</key>
-			<array>
-				<array>
-					<array>
-						<real>34</real>
-						<real>0.0</real>
-					</array>
-					<array>
-						<real>34</real>
-						<real>25</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>25</real>
-					</array>
-					<array>
-						<real>0.0</real>
-						<real>0.0</real>
-					</array>
-				</array>
-			</array>
+			<array/>
 		</dict>
 		<key>properties</key>
 		<array>
@@ -181,7 +150,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>plane/small_plane_normal_1.png</string>
+					<string>ocean/fish_13.png</string>
 				</array>
 			</dict>
 			<dict>

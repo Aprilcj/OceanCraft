@@ -4,7 +4,7 @@
       "delay": 1,
       "roles": [
         {
-          "name": "drop_black",
+          "name": "shell_fish",
           "onDead": {
             "method": "changeBullet",
             "newBullet": {
