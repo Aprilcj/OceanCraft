@@ -43,26 +43,22 @@ static NSMutableDictionary* _gameInfo;
 
 - (void)didLoadFromCCB {
     [MainScene level];
+    [self updateButtons];
 }
 
 - (void)leftClick{
     s_level--;
     [self setLevelPic:s_level];
-    if (s_level == [MainScene levelMin]) {
-        _left.enabled = false;
-    }else{
-        _left.enabled = true;
-    }
-    if (s_level == [MainScene levelMax]) {
-        _right.enabled = false;
-    }else{
-        _right.enabled = true;
-    }
+    [self updateButtons];
 }
 
 - (void)rightClick{
     s_level++;
     [self setLevelPic:s_level];
+    [self updateButtons];
+}
+
+- (void)updateButtons {
     if (s_level == [MainScene levelMin]) {
         _left.enabled = false;
     }else{
