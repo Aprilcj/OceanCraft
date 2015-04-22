@@ -103,6 +103,10 @@ static Gameplay* s_currentGame;
             NSDictionary* properties = [role dictFrom:@[@"properties"]];
             
             OCObject* object = (OCObject*)[OCObject generate:name category:category];
+            if (object == nil) {
+                LOG(@"failed to generate object, name = %@", name);
+                continue;
+            }
             object.config = role;
             if (properties){
                 [object setProperties:properties];

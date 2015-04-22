@@ -128,10 +128,8 @@ static const CGFloat MIN_UNIT = 0.00001;
     NSString* ccbFile = [NSString stringWithFormat:@"%@.ccbi", objectName];
     NSString* pngFile =[NSString stringWithFormat:@"%@.png", objectName];
     if ([fileManager fileExistsAtPath:[fileUtils fullPathForFilename: ccbFile]]) {
-        LOG(@"ccbfile exists", nil);
         plane = (OCObject*)[CCBReader load:objectName];
     }else if([fileManager fileExistsAtPath:[fileUtils fullPathForFilename:pngFile]]){
-        LOG(@"png exists", nil);
         plane = [[OCObject alloc] initWithImageNamed:pngFile];
     }
     plane.file = objectName;
@@ -144,10 +142,9 @@ static const CGFloat MIN_UNIT = 0.00001;
     CGSize world = [CCDirector  sharedDirector].viewSize;
     STAGE = CGSizeMake(world.width+self.contentSize.width, world.height + self.contentSize.height);
     if (!self.physicsBody) {
-        self.physicsBody = [CCPhysicsBody bodyWithRect:CGRectMake(0,0, self.contentSize.width, self.contentSize.height) cornerRadius:1];
+        self.physicsBody = [CCPhysicsBody bodyWithRect:CGRectMake(0,0, self.contentSize.width, self.contentSize.height) cornerRadius:2];
         self.physicsBody.affectedByGravity = FALSE;
         self.physicsBody.allowsRotation = FALSE;
-        self.physicsBody.density = 10;
     }
     self.speed = 100;
     
