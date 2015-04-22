@@ -70,7 +70,7 @@ static Gameplay* s_currentGame;
     }
     
     // hero
-    _hero = [OCObject generate:@"hero"];
+    _hero = [OCObject generate:@"hero" category:TYPE_HERO];
     [_physicsNode addChild:_hero];
     
     //lifebar
@@ -99,14 +99,11 @@ static Gameplay* s_currentGame;
     [self scheduleBlock:^(CCTimer* timer){
         for (NSDictionary* role in roles) {
             NSString* name = [role stringFrom:@[@"name"]];
+            NSString* category = [role stringFrom:@[@"category"]];
             NSDictionary* properties = [role dictFrom:@[@"properties"]];
             
-            CCNode* object =[CCBReader load:name];
-            if ([object isKindOfClass:[OCObject class]]) {
-                OCObject* plane = (OCObject*)object;
-                [plane loadDefault:name];
-                plane.config = role;
-            }
+            OCObject* object = (OCObject*)[OCObject generate:name category:category];
+            object.config = role;
             if (properties){
                 [object setProperties:properties];
             }
@@ -219,7 +216,7 @@ static Gameplay* s_currentGame;
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        [hero onHitPlane:enemy_bullet];
+        [hero onHit:enemy_bullet];
         hero.physicsBody.velocity = ccp(0, 0);
         [enemy_bullet explode];
     } key:hero];
@@ -229,7 +226,7 @@ static Gameplay* s_currentGame;
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        [enemy onHitPlane:hero_bullet];
+        [enemy onHit:hero_bullet];
         [hero_bullet explode];
     } key:enemy];
 }
@@ -238,8 +235,8 @@ static Gameplay* s_currentGame;
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        [hero onHitPlane:enemy];
-        [enemy onHitPlane:hero];
+        [hero onHit:enemy];
+        [enemy onHit:hero];
         
         hero.physicsBody.velocity = ccp(0, 0);
     } key:hero];
@@ -249,7 +246,7 @@ static Gameplay* s_currentGame;
 {
     LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
-        [equipment onHitPlane:hero];
+        [equipment onHit:hero];
         hero.physicsBody.velocity = ccp(0, 0);
     } key:hero];
 }

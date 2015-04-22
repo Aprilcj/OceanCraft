@@ -22,11 +22,12 @@
 @property (nonatomic, assign) CGPoint direction;
 @property (nonatomic, assign) CGFloat speed;
 @property (nonatomic, copy) NSString* explosionEffect;
-- (void)onHitPlane: (OCObject*)plane;
-+ (OCObject*) generate:(NSString*)planeFile;
-- (void)loadDefault:(NSString*)file;
+- (void)onHit: (OCObject*)object;
+- (void)loadDefault;
 -(BOOL)dead;
 - (void)explode;
+
++ (OCObject*)generate:(NSString *)planeFile category:(NSString*)category;
 @end
 
 static NSString* TYPE_HERO = @"hero";

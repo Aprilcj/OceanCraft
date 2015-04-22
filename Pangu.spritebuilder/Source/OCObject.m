@@ -15,7 +15,7 @@
     NSInteger _hp;
     CGPoint _positionInPercent;
     CCTime _fireInterval;
-    CGSize OUT_OF_STAGE;
+    CGSize STAGE;
     NSString* _sailTo;
     CGPoint _direction;
     CGFloat _speed;
@@ -119,27 +119,36 @@ static const CGFloat MIN_UNIT = 0.00001;
 
 #pragma mark init
 - (void)didLoadFromCCB {
-    CGSize world = [CCDirector  sharedDirector].viewSize;
-    OUT_OF_STAGE = CGSizeMake(world.width+self.contentSize.width, world.height + self.contentSize.height);
 }
 
-+ (OCObject*)generate:(NSString *)planeFile{
-    OCObject* plane = (OCObject*)[CCBReader load:planeFile];
-    plane.file = planeFile;
-    [plane loadDefault:planeFile];
-    return plane;
-}
-
-+ (OCObject*)generate:(NSString *)planeFile category:(NSString*)category{
-    OCObject* plane = (OCObject*)[CCBReader load:planeFile];
-    plane.file = planeFile;
++ (OCObject*)generate:(NSString *)objectName category:(NSString*)category{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    CCFileUtils* fileUtils = [CCFileUtils sharedFileUtils];
+    OCObject* plane = nil;
+    NSString* ccbFile = [NSString stringWithFormat:@"%@.ccbi", objectName];
+    NSString* pngFile =[NSString stringWithFormat:@"%@.png", objectName];
+    if ([fileManager fileExistsAtPath:[fileUtils fullPathForFilename: ccbFile]]) {
+        LOG(@"ccbfile exists", nil);
+        plane = (OCObject*)[CCBReader load:objectName];
+    }else if([fileManager fileExistsAtPath:[fileUtils fullPathForFilename:pngFile]]){
+        LOG(@"png exists", nil);
+        plane = [[OCObject alloc] initWithImageNamed:pngFile];
+    }
+    plane.file = objectName;
     plane.category = category;
-    [plane loadDefault:planeFile];
+    [plane loadDefault];
     return plane;
 }
 
-- (void)loadDefault:(NSString*)file{
+- (void)loadDefault{
     CGSize world = [CCDirector  sharedDirector].viewSize;
+    STAGE = CGSizeMake(world.width+self.contentSize.width, world.height + self.contentSize.height);
+    if (!self.physicsBody) {
+        self.physicsBody = [CCPhysicsBody bodyWithRect:CGRectMake(0,0, self.contentSize.width, self.contentSize.height) cornerRadius:1];
+        self.physicsBody.affectedByGravity = FALSE;
+        self.physicsBody.allowsRotation = FALSE;
+        self.physicsBody.density = 10;
+    }
     self.speed = 100;
     
     // hero
@@ -222,7 +231,7 @@ static const CGFloat MIN_UNIT = 0.00001;
         [self explode];
         return;
     }
-    if (self.position.y < -self.contentSize.height || self.position.x < -self.contentSize.width || self.position.x > OUT_OF_STAGE.width || self.position.y > OUT_OF_STAGE.height) {
+    if (self.position.y < -self.contentSize.height || self.position.x < -self.contentSize.width || self.position.x > STAGE.width || self.position.y > STAGE.height) {
         [self removeFromParent];
         return;
     }
@@ -261,8 +270,11 @@ static const CGFloat MIN_UNIT = 0.00001;
     [self removeFromParent];
 }
 
--(void)onHitPlane:(OCObject *)plane{
-    self.hp -= plane.maxHp;
+-(void)onHit:(OCObject *)object{
+    if ([object.category isEqualToString:TYPE_EQUIPMENT]||[object.category isEqualToString:TYPE_ADORNMENT]) {
+    }else{
+        self.hp -= object.maxHp;
+    }
 }
 
 -(void)fire{

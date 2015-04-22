@@ -4,17 +4,12 @@
       "delay": 1,
       "roles": [
         {
-          "name": "shell_fish",
+          "name": "ocean/turtle_1",
           "onDead": {
             "method": "changeBullet",
             "newBullet": {
               "file": "bullet12",
-              "physicsBody": {
-                "velocity": {
-                  "x": 0,
-                  "y": 300
-                }
-              }
+              "speed": 500
             }
           }
         }
