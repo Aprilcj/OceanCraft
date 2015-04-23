@@ -13,8 +13,13 @@
 + (Gameplay*)currentGame;
 
 -(void)onHitDown: (OCObject*)plane;
--(void)onMissionComplete;
--(void)changeBullet:(NSDictionary*)newBullet;
--(void)addLife:(NSInteger)value;
+-(void)completeMission;
+-(void)changeBulletTo:(NSDictionary*)newBullet;
+-(void)addLifeBy:(NSInteger)value;
+-(void)changeFireIntervalTo:(CGFloat)value;
+-(void)changeDamageTo:(NSInteger)value;
+-(void)forkBullet:(NSInteger)value;
+-(void)lifeSteal:(CGFloat)value;
+-(void)damageRate:(CGFloat)value;
 @end
 

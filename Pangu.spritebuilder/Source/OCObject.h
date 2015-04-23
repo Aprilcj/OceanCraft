@@ -23,7 +23,8 @@
 @property (nonatomic, assign) CGFloat speed;
 @property (nonatomic, copy) NSString* explosionEffect;
 @property (nonatomic,assign) BOOL forkable;
-
+@property (nonatomic, assign) CGFloat lifeStealRate;
+@property (nonatomic, assign)CGFloat damageRate;
 - (void)onHit: (OCObject*)object;
 - (void)loadDefault;
 -(BOOL)dead;
@@ -31,6 +32,8 @@
 
 + (OCObject*)generate:(NSString *)planeFile category:(NSString*)category;
 @end
+
+static const CGFloat MIN_UNIT = 0.00001;
 
 static NSString* TYPE_HERO = @"hero";
 static NSString* TYPE_HERO_BULLET = @"hero_bullet";

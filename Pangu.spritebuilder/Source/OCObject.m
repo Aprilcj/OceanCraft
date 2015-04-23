@@ -31,9 +31,12 @@
 @synthesize speed = _speed;
 
 static const NSInteger MIN_HP = 1;
-static const CGFloat MIN_UNIT = 0.00001;
 
 #pragma mark setters
+
+- (void)setHp:(NSInteger)hp{
+    _hp = MIN(_maxHp, hp);
+}
 
 - (void)setMaxHp:(NSInteger)maxHp{
     if (_maxHp == 0) {
@@ -115,6 +118,7 @@ static const CGFloat MIN_UNIT = 0.00001;
 
 -(void)setFireInterval:(CCTime)fireInterval{
     _fireInterval = fireInterval;
+    [self unschedule:@selector(fire)];
     [self schedule:@selector(fire) interval:fireInterval];
 }
 
@@ -151,6 +155,9 @@ static const CGFloat MIN_UNIT = 0.00001;
     }
     _dodge = NO;
     self.speed = 100;
+    self.forkable = NO;
+    self.lifeStealRate = 0;
+    self.damageRate = 1;
     
     // hero
     if ([self.category isEqualToString:TYPE_HERO]) {
@@ -212,6 +219,7 @@ static const CGFloat MIN_UNIT = 0.00001;
         return nil;
     }
     OCObject* newBullet = [OCObject generate:bullet.file category:bullet.category];
+    newBullet.maxHp = bullet.maxHp;
     newBullet.speed = bullet.speed;
     newBullet.direction = bullet.direction;
     newBullet.physicsBody.collisionCategories = bullet.physicsBody.collisionCategories;
@@ -253,19 +261,35 @@ static const CGFloat MIN_UNIT = 0.00001;
     NSString* method = [callback stringFrom:@[@"method"]];
     LOG_VAR(method, @"%@");
     
-    if ([method isEqualToString:@"changeBullet"]) {
-        NSDictionary* newBullet = [callback dictFrom:@[@"newBullet"]];
-        [gameplay changeBullet:newBullet];
-    }else if([method isEqualToString:@"onMissionComplete"]){
-        [gameplay onMissionComplete];
-    }else if([method isEqualToString:@"addLife"]){
+    if ([method isEqualToString:@"changeBulletTo"]) {
+        NSDictionary* bullet = [callback dictFrom:@[@"value"]];
+        [gameplay changeBulletTo:bullet];
+    }else if([method isEqualToString:@"completeMission"]){
+        [gameplay completeMission];
+    }else if([method isEqualToString:@"addLifeBy"]){
         NSInteger valueToAdd = [callback intFrom:@[@"value"]];
-        [gameplay addLife:valueToAdd];
+        [gameplay addLifeBy:valueToAdd];
+    }else if([method isEqualToString:@"changeFireIntervalTo"]){
+        CGFloat value = [callback doubleFrom:@[@"value"]];
+        [gameplay changeFireIntervalTo:value];
+    }else if([method isEqualToString:@"changeDamageTo"]){
+        NSInteger value = [callback intFrom:@[@"value"]];
+        [gameplay changeDamageTo:value];
+    }else if([method isEqualToString:@"forkBullet"]){
+        NSInteger value = [callback intFrom:@[@"value"]];
+        [gameplay forkBullet:value];
+    }else if([method isEqualToString:@"lifeSteal"]){
+        CGFloat value = [callback doubleFrom:@[@"value"]];
+        [gameplay lifeSteal:value];
+    }else if([method isEqualToString:@"damageRate"]){
+        CGFloat value = [callback doubleFrom:@[@"value"]];
+        [gameplay damageRate:value];
     }
 }
 
 - (void)explode{
     if (self.explosionEffect) {
+        [[OALSimpleAudio sharedInstance] playEffect:@"bubble.wav"];
         CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:self.explosionEffect];
         explosion.position = self.position;
         [self.parent addChild:explosion];
@@ -280,13 +304,13 @@ static const CGFloat MIN_UNIT = 0.00001;
         return;
     }
     if ([object.category isEqualToString:TYPE_ENEMY_BULLET]||[object.category isEqualToString:TYPE_HERO_BULLET]) {
-        self.hp -= object.maxHp;
+        self.hp -= object.maxHp*self.damageRate;
         return;
     }
     
     if ([object.category isEqualToString:TYPE_HERO] || [object.category isEqualToString:TYPE_ENEMY]){
         if (!_dodge) {
-            self.hp -= MIN(100, object.maxHp);
+            self.hp -= MIN(100, object.maxHp)*self.damageRate;
             [self dodge];
         }
         return;
@@ -317,10 +341,10 @@ static const CGFloat MIN_UNIT = 0.00001;
 
 - (void)fork{
     OCObject* left = [OCObject duplicate:self];
-    left.direction = ccp(-1*self.direction.x, 1.7*self.direction.y);
+    left.direction = ccp(-1, 1.7*self.direction.y);
     left.position = self.position;
     OCObject* right = [OCObject duplicate:self];
-    right.direction = ccp(1*self.direction.x, 1.7*self.direction.y);
+    right.direction = ccp(1, 1.7*self.direction.y);
     right.position = self.position;
     [self.parent addChild:left];
     [self.parent addChild:right];

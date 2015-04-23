@@ -190,6 +190,9 @@ static Gameplay* s_currentGame;
         LOG_FUN;
         [enemy onHit:hero_bullet];
         [hero_bullet explode];
+        if (_hero.lifeStealRate > MIN_UNIT) {
+            _hero.hp += _hero.lifeStealRate*enemy.maxHp;
+        }
     } key:enemy];
     return NO;
 }
@@ -226,15 +229,39 @@ static Gameplay* s_currentGame;
     _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
 }
 
--(void)changeBullet:(NSDictionary*)newBullet{
+-(void)changeBulletTo:(NSDictionary*)newBullet{
     [_hero.bullet setProperties:newBullet];
 }
 
--(void)addLife:(NSInteger)value{
+-(void)addLifeBy:(NSInteger)value{
     _hero.hp = MIN(_hero.hp + value, _hero.maxHp);
 }
 
--(void)onMissionComplete{
+-(void)changeFireIntervalTo:(CGFloat)value{
+    _hero.fireInterval = value;
+}
+
+-(void)changeDamageTo:(NSInteger)value{
+    _hero.bullet.maxHp = value;
+}
+
+-(void)forkBullet:(NSInteger)value{
+    if (value) {
+        _hero.bullet.forkable = YES;
+    }else{
+        _hero.bullet.forkable = NO;
+    }
+}
+
+-(void)lifeSteal:(CGFloat)value{
+    _hero.lifeStealRate = value;
+}
+
+-(void)damageRate:(CGFloat)value{
+    _hero.damageRate = value;
+}
+
+-(void)completeMission{
     LOG_FUN;
     [self scheduleBlock:^(CCTimer* cctimer){
         if ([_hero dead]) {

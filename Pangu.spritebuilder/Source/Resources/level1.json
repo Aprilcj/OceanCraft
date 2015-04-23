@@ -4,11 +4,43 @@
       "delay": 1,
       "roles": [
         {
+          "name": "ocean/sea_star"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_2"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_3"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_1"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
           "name": "ocean/sea_shell_2",
           "category": "equipment",
           "onDead": {
             "method": "changeBulletTo",
-            "value": {
+            "bullet": {
               "file":"ocean/bubble_colorful_64",
               "speed": 200
             }
@@ -20,7 +52,7 @@
       "delay": 1,
       "roles": [
         {
-          "name": "ocean/sea_shell_2",
+          "name": "ocean/ball_blue",
           "category": "equipment",
           "onDead": {
             "method": "addLifeBy",
