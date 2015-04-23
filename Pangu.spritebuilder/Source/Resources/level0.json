@@ -1,0 +1,104 @@
+{
+  "actors": [
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_2",
+          "category": "equipment",
+          "onDead": {
+            "method": "damageRate",
+            "value": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star",
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_2"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_3"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_1"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_2"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_3"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_1"
+        }
+      ]
+    },
+    {
+      "delay": 3,
+      "roles": [
+        {
+          "name": "terminal",
+          "properties": {
+            "maxHp": 1,
+            "positionInPercent": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "sailTo": "up",
+            "speed": 50,
+            "bullet": {
+              "file": ""
+            }
+          },
+          "onDead": {
+            "method": "completeMission"
+          }
+        }
+      ]
+    }
+  ]
+}
