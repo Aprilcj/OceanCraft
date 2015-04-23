@@ -1,0 +1,305 @@
+{
+  "actors": [
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star"
+        }
+      ]
+    },{
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_2"
+        }
+      ]
+    },{
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_3"
+        }
+      ]
+    },{
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_1"
+        }
+      ]
+    },{
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_2",
+          "category":"equipment",
+          "onDead":{
+            "method":"addLife",
+            "value":200
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/ball_blue",
+          "category":"equipment",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "ocean/ball_blue",
+              "speed": 500
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/ball_green",
+          "category":"equipment",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "ocean/ball_green",
+              "forkable":1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_2",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet2",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_3",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet3",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_4",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet4",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_5",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet5",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_6",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet6",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_7",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet7",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_8",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet8",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_9",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet9",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_10",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet10",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "fish_11",
+          "onDead": {
+            "method": "changeBullet",
+            "newBullet": {
+              "file": "bullet11",
+              "physicsBody": {
+                "velocity": {
+                  "x": 0,
+                  "y": 400
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 3,
+      "roles": [
+        {
+          "name": "terminal",
+          "properties": {
+            "maxHp":1,
+            "positionInPercent": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "physicsBody": {
+              "velocity": {
+                "x": 0,
+                "y": 50
+              }
+            },
+            "maxHp": 1,
+            "bullet": {
+              "file": ""
+            }
+          },
+          "onDead": {
+            "method": "onMissionComplete"
+          }
+        }
+      ]
+    }
+  ]
+}

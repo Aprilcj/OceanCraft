@@ -177,7 +177,7 @@ static const CGFloat MIN_UNIT = 0.00001;
     
     //equipment
     if ([self.category isEqualToString:TYPE_EQUIPMENT]) {
-        self.maxHp = 0;
+        self.maxHp = MIN_HP;
         self.sailTo = @"down";
         self.physicsBody.collisionCategories = @[TYPE_EQUIPMENT];
         self.physicsBody.collisionType =TYPE_EQUIPMENT;
@@ -214,7 +214,7 @@ static const CGFloat MIN_UNIT = 0.00001;
     OCObject* newBullet = [OCObject generate:bullet.file category:bullet.category];
     newBullet.speed = bullet.speed;
     newBullet.direction = bullet.direction;
-    newBullet.physicsBody.velocity = bullet.physicsBody.velocity;
+    newBullet.physicsBody.collisionCategories = bullet.physicsBody.collisionCategories;
     newBullet.physicsBody.collisionType = bullet.physicsBody.collisionType;
     newBullet.physicsBody.collisionMask = bullet.physicsBody.collisionMask;
     return newBullet;
@@ -258,6 +258,9 @@ static const CGFloat MIN_UNIT = 0.00001;
         [gameplay changeBullet:newBullet];
     }else if([method isEqualToString:@"onMissionComplete"]){
         [gameplay onMissionComplete];
+    }else if([method isEqualToString:@"addLife"]){
+        NSInteger valueToAdd = [callback intFrom:@[@"value"]];
+        [gameplay addLife:valueToAdd];
     }
 }
 
@@ -314,10 +317,10 @@ static const CGFloat MIN_UNIT = 0.00001;
 
 - (void)fork{
     OCObject* left = [OCObject duplicate:self];
-    left.direction = ccp(-1, 1.7);
+    left.direction = ccp(-1*self.direction.x, 1.7*self.direction.y);
     left.position = self.position;
     OCObject* right = [OCObject duplicate:self];
-    right.direction = ccp(1, 1.7);
+    right.direction = ccp(1*self.direction.x, 1.7*self.direction.y);
     right.position = self.position;
     [self.parent addChild:left];
     [self.parent addChild:right];

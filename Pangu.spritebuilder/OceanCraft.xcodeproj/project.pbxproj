@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1127AFB81AE89AFF0049CC8D /* examples.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFB71AE89AFF0049CC8D /* examples.json */; };
 		117682471ADF82DA007472C8 /* game_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 117682461ADF82DA007472C8 /* game_info.plist */; };
-		119574AF1ACB62860099D14F /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 119574AE1ACB62860099D14F /* level1.json */; };
+		119574AF1ACB62860099D14F /* level0.json in Resources */ = {isa = PBXBuildFile; fileRef = 119574AE1ACB62860099D14F /* level0.json */; };
 		119574B21ACB65680099D14F /* ScriptLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 119574B11ACB65680099D14F /* ScriptLoader.m */; };
 		11D7DDFA1A7D6D8A005AA0B9 /* OCObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DDF91A7D6D8A005AA0B9 /* OCObject.m */; };
 		11D7DE011A7D8391005AA0B9 /* Gameplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DE001A7D8391005AA0B9 /* Gameplay.m */; };
@@ -100,7 +101,6 @@
 		BC5399DB1A44DCC90063F482 /* JavaFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D61A44DCC90063F482 /* JavaFoundation.framework */; };
 		BC5399DC1A44DCC90063F482 /* JavaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D71A44DCC90063F482 /* JavaKit.framework */; };
 		D4214E9D1AD7FEB3002DD936 /* NSObject+Config.m in Sources */ = {isa = PBXBuildFile; fileRef = D4214E9C1AD7FEB3002DD936 /* NSObject+Config.m */; };
-		D4813D7A1ADC4FDA000577C9 /* adornment.json in Resources */ = {isa = PBXBuildFile; fileRef = D4813D781ADC4FDA000577C9 /* adornment.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,8 +156,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1127AFB71AE89AFF0049CC8D /* examples.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = examples.json; sourceTree = "<group>"; };
 		117682461ADF82DA007472C8 /* game_info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_info.plist; sourceTree = "<group>"; };
-		119574AE1ACB62860099D14F /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
+		119574AE1ACB62860099D14F /* level0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level0.json; sourceTree = "<group>"; };
 		119574B01ACB65680099D14F /* ScriptLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptLoader.h; path = Source/ScriptLoader.h; sourceTree = "<group>"; };
 		119574B11ACB65680099D14F /* ScriptLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScriptLoader.m; path = Source/ScriptLoader.m; sourceTree = "<group>"; };
 		11D7DDF81A7D6D8A005AA0B9 /* OCObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCObject.h; path = Source/OCObject.h; sourceTree = "<group>"; };
@@ -230,7 +231,6 @@
 		D352B48019EC608A00829775 /* MetalShaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MetalShaders; path = Source/MetalShaders; sourceTree = "<group>"; };
 		D4214E9B1AD7FEB3002DD936 /* NSObject+Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Config.h"; path = "Source/NSObject+Config.h"; sourceTree = "<group>"; };
 		D4214E9C1AD7FEB3002DD936 /* NSObject+Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Config.m"; path = "Source/NSObject+Config.m"; sourceTree = "<group>"; };
-		D4813D781ADC4FDA000577C9 /* adornment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = adornment.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -550,8 +550,8 @@
 				B73789911807667A0076A88C /* Icons */,
 				B737893A180761570076A88C /* Published-iOS */,
 				B78A0B0F198AF87200C63841 /* Published-Android */,
-				119574AE1ACB62860099D14F /* level1.json */,
-				D4813D781ADC4FDA000577C9 /* adornment.json */,
+				119574AE1ACB62860099D14F /* level0.json */,
+				1127AFB71AE89AFF0049CC8D /* examples.json */,
 			);
 			name = Resources;
 			path = Source/Resources;
@@ -757,6 +757,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1127AFB81AE89AFF0049CC8D /* examples.json in Resources */,
 				B71F5919188484E7003F4D28 /* Settings.png in Resources */,
 				B7378978180762440076A88C /* Default@2x.png in Resources */,
 				B71F5914188484E7003F4D28 /* iPad@2x.png in Resources */,
@@ -768,10 +769,9 @@
 				B7378976180762440076A88C /* Default-Landscape~ipad.png in Resources */,
 				B71F5915188484E7003F4D28 /* iPhone-old.png in Resources */,
 				117682471ADF82DA007472C8 /* game_info.plist in Resources */,
-				D4813D7A1ADC4FDA000577C9 /* adornment.json in Resources */,
 				B71F5917188484E7003F4D28 /* iPhone.png in Resources */,
 				B7378975180762440076A88C /* Default-568h@2x.png in Resources */,
-				119574AF1ACB62860099D14F /* level1.json in Resources */,
+				119574AF1ACB62860099D14F /* level0.json in Resources */,
 				B71F5918188484E7003F4D28 /* iPhone@2x.png in Resources */,
 				B7378977180762440076A88C /* Default.png in Resources */,
 				B71F5911188484E7003F4D28 /* iPad-old.png in Resources */,

@@ -15,5 +15,6 @@
 -(void)onHitDown: (OCObject*)plane;
 -(void)onMissionComplete;
 -(void)changeBullet:(NSDictionary*)newBullet;
+-(void)addLife:(NSInteger)value;
 @end
 

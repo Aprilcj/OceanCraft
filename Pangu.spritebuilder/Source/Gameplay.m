@@ -20,29 +20,28 @@ static const float scrollSpeed = -50.f;
     CCPhysicsNode *_physicsNode;
     CCNode *_contentNode;
     
-    //score
+    // score
     CCLabelTTF *_score;
     int _scoreValue;
     
-    //hero
+    // hero
     OCObject *_hero;
-
-    //background
+    
+    // background
     CCNode *_bg1;
     CCNode *_bg2;
     NSArray *_bgs;
     
-    CCNode* _adornment;
-    NSInteger _currentAdornment;
-    
+    // retry
     CCButton *_retryButton;
     
-    //lifebar
+    // lifebar
     CCSprite *_lifebar_fill;
     CCProgressNode *_lifeIndicator;
     CCNode* _lifebar_bg;
     CCNode* _lifebar_container;
     
+    ScriptLoader* _currentScript;
     NSInteger _currentLevel;
     NSUInteger _currentActor;
 }
@@ -56,7 +55,6 @@ static Gameplay* s_currentGame;
 #pragma mark init
 - (void)didLoadFromCCB {
     s_currentGame = self;
-    _currentLevel = [MainScene unlockedLevel];
     
     //_physicsNode.debugDraw = YES;
     self.userInteractionEnabled = TRUE;
@@ -78,22 +76,18 @@ static Gameplay* s_currentGame;
     [self addLifeIndicator];
     
     //actors
+    _currentScript = [ScriptLoader loaderOfLevel:[MainScene level]];
     _currentActor = 0;
     [self addRoles];
-    
-    //adornment
-    _currentAdornment = 0;
-    //[self addAdornment];
 }
 
 - (void) addRoles{
-    ScriptLoader* script = [ScriptLoader loaderOfLevel:_currentLevel];
-    NSArray* actors = [script.script arrayFrom:@[@"actors"]];
+    NSArray* actors = [_currentScript.script arrayFrom:@[@"actors"]];
     if (_currentActor > [actors count] - 1) {
         LOG(@"script over", nil);
         return;
     }
-    LOG(@"load scene: %ld", _currentActor);
+    LOG(@"load actor: %ld", _currentActor);
     NSDictionary* actor =  [actors dictFrom:@[[NSNumber numberWithUnsignedInteger:_currentActor++]]];
     NSArray* roles = [actor arrayFrom:@[@"roles"]];
     
@@ -120,33 +114,6 @@ static Gameplay* s_currentGame;
     
 }
 
-- (void) addAdornment{
-    ScriptLoader* script = [ScriptLoader loaderOfFile:@"adornment"];
-    NSArray* adornmentGroups = [script.script arrayFrom:@[@"adornments"]];
-    if (_currentAdornment == [adornmentGroups count]) {
-        _currentAdornment = 0;
-    }
-    LOG(@"load adornment: %ld", _currentAdornment);
-    NSDictionary* adornmentGroup =  [adornmentGroups dictFrom:@[[NSNumber numberWithUnsignedInteger:_currentAdornment++]]];
-    NSArray* objects = [adornmentGroup arrayFrom:@[@"objects"]];
-    
-    [self scheduleBlock:^(CCTimer* timer){
-        for (NSDictionary* role in objects) {
-            NSString* name = [role stringFrom:@[@"name"]];
-            NSDictionary* properties = [role dictFrom:@[@"properties"]];
-            
-            CCNode* object =[CCBReader load:name];
-            if (properties){
-                [object setProperties:properties];
-            }
-            [_adornment addChild:object];
-            
-        }
-        [self addAdornment];
-    } delay:[adornmentGroup doubleFrom:@[@"delay"]]];
-    
-}
-
 
 - (void)addLifeIndicator{
     _lifeIndicator = [CCProgressNode progressWithSprite:_lifebar_fill];
@@ -161,20 +128,10 @@ static Gameplay* s_currentGame;
     [_lifebar_bg.parent addChild:_lifeIndicator];
 }
 
-- (void)updateLifeIndicator{
-    CGFloat percentage = _hero.hp* 100 / _hero.maxHp ;
-    // LOG_VAR(percentage, @"%f");
-    percentage = percentage < 0? 0 : percentage;
-    percentage = percentage > 100 ? 100 : percentage;
-    if (abs(_lifeIndicator.percentage - percentage) >= 1) {
-        _lifeIndicator.percentage =percentage;
-    }
-}
-
 #pragma mark touch
 
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event{
-
+    
 }
 
 - (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
@@ -208,8 +165,8 @@ static Gameplay* s_currentGame;
 
 #pragma mark collision
 -(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair hero_bullet:(OCObject *)hero_bullet enemy_bullet:(OCObject *)enemy_bullet{
-    LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
+        LOG_FUN;
         [hero_bullet explode];
         [enemy_bullet explode];
     } key:hero_bullet];
@@ -218,8 +175,8 @@ static Gameplay* s_currentGame;
 
 -(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero enemy_bullet:(OCObject *)enemy_bullet
 {
-    LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
+        LOG_FUN;
         [hero onHit:enemy_bullet];
         [enemy_bullet explode];
         hero.physicsBody.velocity = ccp(0, 0);
@@ -229,8 +186,8 @@ static Gameplay* s_currentGame;
 
 -(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair enemy:(OCObject *)enemy hero_bullet:(OCObject *)hero_bullet
 {
-    LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
+        LOG_FUN;
         [enemy onHit:hero_bullet];
         [hero_bullet explode];
     } key:enemy];
@@ -239,8 +196,8 @@ static Gameplay* s_currentGame;
 
 -(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero enemy:(OCObject *)enemy
 {
-    LOG_FUN;
     [_physicsNode.space addPostStepBlock:^{
+        LOG_FUN;
         [hero onHit:enemy];
         [enemy onHit:hero];
         hero.physicsBody.velocity = ccp(0, 0);
@@ -250,8 +207,8 @@ static Gameplay* s_currentGame;
 
 -(BOOL)ccPhysicsCollisionPreSolve:(CCPhysicsCollisionPair *)pair hero:(OCObject *)hero equipment:(OCObject *)equipment
 {
-    LOG_FUN;
     [[_physicsNode space] addPostStepBlock:^{
+        LOG_FUN;
         [equipment onHit:hero];
         [hero onHit:equipment];
         hero.physicsBody.velocity = ccp(0, 0);
@@ -273,12 +230,17 @@ static Gameplay* s_currentGame;
     [_hero.bullet setProperties:newBullet];
 }
 
+-(void)addLife:(NSInteger)value{
+    _hero.hp = MIN(_hero.hp + value, _hero.maxHp);
+}
+
 -(void)onMissionComplete{
     LOG_FUN;
     [self scheduleBlock:^(CCTimer* cctimer){
         if ([_hero dead]) {
             return;
         }
+        [MainScene setUnlockedLevel:[MainScene level] + 1];
         CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
         [[CCDirector sharedDirector] replaceScene:mainScene withTransition:[CCTransition transitionFadeWithDuration:1]];
     }delay:3];
@@ -301,6 +263,16 @@ static Gameplay* s_currentGame;
             //LOG(@"_bgRect=(%f, %f)", _bgRect.width, _bgRect.height);
             bg.position = ccp(bg.position.x, bg.position.y+2*bg.contentSize.height);
         }
+    }
+}
+
+- (void)updateLifeIndicator{
+    CGFloat percentage = _hero.hp* 100 / _hero.maxHp ;
+    // LOG_VAR(percentage, @"%f");
+    percentage = percentage < 0? 0 : percentage;
+    percentage = percentage > 100 ? 100 : percentage;
+    if (abs(_lifeIndicator.percentage - percentage) >= 1) {
+        _lifeIndicator.percentage =percentage;
     }
 }
 

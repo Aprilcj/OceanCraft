@@ -7,28 +7,32 @@
           "name": "ocean/sea_star"
         }
       ]
-    },{
+    },
+    {
       "delay": 1,
       "roles": [
         {
           "name": "ocean/sea_star_2"
         }
       ]
-    },{
+    },
+    {
       "delay": 1,
       "roles": [
         {
           "name": "ocean/sea_star_3"
         }
       ]
-    },{
+    },
+    {
       "delay": 1,
       "roles": [
         {
           "name": "ocean/sea_shell_1"
         }
       ]
-    },{
+    },
+    {
       "delay": 1,
       "roles": [
         {
@@ -41,7 +45,7 @@
       "roles": [
         {
           "name": "ocean/ball_blue",
-          "category":"equipment",
+          "category": "equipment",
           "onDead": {
             "method": "changeBullet",
             "newBullet": {
@@ -57,12 +61,12 @@
       "roles": [
         {
           "name": "ocean/ball_green",
-          "category":"equipment",
+          "category": "equipment",
           "onDead": {
             "method": "changeBullet",
             "newBullet": {
               "file": "ocean/ball_green",
-              "forkable":1
+              "forkable": 1
             }
           }
         }
@@ -274,7 +278,7 @@
         {
           "name": "terminal",
           "properties": {
-            "maxHp":1,
+            "maxHp": 1,
             "positionInPercent": {
               "x": 0.5,
               "y": 0.5
@@ -285,7 +289,6 @@
                 "y": 50
               }
             },
-            "maxHp": 1,
             "bullet": {
               "file": ""
             }
