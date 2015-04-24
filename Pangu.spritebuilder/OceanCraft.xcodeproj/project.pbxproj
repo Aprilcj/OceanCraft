@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1127AFB81AE89AFF0049CC8D /* examples.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFB71AE89AFF0049CC8D /* examples.json */; };
+		1127AFBA1AE9A64E0049CC8D /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFB91AE9A64E0049CC8D /* level1.json */; };
+		1127AFBC1AE9D59B0049CC8D /* level0.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFBB1AE9D59B0049CC8D /* level0.json */; };
 		117682471ADF82DA007472C8 /* game_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 117682461ADF82DA007472C8 /* game_info.plist */; };
-		119574AF1ACB62860099D14F /* level0.json in Resources */ = {isa = PBXBuildFile; fileRef = 119574AE1ACB62860099D14F /* level0.json */; };
 		119574B21ACB65680099D14F /* ScriptLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 119574B11ACB65680099D14F /* ScriptLoader.m */; };
 		11D7DDFA1A7D6D8A005AA0B9 /* OCObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DDF91A7D6D8A005AA0B9 /* OCObject.m */; };
 		11D7DE011A7D8391005AA0B9 /* Gameplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DE001A7D8391005AA0B9 /* Gameplay.m */; };
@@ -157,8 +158,9 @@
 
 /* Begin PBXFileReference section */
 		1127AFB71AE89AFF0049CC8D /* examples.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = examples.json; sourceTree = "<group>"; };
+		1127AFB91AE9A64E0049CC8D /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
+		1127AFBB1AE9D59B0049CC8D /* level0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level0.json; sourceTree = "<group>"; };
 		117682461ADF82DA007472C8 /* game_info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_info.plist; sourceTree = "<group>"; };
-		119574AE1ACB62860099D14F /* level0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level0.json; sourceTree = "<group>"; };
 		119574B01ACB65680099D14F /* ScriptLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptLoader.h; path = Source/ScriptLoader.h; sourceTree = "<group>"; };
 		119574B11ACB65680099D14F /* ScriptLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScriptLoader.m; path = Source/ScriptLoader.m; sourceTree = "<group>"; };
 		11D7DDF81A7D6D8A005AA0B9 /* OCObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCObject.h; path = Source/OCObject.h; sourceTree = "<group>"; };
@@ -550,7 +552,8 @@
 				B73789911807667A0076A88C /* Icons */,
 				B737893A180761570076A88C /* Published-iOS */,
 				B78A0B0F198AF87200C63841 /* Published-Android */,
-				119574AE1ACB62860099D14F /* level0.json */,
+				1127AFB91AE9A64E0049CC8D /* level1.json */,
+				1127AFBB1AE9D59B0049CC8D /* level0.json */,
 				1127AFB71AE89AFF0049CC8D /* examples.json */,
 			);
 			name = Resources;
@@ -757,6 +760,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1127AFBA1AE9A64E0049CC8D /* level1.json in Resources */,
 				1127AFB81AE89AFF0049CC8D /* examples.json in Resources */,
 				B71F5919188484E7003F4D28 /* Settings.png in Resources */,
 				B7378978180762440076A88C /* Default@2x.png in Resources */,
@@ -765,13 +769,13 @@
 				B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */,
 				B71F5916188484E7003F4D28 /* iPhone-old@2x.png in Resources */,
 				B737893B180761570076A88C /* Published-iOS in Resources */,
+				1127AFBC1AE9D59B0049CC8D /* level0.json in Resources */,
 				B71F591A188484E7003F4D28 /* Settings@2x.png in Resources */,
 				B7378976180762440076A88C /* Default-Landscape~ipad.png in Resources */,
 				B71F5915188484E7003F4D28 /* iPhone-old.png in Resources */,
 				117682471ADF82DA007472C8 /* game_info.plist in Resources */,
 				B71F5917188484E7003F4D28 /* iPhone.png in Resources */,
 				B7378975180762440076A88C /* Default-568h@2x.png in Resources */,
-				119574AF1ACB62860099D14F /* level0.json in Resources */,
 				B71F5918188484E7003F4D28 /* iPhone@2x.png in Resources */,
 				B7378977180762440076A88C /* Default.png in Resources */,
 				B71F5911188484E7003F4D28 /* iPad-old.png in Resources */,

@@ -15,15 +15,15 @@ static NSArray* s_levelPictures;
 static NSArray* s_levelNames;
 static NSArray* s_levelRewards;
 
-+ (NSDictionary*)gameInfo{
++ (void)initStatic{
     if (!_gameInfo) {
         NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"game_info"] ofType:@"plist"];
         _gameInfo = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
+        s_level = [MainScene unlockedLevel];
         s_levelPictures = @[@"ocean/octopus_3.png", @"ocean/fish_5.png", @"ocean/fish_1.png", @"ocean/sea_nail_5.png", @"ocean/turtle_1.png", @"ocean/shark_1.png", @"ocean/score_icon.png"];
         s_levelNames = @[@"Dark Lord", @"Speed Warrior", @"Toxin Friend", @"Ocean Singer", @"Turtle Rock", @"King of Sea", @"Infinity"];
         s_levelRewards=@[@""];
     }
-    return _gameInfo;
 }
 
 + (void)writeInfoFile{
@@ -35,7 +35,7 @@ static NSArray* s_levelRewards;
 }
 
 + (NSInteger)unlockedLevel{
-    return [[[MainScene gameInfo] valueForKey:@"level_unlocked" ]integerValue];
+    return [[_gameInfo valueForKey:@"level_unlocked" ]integerValue];
 }
 
 + (void)setUnlockedLevel:(NSInteger)level{
@@ -43,20 +43,18 @@ static NSArray* s_levelRewards;
         return;
     }
     if (level > [self unlockedLevel]) {
-        [[MainScene gameInfo] setValue:[NSNumber numberWithInteger:level ]forKey:@"level_unlocked"];
+        [_gameInfo setValue:[NSNumber numberWithInteger:level ]forKey:@"level_unlocked"];
         [self writeInfoFile];
     }
 }
 
 + (NSInteger)level{
-    if (!s_level) {
-        s_level = [MainScene unlockedLevel];
-    }
     return s_level;
 }
 
 - (void)onEnter{
     [super onEnter];
+    [MainScene initStatic];
     s_level = [MainScene unlockedLevel];
     [self setLevelInfo:s_level];
     [self updateButtons];
@@ -93,6 +91,7 @@ static NSArray* s_levelRewards;
     [_levelPic removeAllChildren];
     [_lock removeAllChildren];
     
+    LOG_VAR(s_level, @"%d");
     NSString* fileName = nil;
     if (level > [MainScene unlockedLevel]) {
         fileName = @"ocean/lock.png";

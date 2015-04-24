@@ -58,7 +58,7 @@ static const NSInteger MIN_HP = 1;
 }
 
 -(void)updateVelocity{
-    if (abs(_direction.x) < MIN_UNIT && abs(_direction.y) < MIN_UNIT) {
+    if (_speed < MIN_UNIT || (abs(_direction.x) < MIN_UNIT && abs(_direction.y) < MIN_UNIT)) {
         self.physicsBody.velocity = ccp(0, 0);
         return;
     }
@@ -68,7 +68,6 @@ static const NSInteger MIN_HP = 1;
 }
 
 -(void)setSailTo:(NSString *)sailTo{
-    CGPoint beginPosition;
     if ([sailTo isEqualToString:@"up"]) {
         _direction = ccp(0, 1);
     }else if ([sailTo isEqualToString:@"down"]) {
@@ -88,7 +87,12 @@ static const NSInteger MIN_HP = 1;
     }else{
         _direction = ccp(0, 0);
     }
-    
+    [self setPositionForSailing];
+    [self updateVelocity];
+}
+
+-(void)setPositionForSailing{
+    CGPoint beginPosition;
     CGSize world = [CCDirector  sharedDirector].viewSize;
     if (_direction.x < -MIN_UNIT) {
         beginPosition.x = world.width + self.contentSize.width/2;
@@ -105,7 +109,6 @@ static const NSInteger MIN_HP = 1;
     }else{
         beginPosition.y =(arc4random()%((int)(world.height-self.contentSize.height)))+self.contentSize.height/2;
     }
-    
     self.position = beginPosition;
     [self updateVelocity];
 }
@@ -118,7 +121,7 @@ static const NSInteger MIN_HP = 1;
 
 -(void)setFireInterval:(CCTime)fireInterval{
     _fireInterval = fireInterval;
-    [self unschedule:@selector(fire)];
+    [self unscheduleAllSelectors];
     [self schedule:@selector(fire) interval:fireInterval];
 }
 
@@ -129,18 +132,19 @@ static const NSInteger MIN_HP = 1;
 + (OCObject*)generate:(NSString *)objectName category:(NSString*)category{
     NSFileManager* fileManager = [NSFileManager defaultManager];
     CCFileUtils* fileUtils = [CCFileUtils sharedFileUtils];
-    OCObject* plane = nil;
     NSString* ccbFile = [NSString stringWithFormat:@"%@.ccbi", objectName];
     NSString* pngFile =[NSString stringWithFormat:@"%@.png", objectName];
+    
+    OCObject* object = nil;
     if ([fileManager fileExistsAtPath:[fileUtils fullPathForFilename: ccbFile]]) {
-        plane = (OCObject*)[CCBReader load:objectName];
+        object = (OCObject*)[CCBReader load:objectName];
     }else if([fileManager fileExistsAtPath:[fileUtils fullPathForFilename:pngFile]]){
-        plane = [[OCObject alloc] initWithImageNamed:pngFile];
+        object = [[OCObject alloc] initWithImageNamed:pngFile];
     }
-    plane.file = objectName;
-    plane.category = category ? category : TYPE_ENEMY;
-    [plane loadDefault];
-    return plane;
+    object.file = objectName;
+    object.category = category ? category : TYPE_ENEMY;
+    [object loadDefault];
+    return object;
 }
 
 - (void)loadDefault{
@@ -154,7 +158,6 @@ static const NSInteger MIN_HP = 1;
         self.physicsBody.allowsRotation = FALSE;
     }
     _dodge = NO;
-    self.speed = 100;
     self.forkable = NO;
     self.lifeStealRate = 0;
     self.damageRate = 1;
@@ -165,7 +168,7 @@ static const NSInteger MIN_HP = 1;
         self.position = ccp(world.width/2, world.height/4);
         self.fireInterval = 0.5f;
         self.explosionEffect = @"plane_explosion";
-        self.bullet = [OCObject generate:@"bullet1" category: TYPE_HERO_BULLET];
+        self.bullet = [OCObject generate:@"ocean/bubble_colorful_64" category: TYPE_HERO_BULLET];
         self.physicsBody.collisionCategories = @[TYPE_HERO];
         self.physicsBody.collisionType =TYPE_HERO;
         self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET, TYPE_ENEMY, TYPE_EQUIPMENT];
@@ -174,6 +177,7 @@ static const NSInteger MIN_HP = 1;
     
     //hero's bullet
     if ([self.category isEqualToString:TYPE_HERO_BULLET]) {
+        self.speed = 200;
         self.sailTo = @"up";
         self.maxHp = 100;
         self.physicsBody.collisionCategories=@[TYPE_HERO_BULLET];
@@ -184,6 +188,7 @@ static const NSInteger MIN_HP = 1;
     
     //equipment
     if ([self.category isEqualToString:TYPE_EQUIPMENT]) {
+        self.speed = 50;
         self.maxHp = MIN_HP;
         self.sailTo = @"down";
         self.physicsBody.collisionCategories = @[TYPE_EQUIPMENT];
@@ -204,11 +209,12 @@ static const NSInteger MIN_HP = 1;
     }
     
     //enemy
+    self.speed = 100;
     self.maxHp = (ccpLength(ccpFromSize(self.contentSize))/55 + 1)*100;
     self.sailTo = @"down";
-    self.fireInterval = 3.0f;
+    self.fireInterval = 2.0f;
     self.explosionEffect = @"plane_explosion";
-    self.bullet = [OCObject generate:@"bullet1" category: TYPE_ENEMY_BULLET];
+    self.bullet = [OCObject generate:@"bullet2" category: TYPE_ENEMY_BULLET];
     self.physicsBody.collisionCategories=@[TYPE_ENEMY];
     self.physicsBody.collisionType = TYPE_ENEMY;
     self.physicsBody.collisionMask = @[TYPE_HERO_BULLET,TYPE_HERO];
@@ -261,29 +267,17 @@ static const NSInteger MIN_HP = 1;
     NSString* method = [callback stringFrom:@[@"method"]];
     LOG_VAR(method, @"%@");
     
-    if ([method isEqualToString:@"changeBulletTo"]) {
+    if ([method isEqualToString:@"setBulletProperties"]) {
         NSDictionary* bullet = [callback dictFrom:@[@"value"]];
-        [gameplay changeBulletTo:bullet];
+        [gameplay setBulletProperties:bullet];
     }else if([method isEqualToString:@"completeMission"]){
         [gameplay completeMission];
     }else if([method isEqualToString:@"addLifeBy"]){
         NSInteger valueToAdd = [callback intFrom:@[@"value"]];
         [gameplay addLifeBy:valueToAdd];
-    }else if([method isEqualToString:@"changeFireIntervalTo"]){
-        CGFloat value = [callback doubleFrom:@[@"value"]];
-        [gameplay changeFireIntervalTo:value];
-    }else if([method isEqualToString:@"changeDamageTo"]){
-        NSInteger value = [callback intFrom:@[@"value"]];
-        [gameplay changeDamageTo:value];
-    }else if([method isEqualToString:@"forkBullet"]){
-        NSInteger value = [callback intFrom:@[@"value"]];
-        [gameplay forkBullet:value];
-    }else if([method isEqualToString:@"lifeSteal"]){
-        CGFloat value = [callback doubleFrom:@[@"value"]];
-        [gameplay lifeSteal:value];
-    }else if([method isEqualToString:@"damageRate"]){
-        CGFloat value = [callback doubleFrom:@[@"value"]];
-        [gameplay damageRate:value];
+    }else if ([method isEqualToString:@"setHeroProperties"]){
+        NSDictionary* properties = [callback dictFrom:@[@"value"]];
+        [gameplay setHeroProperties:properties];
     }
 }
 

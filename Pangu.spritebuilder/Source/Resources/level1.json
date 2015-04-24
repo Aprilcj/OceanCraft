@@ -4,6 +4,19 @@
       "delay": 1,
       "roles": [
         {
+          "name": "ocean/sea_shell_2",
+          "category": "equipment",
+          "onDead": {
+            "method": "damageRate",
+            "value": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
           "name": "ocean/sea_star"
         }
       ]
@@ -36,15 +49,7 @@
       "delay": 1,
       "roles": [
         {
-          "name": "ocean/sea_shell_2",
-          "category": "equipment",
-          "onDead": {
-            "method": "changeBulletTo",
-            "bullet": {
-              "file":"ocean/bubble_colorful_64",
-              "speed": 200
-            }
-          }
+          "name": "ocean/sea_star"
         }
       ]
     },
@@ -52,12 +57,7 @@
       "delay": 1,
       "roles": [
         {
-          "name": "ocean/ball_blue",
-          "category": "equipment",
-          "onDead": {
-            "method": "addLifeBy",
-            "value":200
-          }
+          "name": "ocean/sea_star_2"
         }
       ]
     },
@@ -65,12 +65,7 @@
       "delay": 1,
       "roles": [
         {
-          "name": "ocean/ball_green",
-          "category": "equipment",
-          "onDead": {
-            "method": "changeFireIntervalTo",
-            "value":0.2
-          }
+          "name": "ocean/sea_star_3"
         }
       ]
     },
@@ -78,47 +73,7 @@
       "delay": 1,
       "roles": [
         {
-          "name": "fish_2",
-          "onDead": {
-            "method": "changeDamageTo",
-            "value": 200
-          }
-        }
-      ]
-    },
-    {
-      "delay": 1,
-      "roles": [
-        {
-          "name": "fish_3",
-          "onDead": {
-            "method": "forkBullet",
-            "value": 1
-          }
-        }
-      ]
-    },
-    {
-      "delay": 1,
-      "roles": [
-        {
-          "name": "fish_4",
-          "onDead": {
-            "method": "lifeSteal",
-            "value":0.1
-          }
-        }
-      ]
-    },
-    {
-      "delay": 1,
-      "roles": [
-        {
-          "name": "fish_5",
-          "onDead": {
-            "method": "damageRate",
-            "value": 0.5
-          }
+          "name": "ocean/sea_shell_1"
         }
       ]
     },
@@ -133,8 +88,8 @@
               "x": 0.5,
               "y": 0.5
             },
-            "sailTo":"up",
-            "speed":50,
+            "sailTo": "up",
+            "speed": 50,
             "bullet": {
               "file": ""
             }

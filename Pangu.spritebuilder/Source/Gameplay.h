@@ -14,12 +14,8 @@
 
 -(void)onHitDown: (OCObject*)plane;
 -(void)completeMission;
--(void)changeBulletTo:(NSDictionary*)newBullet;
+-(void)setBulletProperties:(NSDictionary*)newBullet;
 -(void)addLifeBy:(NSInteger)value;
--(void)changeFireIntervalTo:(CGFloat)value;
--(void)changeDamageTo:(NSInteger)value;
--(void)forkBullet:(NSInteger)value;
--(void)lifeSteal:(CGFloat)value;
--(void)damageRate:(CGFloat)value;
+-(void)setHeroProperties:(NSDictionary*)properties;
 @end
 

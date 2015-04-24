@@ -229,36 +229,16 @@ static Gameplay* s_currentGame;
     _score.string = [NSString stringWithFormat:@"%d", _scoreValue];
 }
 
--(void)changeBulletTo:(NSDictionary*)newBullet{
+-(void)setBulletProperties:(NSDictionary*)newBullet{
     [_hero.bullet setProperties:newBullet];
+}
+
+-(void)setHeroProperties:(NSDictionary*)properties{
+    [_hero setProperties:properties];
 }
 
 -(void)addLifeBy:(NSInteger)value{
     _hero.hp = MIN(_hero.hp + value, _hero.maxHp);
-}
-
--(void)changeFireIntervalTo:(CGFloat)value{
-    _hero.fireInterval = value;
-}
-
--(void)changeDamageTo:(NSInteger)value{
-    _hero.bullet.maxHp = value;
-}
-
--(void)forkBullet:(NSInteger)value{
-    if (value) {
-        _hero.bullet.forkable = YES;
-    }else{
-        _hero.bullet.forkable = NO;
-    }
-}
-
--(void)lifeSteal:(CGFloat)value{
-    _hero.lifeStealRate = value;
-}
-
--(void)damageRate:(CGFloat)value{
-    _hero.damageRate = value;
 }
 
 -(void)completeMission{
@@ -270,7 +250,7 @@ static Gameplay* s_currentGame;
         [MainScene setUnlockedLevel:[MainScene level] + 1];
         CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
         [[CCDirector sharedDirector] replaceScene:mainScene withTransition:[CCTransition transitionFadeWithDuration:1]];
-    }delay:3];
+    }delay:2];
 }
 
 -(void)onGameOver{
