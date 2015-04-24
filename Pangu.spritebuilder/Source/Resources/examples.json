@@ -9,7 +9,7 @@
           "onDead": {
             "method": "setBulletProperties",
             "value": {
-              "file": "ocean/arrow_3",
+              "file": "ocean/arrow_4",
               "speed": 400
             }
           }
@@ -96,7 +96,7 @@
       "delay": 1,
       "roles": [
         {
-          "name": "ocean/sea_shell_2",
+          "name": "ocean/drop_red",
           "category": "equipment",
           "onDead": {
             "method": "addLifeBy",

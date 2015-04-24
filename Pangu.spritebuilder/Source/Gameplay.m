@@ -115,6 +115,10 @@ static Gameplay* s_currentGame;
     NSNumber* indexNumber = [NSNumber numberWithInteger:index];
     NSDictionary* actor = [_currentScript.script dictFrom:@[@"actors", indexNumber]] ;
     NSArray* roles = [actor arrayFrom:@[@"roles"]];
+    NSInteger delay = [actor doubleFrom:@[@"delay"]];
+    if (delay < MIN_UNIT) {
+        delay = [_currentScript.script doubleFrom:@[@"delay"]];
+    }
     
     [self scheduleBlock:^(CCTimer* timer){
         for (NSDictionary* role in roles) {
@@ -135,7 +139,7 @@ static Gameplay* s_currentGame;
             
         }
         [self addRoles];
-    } delay:[actor doubleFrom:@[@"delay"]]];
+    } delay:delay];
 }
 
 - (void)addLifeIndicator{

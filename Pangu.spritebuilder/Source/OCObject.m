@@ -168,7 +168,7 @@ static const NSInteger MIN_HP = 1;
         self.position = ccp(world.width/2, world.height/4);
         self.fireInterval = 0.5f;
         self.explosionEffect = @"plane_explosion";
-        self.bullet = [OCObject generate:@"ocean/bubble_colorful_64" category: TYPE_HERO_BULLET];
+        self.bullet = [OCObject generate:@"ocean/arrow_3" category: TYPE_HERO_BULLET];
         self.physicsBody.collisionCategories = @[TYPE_HERO];
         self.physicsBody.collisionType =TYPE_HERO;
         self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET, TYPE_ENEMY, TYPE_EQUIPMENT];
@@ -244,6 +244,21 @@ static const NSInteger MIN_HP = 1;
     if ([self dead]) {
         [self onDead];
         [self explode];
+        return;
+    }
+    if (self.bound) {
+        CGPoint direction = self.direction;
+        if (self.position.x < self.contentSize.width/2 && direction.x < 0) {
+            direction.x = 1;
+        }else if (self.position.x > STAGE.width && direction.x > 0){
+            direction.x = -1;
+        }
+        if (self.position.y < self.contentSize.height/2 && direction.y < 0) {
+            direction.y = 1;
+        }else if (self.position.y > STAGE.height && direction.y > 0){
+            direction.y  = -1;
+        }
+        self.direction = direction;
         return;
     }
     if (self.position.y < -self.contentSize.height || self.position.x < -self.contentSize.width || self.position.x > STAGE.width || self.position.y > STAGE.height) {

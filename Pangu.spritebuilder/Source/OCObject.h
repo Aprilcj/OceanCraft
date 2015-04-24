@@ -25,6 +25,7 @@
 @property (nonatomic,assign) BOOL forkable;
 @property (nonatomic, assign) CGFloat lifeStealRate;
 @property (nonatomic, assign)CGFloat damageRate;
+@property (nonatomic, assign)BOOL bound;
 - (void)onHit: (OCObject*)object;
 - (void)loadDefault;
 -(BOOL)dead;
