@@ -1,0 +1,323 @@
+{
+  "actors": [
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_11",
+          "properties": {
+            "sailTo": "right"
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_12",
+          "properties": {
+            "sailTo": "right"
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_13",
+          "properties": {
+            "sailTo": "left",
+            "fireInterval": 1
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_9"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_10"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_8",
+          "properties": {
+            "sailTo": "right",
+            "fireInterval": 1
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_7",
+          "properties": {
+            "sailTo": "right"
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_6",
+          "properties": {
+            "sailTo": "right"
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_11",
+          "properties": {
+            "sailTo": "right"
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_12",
+          "properties": {
+            "sailTo": "right"
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_13",
+          "properties": {
+            "sailTo": "left",
+            "fireInterval": 1
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_9"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_10"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_8",
+          "properties": {
+            "sailTo": "right",
+            "fireInterval": 1
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_7",
+          "properties": {
+            "sailTo": "right"
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/ball_blue",
+          "category": "equipment",
+          "onDead": {
+            "method": "setBulletProperties",
+            "value": {
+              "file": "ocean/arrow_3",
+              "speed": 400
+            }
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/fish_6",
+          "properties": {
+            "sailTo": "right"
+          }
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_1"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_2"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_3"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_shell_4"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_horse_1"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_snail_1"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_snail_2"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_snail_3"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_snail_4"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_snail_5"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_snail_6"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_1"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_2"
+        }
+      ]
+    },
+    {
+      "delay": 1,
+      "roles": [
+        {
+          "name": "ocean/sea_star_3"
+        }
+      ]
+    },
+    {
+      "delay": 3,
+      "roles": [
+        {
+          "name": "terminal",
+          "properties": {
+            "maxHp": 1,
+            "positionInPercent": {
+              "x": 0.5,
+              "y": 0.5
+            },
+            "sailTo": "up",
+            "speed": 50,
+            "bullet": {
+              "file": ""
+            }
+          },
+          "onDead": {
+            "method": "completeMission"
+          }
+        }
+      ]
+    }
+  ]
+}
