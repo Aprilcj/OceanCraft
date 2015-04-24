@@ -1,4 +1,6 @@
 {
+  "repeat": 5,
+  "random":1,
   "actors": [
     {
       "delay": 1,

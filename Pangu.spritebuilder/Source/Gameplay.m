@@ -15,7 +15,6 @@
 
 static const float scrollSpeed = -50.f;
 
-
 @implementation Gameplay{
     CCPhysicsNode *_physicsNode;
     CCNode *_contentNode;
@@ -82,13 +81,39 @@ static Gameplay* s_currentGame;
 }
 
 - (void) addRoles{
+    NSInteger repeat = [_currentScript.script intFrom:@[@"repeat"]];
     NSArray* actors = [_currentScript.script arrayFrom:@[@"actors"]];
-    if (_currentActor > [actors count] - 1) {
-        LOG(@"script over", nil);
+    switch (repeat) {
+        case -1:
+            //infinity
+            break;
+            
+        default:
+            if (_currentActor > repeat - 1) {
+                 LOG(@"script over", nil);
+                return;
+            }
+            break;
+    }
+    
+    LOG(@"load actor: %ld", _currentActor);
+    NSInteger index = _currentActor++;
+    if (index == repeat - 1) {
+        //terminal
+        [self addActor:[actors count]-1];
         return;
     }
-    LOG(@"load actor: %ld", _currentActor);
-    NSDictionary* actor =  [actors dictFrom:@[[NSNumber numberWithUnsignedInteger:_currentActor++]]];
+    
+    if ([_currentScript.script intFrom:@[@"random"]] > 0) {
+        index = arc4random()%([actors count] -1);
+    }
+    [self addActor:index];
+    
+}
+
+- (void)addActor:(NSInteger)index{
+    NSNumber* indexNumber = [NSNumber numberWithInteger:index];
+    NSDictionary* actor = [_currentScript.script dictFrom:@[@"actors", indexNumber]] ;
     NSArray* roles = [actor arrayFrom:@[@"roles"]];
     
     [self scheduleBlock:^(CCTimer* timer){
@@ -111,9 +136,7 @@ static Gameplay* s_currentGame;
         }
         [self addRoles];
     } delay:[actor doubleFrom:@[@"delay"]]];
-    
 }
-
 
 - (void)addLifeIndicator{
     _lifeIndicator = [CCProgressNode progressWithSprite:_lifebar_fill];
