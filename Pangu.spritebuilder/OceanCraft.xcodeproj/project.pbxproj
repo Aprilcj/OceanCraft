@@ -10,6 +10,12 @@
 		1127AFB81AE89AFF0049CC8D /* examples.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFB71AE89AFF0049CC8D /* examples.json */; };
 		1127AFBA1AE9A64E0049CC8D /* level1.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFB91AE9A64E0049CC8D /* level1.json */; };
 		1127AFBC1AE9D59B0049CC8D /* level0.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFBB1AE9D59B0049CC8D /* level0.json */; };
+		1127AFC31AEAED6E0049CC8D /* level2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFBD1AEAED6E0049CC8D /* level2.json */; };
+		1127AFC41AEAED6E0049CC8D /* level3.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFBE1AEAED6E0049CC8D /* level3.json */; };
+		1127AFC51AEAED6E0049CC8D /* level4.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFBF1AEAED6E0049CC8D /* level4.json */; };
+		1127AFC61AEAED6E0049CC8D /* level5.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFC01AEAED6E0049CC8D /* level5.json */; };
+		1127AFC71AEAED6E0049CC8D /* level6.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFC11AEAED6E0049CC8D /* level6.json */; };
+		1127AFC81AEAED6E0049CC8D /* level7.json in Resources */ = {isa = PBXBuildFile; fileRef = 1127AFC21AEAED6E0049CC8D /* level7.json */; };
 		117682471ADF82DA007472C8 /* game_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 117682461ADF82DA007472C8 /* game_info.plist */; };
 		119574B21ACB65680099D14F /* ScriptLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 119574B11ACB65680099D14F /* ScriptLoader.m */; };
 		11D7DDFA1A7D6D8A005AA0B9 /* OCObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7DDF91A7D6D8A005AA0B9 /* OCObject.m */; };
@@ -160,6 +166,12 @@
 		1127AFB71AE89AFF0049CC8D /* examples.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = examples.json; sourceTree = "<group>"; };
 		1127AFB91AE9A64E0049CC8D /* level1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level1.json; sourceTree = "<group>"; };
 		1127AFBB1AE9D59B0049CC8D /* level0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level0.json; sourceTree = "<group>"; };
+		1127AFBD1AEAED6E0049CC8D /* level2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level2.json; sourceTree = "<group>"; };
+		1127AFBE1AEAED6E0049CC8D /* level3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level3.json; sourceTree = "<group>"; };
+		1127AFBF1AEAED6E0049CC8D /* level4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level4.json; sourceTree = "<group>"; };
+		1127AFC01AEAED6E0049CC8D /* level5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level5.json; sourceTree = "<group>"; };
+		1127AFC11AEAED6E0049CC8D /* level6.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level6.json; sourceTree = "<group>"; };
+		1127AFC21AEAED6E0049CC8D /* level7.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = level7.json; sourceTree = "<group>"; };
 		117682461ADF82DA007472C8 /* game_info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_info.plist; sourceTree = "<group>"; };
 		119574B01ACB65680099D14F /* ScriptLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptLoader.h; path = Source/ScriptLoader.h; sourceTree = "<group>"; };
 		119574B11ACB65680099D14F /* ScriptLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScriptLoader.m; path = Source/ScriptLoader.m; sourceTree = "<group>"; };
@@ -546,6 +558,12 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1127AFBD1AEAED6E0049CC8D /* level2.json */,
+				1127AFBE1AEAED6E0049CC8D /* level3.json */,
+				1127AFBF1AEAED6E0049CC8D /* level4.json */,
+				1127AFC01AEAED6E0049CC8D /* level5.json */,
+				1127AFC11AEAED6E0049CC8D /* level6.json */,
+				1127AFC21AEAED6E0049CC8D /* level7.json */,
 				117682461ADF82DA007472C8 /* game_info.plist */,
 				7A40366119DDF8C2007B6E8F /* Platforms */,
 				5B12100D197483EE004C1E1D /* res */,
@@ -760,13 +778,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1127AFC61AEAED6E0049CC8D /* level5.json in Resources */,
+				1127AFC71AEAED6E0049CC8D /* level6.json in Resources */,
 				1127AFBA1AE9A64E0049CC8D /* level1.json in Resources */,
+				1127AFC31AEAED6E0049CC8D /* level2.json in Resources */,
 				1127AFB81AE89AFF0049CC8D /* examples.json in Resources */,
 				B71F5919188484E7003F4D28 /* Settings.png in Resources */,
 				B7378978180762440076A88C /* Default@2x.png in Resources */,
 				B71F5914188484E7003F4D28 /* iPad@2x.png in Resources */,
 				B71F5913188484E7003F4D28 /* iPad.png in Resources */,
+				1127AFC51AEAED6E0049CC8D /* level4.json in Resources */,
 				B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */,
+				1127AFC81AEAED6E0049CC8D /* level7.json in Resources */,
 				B71F5916188484E7003F4D28 /* iPhone-old@2x.png in Resources */,
 				B737893B180761570076A88C /* Published-iOS in Resources */,
 				1127AFBC1AE9D59B0049CC8D /* level0.json in Resources */,
@@ -778,6 +801,7 @@
 				B7378975180762440076A88C /* Default-568h@2x.png in Resources */,
 				B71F5918188484E7003F4D28 /* iPhone@2x.png in Resources */,
 				B7378977180762440076A88C /* Default.png in Resources */,
+				1127AFC41AEAED6E0049CC8D /* level3.json in Resources */,
 				B71F5911188484E7003F4D28 /* iPad-old.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

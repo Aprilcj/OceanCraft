@@ -200,12 +200,12 @@
     {
       "roles": [
         {
-          "name": "ocean/fish_5",
-          "properties": {
-            "speed": 250,
-            "sailTo": "down",
-            "bullet": {
-              "file": ""
+          "name": "ocean/drop_purple",
+          "category": "equipment",
+          "onDead": {
+            "method": "setBulletProperties",
+            "value": {
+              "file": "ocean/arrow_9"
             }
           }
         }
@@ -214,10 +214,13 @@
     {
       "roles": [
         {
-          "name": "ocean/fish_5",
-          "properties": {
-            "speed": 250,
-            "sailTo": "upRight"
+          "name": "ocean/drop_blue_2",
+          "category": "equipment",
+          "onDead": {
+            "method": "setBulletProperties",
+            "value": {
+              "file": "ocean/arrow_2"
+            }
           }
         }
       ]
@@ -225,10 +228,13 @@
     {
       "roles": [
         {
-          "name": "ocean/fish_5",
-          "properties": {
-            "speed": 250,
-            "sailTo": "right"
+          "name": "ocean/drop_deep_blue",
+          "category": "equipment",
+          "onDead": {
+            "method": "setBulletProperties",
+            "value": {
+              "file": "ocean/arrow_4"
+            }
           }
         }
       ]
@@ -236,10 +242,13 @@
     {
       "roles": [
         {
-          "name": "ocean/fish_5",
-          "properties": {
-            "speed": 250,
-            "sailTo": "downLeft"
+          "name": "ocean/drop_black",
+          "category": "equipment",
+          "onDead": {
+            "method": "setBulletProperties",
+            "value": {
+              "file": "ocean/arrow_10"
+            }
           }
         }
       ]
@@ -252,7 +261,6 @@
           "onDead": {
             "method": "setBulletProperties",
             "value": {
-              "file": "ocean/arrow_4",
               "speed": 400
             }
           }
@@ -262,13 +270,12 @@
     {
       "roles": [
         {
-          "name": "ocean/ball_deep_blue",
+          "name": "ocean/ball_red",
           "category": "equipment",
           "onDead": {
-            "method": "setBulletProperties",
+            "method": "setHeroProperties",
             "value": {
-              "file": "ocean/arrow_2",
-              "maxHp": 200
+              "fireInterval": 0.3
             }
           }
         }
@@ -317,8 +324,43 @@
         {
           "name": "ocean/fish_5",
           "properties": {
-            "maxHp": 1500,
-            "sailTo": "down"
+            "speed": 300,
+            "sailTo": "up"
+          }
+        }
+      ]
+    },
+    {
+      "roles": [
+        {
+          "name": "ocean/fish_5",
+          "properties": {
+            "speed": 300,
+            "sailTo": "upRight"
+          }
+        }
+      ]
+    },
+    {
+      "roles": [
+        {
+          "name": "ocean/fish_5",
+          "properties": {
+            "speed": 300,
+            "sailTo": "right"
+          }
+        }
+      ]
+    },
+    {
+      "roles": [
+        {
+          "name": "ocean/fish_5",
+          "properties": {
+            "speed": 400,
+            "maxHp": 4000,
+            "sailTo": "down",
+            "bound": 1
           },
           "onDead": {
             "method": "completeMission"

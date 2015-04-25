@@ -20,7 +20,7 @@ static NSArray* s_levelRewards;
         NSString *filePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"game_info"] ofType:@"plist"];
         _gameInfo = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
         s_level = [MainScene unlockedLevel];
-        s_levelPictures = @[@"ocean/octopus_3.png", @"ocean/fish_5.png", @"ocean/fish_1.png", @"ocean/sea_nail_5.png", @"ocean/turtle_1.png", @"ocean/shark_1.png", @"ocean/score_icon.png"];
+        s_levelPictures = @[@"ocean/octopus_3.png", @"ocean/fish_5.png", @"ocean/fish_1.png", @"ocean/sea_snail_5.png", @"ocean/turtle_1.png", @"ocean/shark_1.png", @"ocean/score_icon.png"];
         s_levelNames = @[@"Dark Lord", @"Speed Warrior", @"Toxin Friend", @"Ocean Singer", @"Turtle Rock", @"King of Sea", @"Infinity"];
         s_levelRewards=@[@""];
     }

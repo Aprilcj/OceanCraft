@@ -12,6 +12,7 @@
 @interface OCObject : CCSprite
 @property (nonatomic, copy)NSString* file;
 @property (nonatomic, retain) OCObject* bullet;
+@property (nonatomic, retain) OCObject* owner;
 @property (nonatomic, assign) NSInteger maxHp;
 @property (nonatomic, assign) NSInteger hp;
 @property (nonatomic, assign) CCTime fireInterval;

@@ -15,11 +15,11 @@
     NSInteger _hp;
     CGPoint _positionInPercent;
     CCTime _fireInterval;
-    CGSize STAGE;
     NSString* _sailTo;
     CGPoint _direction;
     CGFloat _speed;
     BOOL _dodge;
+    CGFloat _damageRate;
 }
 
 @synthesize fireInterval = _fireInterval;
@@ -29,10 +29,27 @@
 @synthesize sailTo = _sailTo;
 @synthesize direction = _direction;
 @synthesize speed = _speed;
+@synthesize damageRate = _damageRate;
 
 static const NSInteger MIN_HP = 1;
 
+#pragma mark util
+-(CGPoint)randomDirection{
+    CGPoint direction;
+    do{
+        direction = ccp(arc4random()%3-1, arc4random()%3-1);
+    }while (abs(direction.x)<MIN_UNIT && abs(direction.y)<MIN_UNIT);
+    return direction;
+}
+
 #pragma mark setters
+
+-(void)setDamageRate:(CGFloat)damageRate{
+    _damageRate = damageRate;
+    if (_damageRate < 1) {
+        [self addChild:[OCObject generate:@"ocean/bubble_white_128" category:TYPE_ADORNMENT]];
+    }
+}
 
 - (void)setHp:(NSInteger)hp{
     _hp = MIN(_maxHp, hp);
@@ -84,6 +101,8 @@ static const NSInteger MIN_HP = 1;
         _direction = ccp(-1, -1);
     }else if ([sailTo isEqualToString:@"downRight"]||[sailTo isEqualToString:@"rightDown"]) {
         _direction = ccp(1, -1);
+    }else if ([sailTo isEqualToString:@"random"]) {
+        _direction = [self randomDirection];
     }else{
         _direction = ccp(0, 0);
     }
@@ -149,8 +168,6 @@ static const NSInteger MIN_HP = 1;
 
 - (void)loadDefault{
     //common default
-    CGSize world = [CCDirector  sharedDirector].viewSize;
-    STAGE = CGSizeMake(world.width+self.contentSize.width, world.height + self.contentSize.height);
     if (!self.physicsBody) {
         CGFloat shorterSide =  MIN(self.contentSize.width, self.contentSize.height);
         self.physicsBody = [CCPhysicsBody bodyWithRect:CGRectMake(0,0, self.contentSize.width, self.contentSize.height) cornerRadius:shorterSide/2];
@@ -161,6 +178,7 @@ static const NSInteger MIN_HP = 1;
     self.forkable = NO;
     self.lifeStealRate = 0;
     self.damageRate = 1;
+    CGSize world = [CCDirector  sharedDirector].viewSize;
     
     // hero
     if ([self.category isEqualToString:TYPE_HERO]) {
@@ -177,7 +195,7 @@ static const NSInteger MIN_HP = 1;
     
     //hero's bullet
     if ([self.category isEqualToString:TYPE_HERO_BULLET]) {
-        self.speed = 200;
+        self.speed = 300;
         self.sailTo = @"up";
         self.maxHp = 100;
         self.physicsBody.collisionCategories=@[TYPE_HERO_BULLET];
@@ -188,9 +206,9 @@ static const NSInteger MIN_HP = 1;
     
     //equipment
     if ([self.category isEqualToString:TYPE_EQUIPMENT]) {
-        self.speed = 50;
+        self.speed = 75;
         self.maxHp = MIN_HP;
-        self.sailTo = @"down";
+        self.sailTo = @"random";
         self.physicsBody.collisionCategories = @[TYPE_EQUIPMENT];
         self.physicsBody.collisionType =TYPE_EQUIPMENT;
         self.physicsBody.collisionMask = @[TYPE_HERO];
@@ -211,10 +229,11 @@ static const NSInteger MIN_HP = 1;
     //enemy
     self.speed = 100;
     self.maxHp = (ccpLength(ccpFromSize(self.contentSize))/55 + 1)*100;
-    self.sailTo = @"down";
+    self.sailTo = @"random";
     self.fireInterval = 2.0f;
     self.explosionEffect = @"plane_explosion";
     self.bullet = [OCObject generate:@"bullet2" category: TYPE_ENEMY_BULLET];
+    self.bullet.owner = self;
     self.physicsBody.collisionCategories=@[TYPE_ENEMY];
     self.physicsBody.collisionType = TYPE_ENEMY;
     self.physicsBody.collisionMask = @[TYPE_HERO_BULLET,TYPE_HERO];
@@ -227,6 +246,9 @@ static const NSInteger MIN_HP = 1;
     OCObject* newBullet = [OCObject generate:bullet.file category:bullet.category];
     newBullet.maxHp = bullet.maxHp;
     newBullet.speed = bullet.speed;
+    if (bullet.owner) {
+        newBullet.speed = bullet.owner.speed + 50;
+    }
     newBullet.direction = bullet.direction;
     newBullet.physicsBody.collisionCategories = bullet.physicsBody.collisionCategories;
     newBullet.physicsBody.collisionType = bullet.physicsBody.collisionType;
@@ -246,22 +268,29 @@ static const NSInteger MIN_HP = 1;
         [self explode];
         return;
     }
+    CGSize world = [CCDirector  sharedDirector].viewSize;
+
     if (self.bound) {
         CGPoint direction = self.direction;
-        if (self.position.x < self.contentSize.width/2 && direction.x < 0) {
+        if ((self.position.x < self.contentSize.width/2) && direction.x < 0) {
             direction.x = 1;
-        }else if (self.position.x > STAGE.width && direction.x > 0){
+            direction.y = arc4random()%3-1;
+        }else if ((self.position.x > (world.width - self.contentSize.width/2)) && direction.x > 0){
             direction.x = -1;
+            direction.y = arc4random()%3-1;
         }
-        if (self.position.y < self.contentSize.height/2 && direction.y < 0) {
+        if ((self.position.y < self.contentSize.height/2) && direction.y < 0) {
+            direction.x = arc4random()%3-1;
             direction.y = 1;
-        }else if (self.position.y > STAGE.height && direction.y > 0){
+        }else if ((self.position.y > (world.height - self.contentSize.height/2)) && direction.y > 0){
+            direction.x = arc4random()%3-1;
             direction.y  = -1;
         }
         self.direction = direction;
         return;
     }
-    if (self.position.y < -self.contentSize.height || self.position.x < -self.contentSize.width || self.position.x > STAGE.width || self.position.y > STAGE.height) {
+    
+    if (self.position.y < -self.contentSize.height || self.position.x < -self.contentSize.width || self.position.x > world.width + self.contentSize.width || self.position.y > world.height + self.contentSize.height) {
         [self removeFromParent];
         return;
     }
