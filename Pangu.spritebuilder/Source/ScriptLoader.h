@@ -11,7 +11,7 @@
 @interface ScriptLoader : NSObject
 
 +(ScriptLoader*) loaderOfLevel:(NSInteger)level;
-//+(ScriptLoader*) loaderOfFile:(NSString*)file;
+
 @property (nonatomic, retain) NSDictionary* script;
 
 @end

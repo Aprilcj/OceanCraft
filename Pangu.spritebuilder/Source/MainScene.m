@@ -116,4 +116,5 @@ static NSArray* s_levelRewards;
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Gameplay"];
     [[CCDirector sharedDirector] replaceScene:gameplayScene withTransition:[CCTransition transitionFadeWithDuration:1]];
 }
+
 @end

@@ -17,11 +17,6 @@
     return [[ScriptLoader alloc] initWithFile:filePath];
 }
 
-//+(ScriptLoader*)loaderOfFile:(NSString *)file{
-//    NSString *filePath = [[NSBundle mainBundle] pathForResource:file ofType:@"json"];
-//    return [[ScriptLoader alloc] initWithFile:filePath];
-//}
-
 - (id)initWithFile:(NSString*)file{
     
     if (self = [super init]) {

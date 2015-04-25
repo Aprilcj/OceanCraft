@@ -34,6 +34,9 @@ static const float scrollSpeed = -50.f;
     // retry
     CCButton *_retryButton;
     
+    // dialog
+    CCNode* _dialog;
+    
     // lifebar
     CCSprite *_lifebar_fill;
     CCProgressNode *_lifeIndicator;
@@ -170,10 +173,11 @@ static Gameplay* s_currentGame;
     CGPoint targetFrom = [_hero position];
     CGPoint targetTo = ccpAdd(targetFrom, ccp(offset.x, offset.y));
     
+    CGSize world = [CCDirector  sharedDirector].viewSize;
     float xMin = _hero.contentSize.width/2;
-    float xMax = _bg1.contentSize.width-xMin;
     float yMin = _hero.contentSize.height/2;
-    float yMax = _bg1.contentSize.height - yMin;
+    float xMax = world.width-xMin;
+    float yMax = world.height - yMin;
     if (targetTo.x < xMin) {
         targetTo.x = xMin;
     }
@@ -288,6 +292,24 @@ static Gameplay* s_currentGame;
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"Gameplay"] withTransition:[CCTransition transitionFadeWithDuration:1]];
 }
 
+- (void)back{
+    self.paused = YES;
+    _dialog.visible = YES;
+}
+
+- (void)quit{
+    CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
+    [[CCDirector sharedDirector] replaceScene:mainScene withTransition:[CCTransition transitionFadeWithDuration:1]];
+}
+
+- (void)share{
+    
+}
+
+- (void)resume{
+    _dialog.visible = NO;
+    self.paused = NO;
+}
 #pragma mark update
 
 - (void)updateBackground
