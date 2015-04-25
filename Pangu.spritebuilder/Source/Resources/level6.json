@@ -317,7 +317,7 @@
           "onDead": {
             "method": "setHeroProperties",
             "value": {
-              "lifeStealRate": 0.1
+              "lifeStealRate": 0.05
             }
           }
         }
