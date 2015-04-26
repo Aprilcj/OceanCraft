@@ -1,12 +1,16 @@
 #import "MainScene.h"
 #import "Gameplay.h"
 
+
 @implementation MainScene{
     CCButton* _left;
     CCButton* _right;
     CCNode* _levelPic;
     CCLabelTTF* _levelName;
     CCNode* _lock;
+}
+
+- (void)didLoadFromCCB {
 }
 
 static NSInteger s_level;
