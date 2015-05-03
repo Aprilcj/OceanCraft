@@ -78,4 +78,16 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [FBSDKAppEvents activateApp];
 }
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [[CCDirector sharedDirector] pause];
+    [[CCDirector sharedDirector] stopAnimation]; // Add
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [[CCDirector sharedDirector] resume];
+    [[CCDirector sharedDirector] startAnimation]; // Add
+}
 @end
