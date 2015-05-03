@@ -1,5 +1,5 @@
 {
-  "repeat": 100,
+  "count": 100,
   "random": 1,
   "delay": 0.8,
   "actors": [

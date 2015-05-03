@@ -47,7 +47,6 @@ static const float scrollSpeed = -50.f;
     CCNode* _lifebar_container;
     
     ScriptLoader* _currentScript;
-    NSInteger _currentLevel;
     NSUInteger _currentActor;
 }
 
@@ -83,19 +82,19 @@ static Gameplay* s_currentGame;
     //actors
     _currentScript = [ScriptLoader loaderOfLevel:[MainScene level]];
     _currentActor = 0;
-    [self addRoles];
+    [self addActor];
 }
 
-- (void) addRoles{
-    NSInteger repeat = [_currentScript.script intFrom:@[@"repeat"]];
+- (void) addActor{
+    NSInteger count = [_currentScript.script intFrom:@[@"count"]];
     NSArray* actors = [_currentScript.script arrayFrom:@[@"actors"]];
-    switch (repeat) {
+    switch (count) {
         case -1:
             //infinity
             break;
             
         default:
-            if (_currentActor > repeat - 1) {
+            if (_currentActor > count - 1) {
                  LOG(@"script over", nil);
                 return;
             }
@@ -104,8 +103,8 @@ static Gameplay* s_currentGame;
     
     LOG(@"load actor: %ld", _currentActor);
     NSInteger index = _currentActor++;
-    if (index == repeat - 1) {
-        //terminal
+    if (index == count - 1) {
+        //boss
         [self addActor:[actors count]-1];
         return;
     }
@@ -144,7 +143,7 @@ static Gameplay* s_currentGame;
             [_hero.parent addChild:object];
             
         }
-        [self addRoles];
+        [self addActor];
     } delay:delay];
 }
 

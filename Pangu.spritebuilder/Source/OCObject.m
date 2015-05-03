@@ -188,8 +188,8 @@ static const NSInteger MIN_HP = 1;
         self.explosionEffect = @"plane_explosion";
         self.bullet = [OCObject generate:@"ocean/arrow_3" category: TYPE_HERO_BULLET];
         self.physicsBody.collisionCategories = @[TYPE_HERO];
-        self.physicsBody.collisionType =TYPE_HERO;
-        self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET, TYPE_ENEMY, TYPE_EQUIPMENT];
+        self.physicsBody.collisionType =TYPE_HERO; // name
+        self.physicsBody.collisionMask = @[TYPE_ENEMY_BULLET, TYPE_ENEMY, TYPE_EQUIPMENT]; //with whom
         return;
     }
     
