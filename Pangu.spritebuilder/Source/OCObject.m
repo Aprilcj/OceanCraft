@@ -37,8 +37,8 @@ static const NSInteger MIN_HP = 1;
 -(CGPoint)randomDirection{
     CGPoint direction;
     do{
-        direction = ccp(arc4random()%3-1, arc4random()%3-1);
-    }while (abs(direction.x)<MIN_UNIT && abs(direction.y)<MIN_UNIT);
+        direction = ccp(abs(arc4random())%3-1, abs(arc4random())%2-1);
+    }while ((abs(direction.x)<MIN_UNIT && abs(direction.y)<MIN_UNIT));
     return direction;
 }
 
